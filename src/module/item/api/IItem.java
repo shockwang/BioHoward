@@ -14,5 +14,10 @@ public interface IItem {
 	void setPrice(int price);
 	int getPrice();
 	
-	// item type?
+	// display information
+	String display();
+	
+	// item level
+	void setLevel(int level);
+	int getLevel();
 }

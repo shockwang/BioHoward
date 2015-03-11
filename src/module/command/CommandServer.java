@@ -140,7 +140,7 @@ public class CommandServer {
 		} else {
 			// inform the NPC group about something
 			// do nothing first
-			System.out.println(g.getChiName() + "看見: " + msg);
+			System.out.print(g.getChiName() + "看見: " + msg);
 		}
 	}
 

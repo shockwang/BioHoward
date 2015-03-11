@@ -9,18 +9,21 @@ import module.character.constants.CAttribute.attribute;
 import module.character.constants.CSpecialStatus.specialStatus;
 import module.character.constants.CStatus.status;
 import module.command.CommandServer;
+import module.item.api.IEquipment;
 import module.server.PlayerServer;
 
-public abstract class BaseCharacter implements ICharacter {
+public abstract class AbstractCharacter implements ICharacter {
 	private ConcurrentHashMap<attribute, IntPair> attributeMap = null;
 	private ConcurrentHashMap<specialStatus, Integer> specialStatusMap = null;
 	private ConcurrentHashMap<status, Integer> statusMap = null;
+	private ConcurrentHashMap<IEquipment.EquipType, IEquipment> equipMap = null;
+	private int level = 1;
 
 	private String chiName = null;
 	private String engName = null;
 	private Group myGroup = null;
 
-	public BaseCharacter(String chiName, String engName) {
+	public AbstractCharacter(String chiName, String engName) {
 		this.chiName = chiName;
 		this.engName = engName;
 		attributeMap = new ConcurrentHashMap<attribute, IntPair>();
@@ -182,5 +185,25 @@ public abstract class BaseCharacter implements ICharacter {
 	@Override
 	public String onTalk(){
 		return this.getChiName() + "看來不想理你。";
+	}
+	
+	@Override
+	public int getLevel(){
+		return this.level;
+	}
+	
+	@Override
+	public void setLevel(int level){
+		this.level = level;
+	}
+	
+	@Override
+	public void setEquipment(ConcurrentHashMap<IEquipment.EquipType, IEquipment> map){
+		this.equipMap = map;
+	}
+	
+	@Override
+	public ConcurrentHashMap<IEquipment.EquipType, IEquipment> getEquipment(){
+		return this.equipMap;
 	}
 }

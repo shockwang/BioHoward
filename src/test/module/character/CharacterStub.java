@@ -191,5 +191,17 @@ public class CharacterStub implements ICharacter{
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public void setLevel(int level) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public int getLevel() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 	
 }

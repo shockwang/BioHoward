@@ -2,7 +2,7 @@ package test.module.battle;
 
 import static org.junit.Assert.assertTrue;
 import module.battle.BattleTask;
-import module.character.BaseCharacter;
+import module.character.AbstractCharacter;
 import module.character.CharList;
 import module.character.Group;
 import module.character.GroupList;
@@ -24,7 +24,7 @@ public class BattleTaskTest {
 	private ClientUser oneUser;
 	
 	
-	private class CharForTest extends BaseCharacter{
+	private class CharForTest extends AbstractCharacter{
 		String desc = null;
 		
 		public CharForTest(String chiName, String engName) {

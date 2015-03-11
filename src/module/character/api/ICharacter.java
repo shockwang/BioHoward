@@ -7,6 +7,7 @@ import module.character.GroupList;
 import module.character.constants.CAttribute;
 import module.character.constants.CSpecialStatus;
 import module.character.constants.CStatus;
+import module.item.api.IEquipment;
 import module.time.api.Updatable;
 
 public interface ICharacter extends Updatable{
@@ -49,6 +50,14 @@ public interface ICharacter extends Updatable{
 	// battle action, true = done the action, false = not yet
 	boolean battleAction(GroupList enemyGroup);
 	boolean isDown();  // true if the character is not able to fight anymore.
+	
+	// character level
+	void setLevel(int level);
+	int getLevel();
+	
+	// character equipment
+	void setEquipment(ConcurrentHashMap<IEquipment.EquipType, IEquipment> equipMap);
+	ConcurrentHashMap<IEquipment.EquipType, IEquipment> getEquipment();
 	
 	// normal action when is not in battle
 	void normalAction();

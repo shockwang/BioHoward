@@ -30,6 +30,7 @@ public abstract class AbstractCharacter implements ICharacter {
 		addAttribute(attribute.HP, 100);
 		specialStatusMap = new ConcurrentHashMap<specialStatus, Integer>();
 		statusMap = new ConcurrentHashMap<status, Integer>();
+		equipMap = new ConcurrentHashMap<IEquipment.EquipType, IEquipment>();
 	}
 
 	@Override

@@ -70,7 +70,7 @@ public abstract class AbstractItem implements IItem{
 	@Override
 	public String display(){
 		StringBuffer buf = new StringBuffer();
-		buf.append(String.format("%s  ($%d)\n", chiName, price));
+		buf.append(String.format("%s  (%d$)\n", chiName, price));
 		buf.append(this.description + "\n");
 		return buf.toString();
 	}

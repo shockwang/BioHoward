@@ -9,6 +9,8 @@ import module.character.api.IntPair;
 import module.character.constants.CAttribute.attribute;
 import module.character.constants.CSpecialStatus.specialStatus;
 import module.character.constants.CStatus.status;
+import module.item.api.IEquipment;
+import module.item.api.IEquipment.EquipType;
 
 public class CharacterStub implements ICharacter{
 
@@ -202,6 +204,18 @@ public class CharacterStub implements ICharacter{
 	public int getLevel() {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	@Override
+	public void setEquipment(ConcurrentHashMap<EquipType, IEquipment> equipMap) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public ConcurrentHashMap<EquipType, IEquipment> getEquipment() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }

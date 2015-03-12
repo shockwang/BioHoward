@@ -13,6 +13,10 @@ public class CStatus {
 		status (String name){
 			this.chineseName = name;
 		}
+		
+		public String getName(){
+			return this.chineseName;
+		}
 	}
 	
 	private static String getName(status atr) {

@@ -15,6 +15,10 @@ public class CAttribute {
 		attribute(String inputName) {
 			this.chineseName = inputName;
 		}
+		
+		public String getName(){
+			return this.chineseName;
+		}
 	}
 
 	private static String getName(attribute atr) {

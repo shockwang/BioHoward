@@ -1,5 +1,7 @@
 package module.item.api;
 
+import java.util.concurrent.ConcurrentHashMap;
+
 import module.character.api.ICharacter;
 import module.character.constants.CAttribute.attribute;
 import module.character.constants.CStatus.status;
@@ -21,9 +23,9 @@ public interface IEquipment extends IItem{
 	boolean onWear(ICharacter c);
 	boolean onRemove(ICharacter c);
 	
-	attribute getAttribute();
-	void setAttribute(attribute atr);
+	ConcurrentHashMap<attribute, Integer> getAttribute();
+	void setAttribute(ConcurrentHashMap<attribute, Integer> map);
 	
-	status getStatus();
-	void setStatus(status s);
+	ConcurrentHashMap<status, Integer> getStatus();
+	void setStatus(ConcurrentHashMap<status, Integer> map);
 }

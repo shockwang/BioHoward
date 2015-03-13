@@ -3,8 +3,6 @@ package module.character;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 import module.battle.BattleTask;
 import module.character.api.ICharacter;
@@ -12,10 +10,9 @@ import module.character.api.IntPair;
 import module.character.constants.CAttribute;
 import module.command.CommandServer;
 import module.command.api.IndexStringPair;
-import module.map.Neighbor;
+import module.item.ItemList;
 import module.map.api.IRoom;
 import module.map.constants.CExit;
-import module.map.constants.CExit.exit;
 import module.server.PlayerServer;
 import module.time.api.Updatable;
 import module.utility.Parse;
@@ -32,6 +29,7 @@ public class Group implements Updatable {
 										// when respawn
 	private IntPair respawnTime = new IntPair(0, 30);
 	private int charNum;
+	private ItemList itemList = null;
 
 	public String getChiName() {
 		return Chiname;
@@ -89,6 +87,7 @@ public class Group implements Updatable {
 		this.Chiname = obj.getChiName();
 		this.EngName = String.format(obj.getEngName());
 		this.charNum = 1;
+		this.itemList = new ItemList();
 	}
 
 	public void addChar(ICharacter obj) {
@@ -258,5 +257,13 @@ public class Group implements Updatable {
 		int ddd = PlayerServer.getRandom().nextInt(10) % select.length;
 		String[] output = {select[ddd]};
 		CommandServer.readCommand(this, output);
+	}
+	
+	public void setInventory(ItemList list){
+		this.itemList = list;
+	}
+	
+	public ItemList getInventory(){
+		return this.itemList;
 	}
 }

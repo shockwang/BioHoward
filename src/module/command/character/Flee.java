@@ -3,10 +3,10 @@ package module.command.character;
 import module.character.Group;
 import module.character.api.ICharacter;
 import module.command.CommandServer;
-import module.command.api.Command;
+import module.command.api.ICommand;
 import module.server.PlayerServer;
 
-public class Flee implements Command{
+public class Flee implements ICommand{
 	private String[] name;
 	
 	public Flee(){

@@ -5,7 +5,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import module.character.Group;
 import module.character.GroupList;
 import module.character.api.ICharacter;
-import module.command.api.Command;
+import module.command.api.ICommand;
+import module.item.ItemList;
 import module.item.api.IItem;
 import module.map.Neighbor;
 import module.map.Position;
@@ -43,5 +44,9 @@ public interface IRoom {
 	void informRoom(String message);
 	
 	// special commands in the room
-	Command roomCommand(String message);
+	ICommand roomCommand(String message);
+	
+	// item list
+	void setItemList(ItemList list);
+	ItemList getItemList();
 }

@@ -1,6 +1,10 @@
 package module.utility;
 
+import java.util.concurrent.ConcurrentHashMap;
+
+import module.character.api.ICharacter;
 import module.item.api.IEquipment;
+import module.item.api.IEquipment.EquipType;
 
 public class ItemUtil {
 	public static String wearMsg(IEquipment equip){
@@ -22,5 +26,20 @@ public class ItemUtil {
 		default: 
 			return null;
 		}
+	}
+	
+	public static String showPlayerEquip(ICharacter c){
+		ConcurrentHashMap<IEquipment.EquipType, IEquipment> equipMap = c.getEquipment();
+		
+		StringBuffer buf = new StringBuffer();
+		buf.append("|ÀY³¡|   ");
+		buf.append(showSingleEquip(EquipType.HELMET, equipMap));
+	}
+	
+	private static String showSingleEquip(IEquipment.EquipType type, 
+			ConcurrentHashMap<IEquipment.EquipType, IEquipment> equipMap){
+		IEquipment equip = equipMap.get(type);
+		if (equip != null) return String.format("%s/%s\n", equip.getChiName(), equip.getEngName());
+		else return "µL\n";
 	}
 }

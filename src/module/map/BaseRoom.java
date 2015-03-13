@@ -6,7 +6,8 @@ import module.character.Group;
 import module.character.GroupList;
 import module.character.api.ICharacter;
 import module.command.CommandServer;
-import module.command.api.Command;
+import module.command.api.ICommand;
+import module.item.ItemList;
 import module.item.api.IItem;
 import module.map.api.IRoom;
 import module.map.constants.CExit;
@@ -18,10 +19,12 @@ public class BaseRoom implements IRoom{
 	private String description = null;
 	private ConcurrentHashMap<exit, Neighbor> exitMap = null;
 	private GroupList gList = null;
+	private ItemList itemList = null;
 	
 	public BaseRoom(){
 		exitMap = new ConcurrentHashMap<exit, Neighbor>();
 		gList = new GroupList();
+		itemList = new ItemList();
 	}
 	
 	@Override
@@ -61,6 +64,7 @@ public class BaseRoom implements IRoom{
 		outBuffer.append(this.title + "\n");
 		outBuffer.append(this.description + "\n");
 		outBuffer.append(CExit.displayRoomExits(this));
+		outBuffer.append(this.itemList.displayInfo());
 		outBuffer.append(this.gList.displayInfo());
 		return outBuffer.toString();
 	}
@@ -114,7 +118,7 @@ public class BaseRoom implements IRoom{
 	}
 
 	@Override
-	public Command roomCommand(String message) {
+	public ICommand roomCommand(String message) {
 		return null;
 	}
 
@@ -124,8 +128,19 @@ public class BaseRoom implements IRoom{
 		outBuffer.append(this.title + "\n");
 		outBuffer.append(this.description + "\n");
 		outBuffer.append(CExit.displayRoomExits(this));
+		outBuffer.append(this.itemList.displayInfo());
 		outBuffer.append(this.gList.displayInfoExceptGroup(g));
 		return outBuffer.toString();
+	}
+
+	@Override
+	public void setItemList(ItemList list) {
+		this.itemList = list;
+	}
+
+	@Override
+	public ItemList getItemList() {
+		return this.itemList;
 	}
 
 }

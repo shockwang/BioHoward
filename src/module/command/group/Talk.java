@@ -3,10 +3,10 @@ package module.command.group;
 import module.character.Group;
 import module.character.api.ICharacter;
 import module.command.CommandServer;
-import module.command.api.Command;
+import module.command.api.ICommand;
 import module.utility.Parse;
 
-public class Talk implements Command {
+public class Talk implements ICommand {
 	private String[] name;
 	
 	public Talk(){

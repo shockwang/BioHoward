@@ -7,10 +7,13 @@ import module.character.Group;
 import module.character.PlayerGroup;
 import module.character.api.ICharacter;
 import module.character.constants.CConfig.config;
-import module.command.api.Command;
+import module.command.api.ICommand;
 import module.command.api.IndexStringPair;
 import module.command.character.Attack;
+import module.command.character.Drop;
 import module.command.character.Flee;
+import module.command.character.Get;
+import module.command.group.Inventory;
 import module.command.group.Look;
 import module.command.group.Move;
 import module.command.group.MyTime;
@@ -22,21 +25,24 @@ public class CommandServer {
 	// class for all creatures in the game to interact with the world, all
 	// methods should be static.
 	// TODO: define the class
-	private static ArrayList<Command> cmdList;
-	private static ArrayList<Command> groupCmdList;
+	private static ArrayList<ICommand> cmdList;
+	private static ArrayList<ICommand> groupCmdList;
 
 	public static void initialize() {
 		// add all the available commands into the map
-		cmdList = new ArrayList<Command>();
-		groupCmdList = new ArrayList<Command>();
+		cmdList = new ArrayList<ICommand>();
+		groupCmdList = new ArrayList<ICommand>();
 
 		cmdList.add(new Attack());
 		cmdList.add(new Flee());
+		cmdList.add(new Get());
+		cmdList.add(new Drop());
 
 		groupCmdList.add(new Move());
 		groupCmdList.add(new Look());
 		groupCmdList.add(new MyTime());
 		groupCmdList.add(new Talk());
+		groupCmdList.add(new Inventory());
 	}
 
 	public static void readCommand(Group g, String[] msg) {
@@ -48,7 +54,7 @@ public class CommandServer {
 			}
 			String output = null;
 			try {
-				Command target = searchCommand(msg[1], cmdList);
+				ICommand target = searchCommand(msg[1], cmdList);
 				if (target == null)
 					target = searchCommand(msg[1], groupCmdList);
 				output = target.getHelp();
@@ -81,7 +87,7 @@ public class CommandServer {
 
 			}
 			try {
-				Command targetCmd = searchCommand(msg[1], cmdList);
+				ICommand targetCmd = searchCommand(msg[1], cmdList);
 				boolean movedInBattle = targetCmd.action(targetChar, msg);
 				if (movedInBattle && g.getInBattle()) {
 					// character has done its action, update the battle timer
@@ -107,7 +113,7 @@ public class CommandServer {
 		} else {
 			// group-bonded action, use groupCmdList
 			try {
-				Command targetCmd = searchCommand(msg[0], groupCmdList);
+				ICommand targetCmd = searchCommand(msg[0], groupCmdList);
 				targetCmd.action(g.list.get(0).charList.get(0), msg);
 			} catch (IndexOutOfBoundsException e) {
 				informGroup(g, "你想做什麼?\n");
@@ -123,8 +129,8 @@ public class CommandServer {
 		 */
 	}
 
-	private static Command searchCommand(String msg, ArrayList<Command> list) {
-		for (Command cmd : list) {
+	private static ICommand searchCommand(String msg, ArrayList<ICommand> list) {
+		for (ICommand cmd : list) {
 			for (String name : cmd.getName()) {
 				if (name.equals(msg))
 					return cmd;

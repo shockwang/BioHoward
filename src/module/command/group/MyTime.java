@@ -3,10 +3,10 @@ package module.command.group;
 import module.character.Group;
 import module.character.api.ICharacter;
 import module.command.CommandServer;
-import module.command.api.Command;
+import module.command.api.ICommand;
 import module.server.PlayerServer;
 
-public class MyTime implements Command {
+public class MyTime implements ICommand {
 	private String[] name = null;
 	
 	public MyTime(){

@@ -11,6 +11,7 @@ import module.character.api.ICharacter;
 import module.character.constants.CAttribute.attribute;
 import module.client.ClientUser;
 import module.command.CommandServer;
+import module.item.AbstractItem;
 import module.map.api.IRoom;
 import module.server.PlayerServer;
 
@@ -48,6 +49,13 @@ public class BattleTaskTest {
 			return desc;
 		}
 		
+	}
+	
+	private class ItemForTest extends AbstractItem{
+		public ItemForTest(String chiName, String engName, String description) {
+			super(chiName, engName);
+			this.setDescription(description);
+		}
 	}
 	
 	@Test
@@ -106,6 +114,11 @@ public class BattleTaskTest {
 		PlayerGroup playerG = (PlayerGroup) g2;
 		playerG.setOutToClient(PlayerServer.pList.get(0).getOutToClient());
 		//playerG.getConfigData().put(config.REALTIMEBATTLE, true);
+		
+		// setup player group inventory
+		playerG.getInventory().addItem(new ItemForTest("杯子", "cup", "就是杯子。"));
+		playerG.getInventory().addItem(new ItemForTest("牙齒", "tooth", "就是牙齒。"));
+		playerG.getInventory().addItem(new ItemForTest("杯子", "cup", "就是杯子。"));
 		
 		//task = new BattleTask(g1, g2);
 		

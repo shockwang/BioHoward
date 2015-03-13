@@ -2,18 +2,43 @@ package test.module.item;
 
 import java.util.concurrent.ConcurrentHashMap;
 
-import org.junit.Before;
-import org.junit.Test;
-
+import module.character.AbstractCharacter;
+import module.character.GroupList;
 import module.character.constants.CAttribute.attribute;
 import module.character.constants.CStatus.status;
 import module.item.BaseEquipment;
 import module.item.api.IEquipment;
 import module.item.api.IEquipment.EquipType;
 
+import org.junit.Before;
+import org.junit.Test;
+
 public class EquipmentTest {
 	private IEquipment testArmor = null;
 	
+	private class CharEquipTest extends AbstractCharacter{
+		public CharEquipTest(String chiName, String engName) {
+			super(chiName, engName);
+		}
+
+		private String desc;
+		
+		@Override
+		public void setDesc(String description) {
+			this.desc = description;
+		}
+
+		@Override
+		public String getDesc() {
+			return desc;
+		}
+
+		@Override
+		public boolean battleAction(GroupList enemyGroup) {
+			return true;
+		}
+		
+	}
 	
 	@Before
 	public void setUp(){

@@ -6,11 +6,11 @@ import module.character.GroupList;
 import module.character.api.ICharacter;
 import module.character.constants.CAttribute.attribute;
 import module.command.CommandServer;
-import module.command.api.Command;
+import module.command.api.ICommand;
 import module.utility.Battle;
 import module.utility.Parse;
 
-public class Attack implements Command {
+public class Attack implements ICommand {
 	private String[] name;
 
 	public Attack() {

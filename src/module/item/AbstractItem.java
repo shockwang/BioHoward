@@ -6,8 +6,8 @@ public abstract class AbstractItem implements IItem{
 	private String chiName;
 	private String engName;
 	private String description;
-	private int price;
-	private int level;
+	private int price = 1;
+	private int level = 1;
 	
 	public AbstractItem(String chiName, String engName){
 		this.chiName = chiName;

@@ -6,8 +6,8 @@ import module.character.api.ICharacter;
 
 public class CStatus {
 	public static enum status{
-		WEAPON_ATTACK("武器攻擊力"),
-		SPELL_ATTACK("魔法攻擊力");
+		WEAPON_ATTACK("物理傷害"),
+		SPELL_ATTACK("意志傷害");
 		
 		private String chineseName;
 		status (String name){

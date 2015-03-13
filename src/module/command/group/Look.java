@@ -3,10 +3,10 @@ package module.command.group;
 import module.character.Group;
 import module.character.api.ICharacter;
 import module.command.CommandServer;
-import module.command.api.Command;
-import module.map.constants.CExit;
+import module.command.api.ICommand;
+import module.item.api.IItem;
 
-public class Look implements Command{
+public class Look implements ICommand{
 	private String[] name;
 	
 	public Look(){
@@ -26,6 +26,19 @@ public class Look implements Command{
 		else {
 			// look at the specific object
 			// TODO: define the see-object method
+			if (command.length == 2){
+				IItem obj = g.getInventory().findItem(command[1]);
+				if (obj != null) {
+					CommandServer.informGroup(g, obj.display());
+					return false;
+				}
+				obj = g.getAtRoom().getItemList().findItem(command[1]);
+				if (obj != null){
+					CommandServer.informGroup(g, obj.display());
+					return false;
+				}
+			}
+			
 			// group name case
 			Group tg = g.getAtRoom().getGroupList().findGroupExceptGroup(command[1], g);
 			if (tg != null){

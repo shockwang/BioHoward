@@ -3,12 +3,12 @@ package module.command.group;
 import module.character.Group;
 import module.character.api.ICharacter;
 import module.command.CommandServer;
-import module.command.api.Command;
+import module.command.api.ICommand;
 import module.map.api.IRoom;
 import module.map.constants.CDoorAttribute.doorStatus;
 import module.map.constants.CExit.exit;
 
-public class Move implements Command{
+public class Move implements ICommand{
 	private String[] name;
 	
 	public Move(){

@@ -1,6 +1,7 @@
 package module.command.group;
 
 import module.character.Group;
+import module.character.PlayerGroup;
 import module.character.api.ICharacter;
 import module.command.CommandServer;
 import module.command.api.ICommand;
@@ -32,7 +33,7 @@ public class Talk implements ICommand {
 		else {
 			String tt = Parse.mergeString(command, 1, ' ');
 			ICharacter target = g.getAtRoom().getGroupList().findCharExceptGroup(g, tt);
-			if (target != null) CommandServer.informGroup(g, target.onTalk() + "\n");
+			if (target != null) CommandServer.informGroup(g, target.onTalk((PlayerGroup) g) + "\n");
 			else CommandServer.informGroup(g, "這裡沒有你想講話的對象。\n");
 		}
 		return false;

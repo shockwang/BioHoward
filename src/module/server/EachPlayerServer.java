@@ -30,6 +30,10 @@ public class EachPlayerServer extends Thread {
 	public DataOutputStream getOutToClient() {
 		return this.outToClient;
 	}
+	
+	public BufferedReader getInFromClient(){
+		return this.inFromClient;
+	}
 
 	public void run() {
 		

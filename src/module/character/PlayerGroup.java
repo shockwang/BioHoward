@@ -1,5 +1,6 @@
 package module.character;
 
+import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.util.HashMap;
 
@@ -11,6 +12,7 @@ import module.utility.EnDecoder;
 public class PlayerGroup extends Group {
 	private HashMap<config, Boolean> configData;
 	private DataOutputStream outToClient = null;
+	private BufferedReader inFromClient = null;
 
 	public PlayerGroup(ICharacter obj) {
 		super(obj);
@@ -63,5 +65,13 @@ public class PlayerGroup extends Group {
 		}
 		String out = "status:" + this.showGroupStatus();
 		CommandServer.informGroup(this, out);
+	}
+	
+	public void setInFromClient(BufferedReader in){
+		this.inFromClient = in;
+	}
+	
+	public BufferedReader getInFromClient(){
+		return this.inFromClient;
 	}
 }

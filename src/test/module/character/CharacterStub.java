@@ -4,6 +4,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import module.character.Group;
 import module.character.GroupList;
+import module.character.PlayerGroup;
 import module.character.api.ICharacter;
 import module.character.api.IntPair;
 import module.character.constants.CAttribute.attribute;
@@ -189,7 +190,7 @@ public class CharacterStub implements ICharacter{
 	}
 
 	@Override
-	public String onTalk() {
+	public String onTalk(PlayerGroup g) {
 		// TODO Auto-generated method stub
 		return null;
 	}

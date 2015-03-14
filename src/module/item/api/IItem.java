@@ -20,4 +20,8 @@ public interface IItem {
 	// item level
 	void setLevel(int level);
 	int getLevel();
+	
+	// weight
+	void setWeight(int weight);
+	int getWeight();
 }

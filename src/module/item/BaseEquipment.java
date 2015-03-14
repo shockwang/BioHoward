@@ -18,6 +18,8 @@ public class BaseEquipment extends AbstractItem implements IEquipment{
 	public BaseEquipment(String chiName, String engName, EquipType type) {
 		super(chiName, engName);
 		this.type = type;
+		attrMap = new ConcurrentHashMap<attribute, Integer>();
+		statMap = new ConcurrentHashMap<status, Integer>();
 	}
 	
 	@Override
@@ -34,9 +36,14 @@ public class BaseEquipment extends AbstractItem implements IEquipment{
 		IEquipment oldEquip = equipMap.get(this.getEquipType());
 		if (oldEquip != null){
 			if (oldEquip.onRemove(c)) {
-				g.getAtRoom().informRoom(c.getChiName() + ItemUtil.wearMsg(this));
+				g.getAtRoom().informRoom(c.getChiName() + ItemUtil.wearMsg(this) + "\n");
+				g.getInventory().removeItem(this);
 				equipMap.put(this.getEquipType(), this);
 			} else return false;
+		} else {
+			g.getAtRoom().informRoom(c.getChiName() + ItemUtil.wearMsg(this) + "\n");
+			g.getInventory().removeItem(this);
+			equipMap.put(this.getEquipType(), this);
 		}
 		return true;
 	}
@@ -44,7 +51,10 @@ public class BaseEquipment extends AbstractItem implements IEquipment{
 	@Override
 	public boolean onRemove(ICharacter c){
 		// default remove action
+		// TODO: remove limitation?
 		c.getEquipment().remove(this);
+		c.getMyGroup().getInventory().addItem(this);
+		c.getEquipment().remove(this.type);
 		c.getMyGroup().getAtRoom().informRoom(c.getChiName() + 
 				"¨ø¤U¤F" + this.getChiName() + "\n");
 		return true;

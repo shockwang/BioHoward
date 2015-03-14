@@ -5,10 +5,16 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.Random;
+import java.util.Set;
 
 import module.command.CommandServer;
+import module.mission.api.IMission;
 import module.time.GlobalTime;
 
 public class PlayerServer extends Thread{
@@ -19,6 +25,7 @@ public class PlayerServer extends Thread{
 	private static GlobalTime systemTime = null;
 	private static Random rand = null;
 	private int port;
+	private static HashSet<IMission> missionSet = null;
 	
 	public PlayerServer(){
 		if (isExists) return;
@@ -31,6 +38,7 @@ public class PlayerServer extends Thread{
 		systemTime.startTimer();
 		
 		rand = new Random();
+		missionSet = new HashSet<IMission>();
 	}
 	
 	public void setServerRun(boolean input){
@@ -72,4 +80,12 @@ public class PlayerServer extends Thread{
 	public static GlobalTime getSystemTime(){return systemTime;}
 	
 	public static Random getRandom(){return rand;}
+	
+	public static void setMissionSet(HashSet<IMission> set){
+		missionSet = set;
+	}
+	
+	public static HashSet<IMission> getMissionSet(){
+		return missionSet;
+	}
 }

@@ -4,6 +4,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import module.character.Group;
 import module.character.GroupList;
+import module.character.PlayerGroup;
 import module.character.constants.CAttribute;
 import module.character.constants.CSpecialStatus;
 import module.character.constants.CStatus;
@@ -70,5 +71,5 @@ public interface ICharacter extends Updatable{
 	String showStatus();
 	
 	// react with others
-	String onTalk();
+	String onTalk(PlayerGroup g);
 }

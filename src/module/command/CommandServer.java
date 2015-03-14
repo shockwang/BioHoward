@@ -11,8 +11,11 @@ import module.command.api.ICommand;
 import module.command.api.IndexStringPair;
 import module.command.character.Attack;
 import module.command.character.Drop;
+import module.command.character.Equipment;
 import module.command.character.Flee;
 import module.command.character.Get;
+import module.command.character.Remove;
+import module.command.character.Wear;
 import module.command.group.Inventory;
 import module.command.group.Look;
 import module.command.group.Move;
@@ -37,6 +40,9 @@ public class CommandServer {
 		cmdList.add(new Flee());
 		cmdList.add(new Get());
 		cmdList.add(new Drop());
+		cmdList.add(new Equipment());
+		cmdList.add(new Wear());
+		cmdList.add(new Remove());
 
 		groupCmdList.add(new Move());
 		groupCmdList.add(new Look());
@@ -50,6 +56,7 @@ public class CommandServer {
 			if (msg.length == 1) {
 				// show the top help page
 				informGroup(g, "Top help page.\n");
+				informGroup(g, showTopHelpPage());
 				return;
 			}
 			String output = null;
@@ -58,6 +65,7 @@ public class CommandServer {
 				if (target == null)
 					target = searchCommand(msg[1], groupCmdList);
 				output = target.getHelp();
+				if (output == null) output = "尚未實作該指令的簡介。\n";
 			} catch (IndexOutOfBoundsException e) {
 				output = "你想查詢什麼指令?\n";
 			} catch (NullPointerException e) {
@@ -167,5 +175,31 @@ public class CommandServer {
 			target = g.findChar(pair.name, pair.index);
 			return target;
 		}
+	}
+	
+	private static String showTopHelpPage(){
+		StringBuffer buf = new StringBuffer();
+		buf.append("團體指令：\n");
+		
+		buf.append("north\tsouth\teast\twest\tup\ndown\t");
+		int index = 1;
+		while (index < groupCmdList.size()) {
+			buf.append(groupCmdList.get(index).getName()[0] + "\t");
+			index++;
+			if (index % 5 == 0) buf.append("\n");
+		}
+		if (index % 5 != 0) buf.append("\n");
+		
+		buf.append("個人指令：\n");
+		
+		index = 0;
+		while (index < cmdList.size()){
+			buf.append(cmdList.get(index).getName()[0] + "\t");
+			index++;
+			if (index % 5 == 0) buf.append("\n");
+		}
+		if (index % 5 != 0) buf.append("\n");
+		
+		return buf.toString();
 	}
 }

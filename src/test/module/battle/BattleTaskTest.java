@@ -1,6 +1,9 @@
 package test.module.battle;
 
 import static org.junit.Assert.assertTrue;
+
+import java.io.IOException;
+
 import module.battle.BattleTask;
 import module.character.AbstractCharacter;
 import module.character.CharList;
@@ -9,10 +12,16 @@ import module.character.GroupList;
 import module.character.PlayerGroup;
 import module.character.api.ICharacter;
 import module.character.constants.CAttribute.attribute;
+import module.character.constants.CStatus.status;
 import module.client.ClientUser;
 import module.command.CommandServer;
 import module.item.AbstractItem;
+import module.item.BaseEquipment;
+import module.item.api.IEquipment.EquipType;
 import module.map.api.IRoom;
+import module.mission.TestMission;
+import module.mission.TestMission.State;
+import module.mission.api.IMission;
 import module.server.PlayerServer;
 
 import org.junit.Test;
@@ -75,7 +84,54 @@ public class BattleTaskTest {
 			e.printStackTrace();
 		}
 		
-		Group g1 = new Group(new CharForTest("小明", "min"));
+		Group g1 = new Group(new CharForTest("小明", "min"){
+			@Override
+			public String onTalk(PlayerGroup g) {
+				TestMission testM = null;
+				for (IMission m : PlayerServer.getMissionSet()){
+					if (m instanceof TestMission){
+						testM = (TestMission) m;
+						break;
+					}
+				}
+				StringBuffer buf = new StringBuffer();
+				if (testM == null){
+					CommandServer.informGroup(g, "小明說：我三個月前借了小美一本龍族小說，他一直沒有還我，你可以幫我取回來嗎? (y/n)\n");
+					String msg = null;
+					while (true){
+						try {
+							msg = g.getInFromClient().readLine();
+							if (msg.equals("n")){
+								buf.append("小明聳聳肩：那就算了!");
+								break;
+							} else if (msg.equals("y")){
+								buf.append("小明很高興的說：太好了! 就交給你囉!");
+								PlayerServer.getMissionSet().add(new TestMission());
+								break;
+							} else 
+								CommandServer.informGroup(g, "小明說：我三個月前借了小美一本龍族小說，他一直沒有還我，你可以幫我取回來嗎? (y/n)\n");
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+				} else {
+					TestMission.State state = (TestMission.State) testM.getState();
+					switch (state){
+					case TALK_WITH_MING:
+						buf.append("小明笑著說：就拜託你了!");
+						break;
+					case TALK_WITH_MEI:
+						buf.append("小明：啊，謝謝你! 我一直想重新回味龍族小說的奧秘呢!");
+						testM.setState(TestMission.State.DONE);
+						break;
+					case DONE:
+						buf.append("小明專心的看著小說，沒空理你。");
+					}
+				}
+				return buf.toString();
+			}
+		});
 		g1.addChar(new CharForTest("小華", "hua"));
 		for (CharList cList : g1.list){
 			for (ICharacter c : cList.charList){
@@ -105,7 +161,26 @@ public class BattleTaskTest {
 			}
 		}
 		
-		Group g3 = new Group(new CharForTest("小美", "mei"));
+		Group g3 = new Group(new CharForTest("小美", "mei"){
+			@Override
+			public String onTalk(PlayerGroup g){
+				TestMission testM = null;
+				for (IMission m : PlayerServer.getMissionSet()){
+					if (m instanceof TestMission){
+						testM = (TestMission) m;
+					}
+				}
+				
+				if (testM != null){
+					TestMission.State state = (TestMission.State) testM.getState();
+					if (state == TestMission.State.TALK_WITH_MING){
+						testM.setState(TestMission.State.TALK_WITH_MEI);
+						return "啊，我確實一直忘記還他，拜託你拿給他囉!";
+					}
+				}
+				return "小美說：你好啊~";
+			}
+		});
 		g3.findChar("mei").addAttribute(attribute.HP, 30);
 		g3.findChar("mei").setMyGroup(g3);
 		g3.findChar("mei").setDesc("就是小美。");
@@ -113,12 +188,26 @@ public class BattleTaskTest {
 		PlayerServer.pList.get(0).setGroup((PlayerGroup) g2);
 		PlayerGroup playerG = (PlayerGroup) g2;
 		playerG.setOutToClient(PlayerServer.pList.get(0).getOutToClient());
+		playerG.setInFromClient(PlayerServer.pList.get(0).getInFromClient());
 		//playerG.getConfigData().put(config.REALTIMEBATTLE, true);
 		
 		// setup player group inventory
 		playerG.getInventory().addItem(new ItemForTest("杯子", "cup", "就是杯子。"));
 		playerG.getInventory().addItem(new ItemForTest("牙齒", "tooth", "就是牙齒。"));
 		playerG.getInventory().addItem(new ItemForTest("杯子", "cup", "就是杯子。"));
+		
+		// equipment test
+		BaseEquipment testEquip = new BaseEquipment("手甲", "hand protect", EquipType.GLOVES);
+		testEquip.setDescription("就是手甲。");
+		testEquip.setPrice(100);
+		testEquip.getAttribute().put(attribute.HP, 10);
+		testEquip.getStatus().put(status.WEAPON_ATTACK, 5);
+		playerG.getInventory().addItem(testEquip);
+		BaseEquipment testEquip2 = new BaseEquipment("食人魔力量手套", "opg", EquipType.GLOVES);
+		testEquip2.setDescription("修奇戴的。");
+		testEquip2.setPrice(100000);
+		testEquip2.getStatus().put(status.WEAPON_ATTACK, 100000);
+		playerG.getInventory().addItem(testEquip2);
 		
 		//task = new BattleTask(g1, g2);
 		

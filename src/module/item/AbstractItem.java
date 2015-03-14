@@ -8,6 +8,7 @@ public abstract class AbstractItem implements IItem{
 	private String description;
 	private int price = 1;
 	private int level = 1;
+	private int weight = 1;
 	
 	public AbstractItem(String chiName, String engName){
 		this.chiName = chiName;
@@ -63,6 +64,16 @@ public abstract class AbstractItem implements IItem{
 	@Override
 	public int getLevel(){
 		return level;
+	}
+	
+	@Override
+	public void setWeight(int weight){
+		this.weight = weight;
+	}
+	
+	@Override
+	public int getWeight(){
+		return weight;
 	}
 	
 	// display information

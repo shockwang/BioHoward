@@ -184,7 +184,7 @@ public abstract class AbstractCharacter implements ICharacter {
 	}
 	
 	@Override
-	public String onTalk(){
+	public String onTalk(PlayerGroup g){
 		return this.getChiName() + "看來不想理你。";
 	}
 	

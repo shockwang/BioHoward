@@ -5,6 +5,7 @@ import module.character.api.ICharacter;
 import module.command.CommandServer;
 import module.command.api.ICommand;
 import module.item.api.IItem;
+import module.utility.ItemUtil;
 
 public class Look implements ICommand{
 	private String[] name;
@@ -46,8 +47,11 @@ public class Look implements ICommand{
 					CommandServer.informGroup(g, tg.displayInfo());
 				} else {
 					ICharacter tc = tg.findAliveChar(command[2]);
-					if (tc != null) 
-						CommandServer.informGroup(g, tc.getDesc() + "\n");
+					if (tc != null) {
+						String out = tc.getDesc() + "\n";
+						out += ItemUtil.showLookEquip(tc);
+						CommandServer.informGroup(g, out);
+					}
 					else CommandServer.informGroup(g, "該隊伍中沒有你想觀察的對象。\n");
 				}
 			} else CommandServer.informGroup(g, "這裡沒有你想要看的東西。\n");

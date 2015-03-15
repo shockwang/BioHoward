@@ -23,6 +23,7 @@ public class Talk implements ICommand {
 	@Override
 	public boolean action(ICharacter c, String[] command) {
 		Group g = c.getMyGroup();
+		g.setTalking(true);
 		
 		if (g.getInBattle()){
 			CommandServer.informGroup(g, "戰鬥中是沒空讓你講話的喔。\n");
@@ -33,9 +34,20 @@ public class Talk implements ICommand {
 		else {
 			String tt = Parse.mergeString(command, 1, ' ');
 			ICharacter target = g.getAtRoom().getGroupList().findCharExceptGroup(g, tt);
-			if (target != null) CommandServer.informGroup(g, target.onTalk((PlayerGroup) g) + "\n");
+			if (target != null) {
+				if (target.getMyGroup().getTalking()) 
+					CommandServer.informGroup(g, "你選擇的對象正在和別人講話，等一下吧。\n");
+				else if (target.getMyGroup().getInBattle())
+					CommandServer.informGroup(g, "你選擇的對象正在戰鬥中，沒空理你。\n");
+				else {
+					target.getMyGroup().setTalking(true);
+					CommandServer.informGroup(g, target.onTalk((PlayerGroup) g) + "\n");
+					target.getMyGroup().setTalking(false);
+				}
+			}
 			else CommandServer.informGroup(g, "這裡沒有你想講話的對象。\n");
 		}
+		g.setTalking(false);
 		return false;
 	}
 

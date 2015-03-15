@@ -30,7 +30,7 @@ public class Group implements Updatable {
 	private IntPair respawnTime = new IntPair(0, 30);
 	private int charNum;
 	private ItemList itemList = null;
-	private boolean isTalking = false;
+	private Boolean isTalking = false;
 
 	public String getChiName() {
 		return Chiname;
@@ -269,10 +269,14 @@ public class Group implements Updatable {
 	}
 	
 	public void setTalking(boolean value){
-		this.isTalking = value;
+		synchronized (this.isTalking){
+			this.isTalking = value;
+		}
 	}
 	
-	public boolean getIsTalking(){
-		return this.isTalking;
+	public boolean getTalking(){
+		synchronized (this.isTalking){
+			return this.isTalking;
+		}
 	}
 }

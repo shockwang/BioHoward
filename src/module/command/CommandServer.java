@@ -10,10 +10,12 @@ import module.character.constants.CConfig.config;
 import module.command.api.ICommand;
 import module.command.api.IndexStringPair;
 import module.command.character.Attack;
+import module.command.character.Close;
 import module.command.character.Drop;
 import module.command.character.Equipment;
 import module.command.character.Flee;
 import module.command.character.Get;
+import module.command.character.Open;
 import module.command.character.Remove;
 import module.command.character.Wear;
 import module.command.group.Inventory;
@@ -43,6 +45,8 @@ public class CommandServer {
 		cmdList.add(new Equipment());
 		cmdList.add(new Wear());
 		cmdList.add(new Remove());
+		cmdList.add(new Open());
+		cmdList.add(new Close());
 
 		groupCmdList.add(new Move());
 		groupCmdList.add(new Look());
@@ -75,8 +79,28 @@ public class CommandServer {
 			}
 			return;
 		}
-
+		
+		// check group command first
+		try {
+			ICommand targetCmd = searchCommand(msg[0], groupCmdList);
+			targetCmd.action(g.list.get(0).charList.get(0), msg);
+			return;
+		} catch (IndexOutOfBoundsException e) {
+			// do nothing
+		} catch (NullPointerException e) {
+			// do nothing
+		}
+		
+		// then deal with character command, if no char name assigned,
+		// the first group character will be chosen.
 		ICharacter targetChar = judgePlayerCharacterMove(g, msg);
+		if (targetChar == null){
+			targetChar = g.list.get(0).charList.get(0);
+			String[] temp = new String[msg.length + 1];
+			temp[0] = targetChar.getEngName();
+			for (int i = 0; i < msg.length; i++) temp[i + 1] = msg[i];
+			msg = temp;
+		}
 		if (targetChar != null) {
 			// character-bonded action, use cmdList
 			if (g.getInBattle()) {
@@ -118,7 +142,7 @@ public class CommandServer {
 						String.format("你想讓%s做什麼呢?\n", targetChar.getChiName()));
 			}
 			return;
-		} else {
+		} /*else {
 			// group-bonded action, use groupCmdList
 			try {
 				ICommand targetCmd = searchCommand(msg[0], groupCmdList);
@@ -129,7 +153,7 @@ public class CommandServer {
 				e.printStackTrace();
 				informGroup(g, "你想做什麼?\n");
 			}
-		}
+		}*/
 		/*
 		 * Command target = searchCommand(msg[0]); if (target == null){
 		 * informGroup(g, "你想做什麼呢?\n"); return; } String in =

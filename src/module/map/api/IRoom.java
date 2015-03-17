@@ -42,6 +42,7 @@ public interface IRoom {
 	
 	// inform message to creatures in room
 	void informRoom(String message);
+	void informRoomExceptGroup(Group g, String message);
 	
 	// special commands in the room
 	ICommand roomCommand(String message);

@@ -252,14 +252,6 @@ public class Group implements Updatable {
 		}
 	}
 	
-	public void randomMove(){
-		String[] select = CExit.getExitsRoom(this.atRoom);
-		
-		int ddd = PlayerServer.getRandom().nextInt(10) % select.length;
-		String[] output = {select[ddd]};
-		CommandServer.readCommand(this, output);
-	}
-	
 	public void setInventory(ItemList list){
 		this.itemList = list;
 	}

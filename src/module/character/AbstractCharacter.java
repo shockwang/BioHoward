@@ -8,9 +8,9 @@ import module.character.constants.CAttribute;
 import module.character.constants.CAttribute.attribute;
 import module.character.constants.CSpecialStatus.specialStatus;
 import module.character.constants.CStatus.status;
-import module.command.CommandServer;
 import module.item.api.IEquipment;
 import module.server.PlayerServer;
+import module.utility.NpcActionUtil;
 
 public abstract class AbstractCharacter implements ICharacter {
 	private ConcurrentHashMap<attribute, IntPair> attributeMap = null;
@@ -163,14 +163,10 @@ public abstract class AbstractCharacter implements ICharacter {
 	@Override
 	public void normalAction() {
 		// TODO: define the normal behavior
-		/*String[] move = { "e", "w", "s", "n" };
-
-		// 5 sec move once
-		int act = PlayerServer.getRandom().nextInt() % 10;
-		if (act < 7) return;
-		int way = PlayerServer.getRandom().nextInt(10) % 4;
-		String[] command = { move[way] };
-		CommandServer.readCommand(myGroup, command);*/
+		//NpcActionUtil.randomMove(myGroup);
+		int ddd = PlayerServer.getRandom().nextInt(50);
+		if (ddd < 20) NpcActionUtil.randomGet(this);
+		else if (ddd < 30) NpcActionUtil.randomDrop(this);
 	}
 
 	@Override

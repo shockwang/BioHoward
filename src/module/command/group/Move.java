@@ -56,7 +56,7 @@ public class Move implements ICommand {
 							+ "邊離開了.\n");
 					nRoom.getGroupList().gList.add(g);
 					g.setAtRoom(nRoom);
-					nRoom.informRoom(g.getChiName() + "從" + from.chineseName
+					nRoom.informRoomExceptGroup(g, g.getChiName() + "從" + from.chineseName
 							+ "邊過來了.\n");
 					CommandServer.informGroup(g, nRoom.displayRoomExceptGroup(g));
 				} else

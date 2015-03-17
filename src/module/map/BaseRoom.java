@@ -143,4 +143,12 @@ public class BaseRoom implements IRoom{
 		return this.itemList;
 	}
 
+	@Override
+	public void informRoomExceptGroup(Group g, String message) {
+		for (Group gg : this.gList.gList){
+			if (gg == g) continue;
+			CommandServer.informGroup(gg, message);
+		}
+	}
+
 }

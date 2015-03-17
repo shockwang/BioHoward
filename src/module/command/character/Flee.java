@@ -4,7 +4,7 @@ import module.character.Group;
 import module.character.api.ICharacter;
 import module.command.CommandServer;
 import module.command.api.ICommand;
-import module.server.PlayerServer;
+import module.utility.NpcActionUtil;
 
 public class Flee implements ICommand{
 	private String[] name;
@@ -38,7 +38,7 @@ public class Flee implements ICommand{
 				}
 				g.getAtRoom().informRoom(c.getChiName() + "腳底抹油，一溜菸的成功逃出了戰場。\n");
 				g.getBattleTask().removeBattleGroup(g);
-				g.randomMove();
+				NpcActionUtil.randomMove(g);
 			} else {
 				g.getAtRoom().informRoom(c.getChiName() + "嘗試逃跑，但不幸失敗了!\n");
 			}

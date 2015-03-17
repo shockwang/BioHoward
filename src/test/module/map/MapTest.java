@@ -2,10 +2,17 @@ package test.module.map;
 
 import java.util.concurrent.ConcurrentHashMap;
 
+import module.character.Group;
+import module.command.CommandServer;
+import module.item.BaseEquipment;
+import module.item.api.IEquipment.EquipType;
+import module.map.BaseDoor;
 import module.map.BaseRoom;
 import module.map.Neighbor;
 import module.map.Position;
+import module.map.PositionDoor;
 import module.map.api.IRoom;
+import module.map.constants.CDoorAttribute.doorAttribute;
 import module.map.constants.CExit.exit;
 
 public class MapTest {
@@ -85,6 +92,22 @@ public class MapTest {
 		map.put(exit.SOUTH, new Neighbor(w));
 		map.put(exit.EAST, new Neighbor(n));
 		nw.setExits(map);
+		
+		// door test
+		PositionDoor pd = new PositionDoor(
+				s.getPosition(), exit.SOUTH, start.getPosition(), exit.NORTH);
+		BaseDoor testDoor = new BaseDoor("就是扇門", pd);
+		start.getExits().get(exit.SOUTH).setDoor(testDoor);
+		s.getExits().get(exit.NORTH).setDoor(testDoor);
+		
+		// lockable door test
+		PositionDoor pd2 = new PositionDoor(
+				start.getPosition(), exit.SOUTH, n.getPosition(), exit.NORTH);
+		BaseDoor testDoor2 = new BaseDoor("就是扇可以鎖的門", pd2);
+		testDoor2.setDoorAttribute(doorAttribute.LOCKABLE);
+		testDoor2.setKey(new BaseEquipment("食人魔力量手套", "opg", EquipType.GLOVES));
+		start.getExits().get(exit.NORTH).setDoor(testDoor2);
+		n.getExits().get(exit.SOUTH).setDoor(testDoor2);
 	}
 	
 	private IRoom createRoom(Position pos, String title, String description){

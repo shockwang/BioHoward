@@ -32,34 +32,31 @@ public class Close implements ICommand{
 			return false;
 		}
 		exit direction = MoveUtil.getWay(command[2]);
-		IDoor targetDoor = null;
-		try {
-			targetDoor = g.getAtRoom().getExits().get(direction).getDoor();
-		} catch (NullPointerException e){
-			// do nothing
-		}
-		if (targetDoor == null) {
-			CommandServer.informGroup(g, "這個方向沒有門喔。\n");
-			return false;
-		}
-		
-		synchronized (targetDoor){
-			switch (targetDoor.getDoorStatus()){
-			case OPENED:
-				CommandServer.informGroup(g, "這個方向的門已經是開著的了。\n");
-				break;
-			case BROKEN:
-				CommandServer.informGroup(g, "這個方向的門壞掉了，關不起來。\n");
-				break;
-			case LOCKED:
-				CommandServer.informGroup(g, "這個方向的門是鎖著的。\n");
-				break;
-			case CLOSED:
-				targetDoor.setDoorStatus(doorStatus.OPENED);
-				g.getAtRoom().informRoom(c.getChiName() + "關上了" + direction.chineseName + "方的門。\n");
-				if (g.getInBattle()) return true;
+		if (direction != null){
+			try {
+				IDoor targetDoor = g.getAtRoom().getExits().get(direction).getDoor();
+				synchronized (targetDoor){
+					switch (targetDoor.getDoorStatus()){
+					case CLOSED:
+						CommandServer.informGroup(g, "這個方向的門已經是關著的了。\n");
+						break;
+					case BROKEN:
+						CommandServer.informGroup(g, "這個方向的門壞掉了，關不起來。\n");
+						break;
+					case LOCKED:
+						CommandServer.informGroup(g, "這個方向的門是鎖著的。\n");
+						break;
+					case OPENED:
+						targetDoor.setDoorStatus(doorStatus.CLOSED);
+						g.getAtRoom().informRoom(c.getChiName() + "關上了" + direction.chineseName + "方的門。\n");
+						if (g.getInBattle()) return true;
+					}
+				}
+			} catch (NullPointerException e){
+				CommandServer.informGroup(g, "這個方向沒有門喔。\n");
 			}
-		}
+		} else CommandServer.informGroup(g, "這裡沒有你想關上的東西。\n");
+
 		return false;
 	}
 

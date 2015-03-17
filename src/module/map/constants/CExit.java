@@ -1,8 +1,10 @@
 package module.map.constants;
 
+import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 
 import module.map.Neighbor;
+import module.map.api.IDoor;
 import module.map.api.IRoom;
 import module.map.constants.CDoorAttribute.doorStatus;
 
@@ -25,7 +27,16 @@ public class CExit {
 		StringBuffer buffer = new StringBuffer();
 		buffer.append("[¥X¤f:");
 		ConcurrentHashMap<CExit.exit, Neighbor> exitMap = r.getExits();
-		if (exitMap.isEmpty())
+		
+		int count = 0;
+		for (Entry<exit, Neighbor> entry : exitMap.entrySet()){
+			IDoor targetDoor = entry.getValue().getDoor();
+			if (targetDoor == null || (targetDoor.getDoorStatus() != doorStatus.CLOSED
+					&& targetDoor.getDoorStatus() != doorStatus.LOCKED))
+				count++;
+		}
+		
+		if (count == 0)
 			buffer.append(" µL ]\n");
 		else {
 			buffer.append(displaySingleExit(exitMap, exit.EAST));
@@ -39,35 +50,42 @@ public class CExit {
 		return buffer.toString();
 	}
 	
-	public static String[] getExitsRoom(IRoom r){
+	public static String[] getAccessibleExitsRoom(IRoom r){
 		ConcurrentHashMap<CExit.exit, Neighbor> exitMap = r.getExits();
-		String[] result = new String[exitMap.size()];
+		ConcurrentHashMap<exit, Neighbor> accessibleExitMap = new ConcurrentHashMap<exit, Neighbor>();
+		for (Entry<exit, Neighbor> entry : exitMap.entrySet()){
+			IDoor door = entry.getValue().getDoor();
+			if (door == null || (door.getDoorStatus() != doorStatus.CLOSED
+					&& door.getDoorStatus() != doorStatus.LOCKED))
+				accessibleExitMap.put(entry.getKey(), entry.getValue());
+		}
+		String[] result = new String[accessibleExitMap.size()];
 		
-		if (exitMap.isEmpty()) return null;
+		if (accessibleExitMap.isEmpty()) return null;
 		else {
 			int index = 0;
 			
-			if (exitMap.containsKey(exit.EAST)){
+			if (accessibleExitMap.containsKey(exit.EAST)){
 				result[index] = "e";
 				index++;
 			}
-			if (exitMap.containsKey(exit.WEST)){
+			if (accessibleExitMap.containsKey(exit.WEST)){
 				result[index] = "w";
 				index++;
 			}
-			if (exitMap.containsKey(exit.SOUTH)){
+			if (accessibleExitMap.containsKey(exit.SOUTH)){
 				result[index] = "s";
 				index++;
 			}
-			if (exitMap.containsKey(exit.NORTH)){
+			if (accessibleExitMap.containsKey(exit.NORTH)){
 				result[index] = "n";
 				index++;
 			}
-			if (exitMap.containsKey(exit.UP)){
+			if (accessibleExitMap.containsKey(exit.UP)){
 				result[index] = "u";
 				index++;
 			}
-			if (exitMap.containsKey(exit.DOWN)){
+			if (accessibleExitMap.containsKey(exit.DOWN)){
 				result[index] = "d";
 				index++;
 			}
@@ -78,7 +96,8 @@ public class CExit {
 	private static String displaySingleExit(ConcurrentHashMap<CExit.exit, Neighbor> map, exit way){
 		if (map.get(way) != null){
 			Neighbor nei = map.get(way);
-			if (nei.getDoor() == null || nei.getDoor().getDoorStatus() == doorStatus.OPENED)
+			if (nei.getDoor() == null || nei.getDoor().getDoorStatus() == doorStatus.OPENED
+					|| nei.getDoor().getDoorStatus() == doorStatus.BROKEN)
 				return " " + way.chineseName;
 		}
 		return "";

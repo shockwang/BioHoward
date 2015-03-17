@@ -57,4 +57,9 @@ public class Parse {
 		}
 		return new IndexStringPair(name, index);
 	}
+	
+	public static String getFirstWord(String input){
+		String[] temp = input.split(" ");
+		return temp[0];
+	}
 }

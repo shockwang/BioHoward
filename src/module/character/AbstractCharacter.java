@@ -165,8 +165,9 @@ public abstract class AbstractCharacter implements ICharacter {
 		// TODO: define the normal behavior
 		//NpcActionUtil.randomMove(myGroup);
 		int ddd = PlayerServer.getRandom().nextInt(50);
-		if (ddd < 20) NpcActionUtil.randomGet(this);
-		else if (ddd < 30) NpcActionUtil.randomDrop(this);
+		if (ddd < 25) NpcActionUtil.randomGet(this);
+		//ddd = PlayerServer.getRandom().nextInt(50);
+		//if (ddd < 25) NpcActionUtil.randomDrop(this);
 	}
 
 	@Override

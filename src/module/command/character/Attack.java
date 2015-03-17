@@ -105,8 +105,10 @@ public class Attack implements ICommand {
 			int current = target.getAttributeMap().get(attribute.HP)
 					.getCurrent();
 			target.getAttributeMap().get(attribute.HP).setCurrent(current - 10);
-			if (target.isDown())
-				out += Battle.deadMechanism(target);
+			if (target.isDown()){
+				src.getMyGroup().getAtRoom().informRoom(out);
+				out = Battle.deadMechanism(target);
+			}
 		} else {
 			out += String.format("但對%s看似絲毫不起作用!\n", src.getChiName(),
 					target.getChiName(), target.getChiName());

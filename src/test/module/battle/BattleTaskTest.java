@@ -195,6 +195,10 @@ public class BattleTaskTest {
 		playerG.getInventory().addItem(new ItemForTest("杯子", "cup", "就是杯子。"));
 		playerG.getInventory().addItem(new ItemForTest("牙齒", "tooth", "就是牙齒。"));
 		playerG.getInventory().addItem(new ItemForTest("杯子", "cup", "就是杯子。"));
+		playerG.getInventory().addItem(new ItemForTest("率安安", "anan", "蠢安安"));
+		playerG.getInventory().addItem(new ItemForTest("帥安安", "anan2", "蠢安安"));
+		playerG.getInventory().addItem(new ItemForTest("蠢安安", "anan3", "蠢安安"));
+		playerG.getInventory().addItem(new ItemForTest("小安安", "anan4", "蠢安安"));
 		
 		// equipment test
 		BaseEquipment testEquip = new BaseEquipment("手甲", "hand protect", EquipType.GLOVES);

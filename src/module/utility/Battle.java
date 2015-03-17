@@ -9,7 +9,7 @@ public class Battle {
 	public static String deadMechanism(ICharacter target) {
 		StringBuilder buffer = new StringBuilder();
 		Group g = target.getMyGroup();
-		buffer.append(target.getChiName() + "倒地不起了!\n");
+		target.getMyGroup().getAtRoom().informRoom(target.getChiName() + "倒地不起了!\n");
 
 		if (g instanceof PlayerGroup) {
 			target.getAttributeMap().get(attribute.HP).setCurrent(0);

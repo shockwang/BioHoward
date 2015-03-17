@@ -16,6 +16,7 @@ import module.character.api.IntPair;
 import module.character.constants.CConfig.config;
 import module.command.CommandServer;
 import module.utility.EnDecoder;
+import module.utility.ItemUtil;
 
 public class BattleTask extends TimerTask {
 	private GroupList team1List;
@@ -285,6 +286,8 @@ public class BattleTask extends TimerTask {
 				if (groupDown) {
 					// a group is down, remove data from this battle
 					removeGroupFromTimeMap(g);
+					// group inventory drop to the ground
+					ItemUtil.dropAllItemOnDefeat(g);
 					g.getAtRoom().getGroupList().gList.remove(g);
 					g.setAtRoom(null);
 					g.setInBattle(false);

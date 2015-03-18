@@ -73,7 +73,8 @@ public class CommandServer {
 				if (target == null)
 					target = searchCommand(msg[1], groupCmdList);
 				output = target.getHelp();
-				if (output == null) output = "尚未實作該指令的簡介。\n";
+				if (output == null)
+					output = "尚未實作該指令的簡介。\n";
 			} catch (IndexOutOfBoundsException e) {
 				output = "你想查詢什麼指令?\n";
 			} catch (NullPointerException e) {
@@ -83,86 +84,79 @@ public class CommandServer {
 			}
 			return;
 		}
-		
-		// check group command first
-		try {
-			ICommand targetCmd = searchCommand(msg[0], groupCmdList);
-			targetCmd.action(g.list.get(0).charList.get(0), msg);
-			return;
-		} catch (IndexOutOfBoundsException e) {
-			// do nothing
-		} catch (NullPointerException e) {
-			// do nothing
-		}
-		
-		// then deal with character command, if no char name assigned,
-		// the first group character will be chosen.
-		ICharacter targetChar = judgePlayerCharacterMove(g, msg);
-		if (targetChar == null){
-			targetChar = g.list.get(0).charList.get(0);
-			String[] temp = new String[msg.length + 1];
-			temp[0] = targetChar.getEngName();
-			for (int i = 0; i < msg.length; i++) temp[i + 1] = msg[i];
-			msg = temp;
-		}
-		if (targetChar != null) {
-			// character-bonded action, use cmdList
-			if (g.getInBattle()) {
-				// group is in battle
-				int current, max;
-				synchronized (g.getBattleTask().getTimeMap()) {
-					current = g.getBattleTask().getTimeMap().get(targetChar)
-							.getCurrent();
-					max = g.getBattleTask().getTimeMap().get(targetChar)
-							.getMax();
-				}
-				if (current < max) {
-					informGroup(g, "你選擇的對象還沒準備好.\n");
-					return;
-				}
 
-			}
-			try {
-				ICommand targetCmd = searchCommand(msg[1], cmdList);
-				boolean movedInBattle = targetCmd.action(targetChar, msg);
-				if (movedInBattle && g.getInBattle()) {
-					// character has done its action, update the battle timer
-					synchronized (g.getBattleTask()) {
-						if (g instanceof PlayerGroup) {
-							PlayerGroup pg = (PlayerGroup) g;
-							if (pg.getConfigData().get(config.REALTIMEBATTLE) == false)
-								pg.getBattleTask().notify();
-						}
-						if (g.getBattleTask() != null)
-							g.getBattleTask().resetBattleTime(targetChar);
-					}
-				}
-			} catch (IndexOutOfBoundsException e) {
-				informGroup(g,
-						String.format("你想讓%s做什麼呢?\n", targetChar.getChiName()));
-			} catch (NullPointerException e) {
-				e.printStackTrace();
-				informGroup(g,
-						String.format("你想讓%s做什麼呢?\n", targetChar.getChiName()));
-			}
-			return;
-		} /*else {
-			// group-bonded action, use groupCmdList
+		synchronized (g.getAtRoom()) {
+			// check group command first
 			try {
 				ICommand targetCmd = searchCommand(msg[0], groupCmdList);
 				targetCmd.action(g.list.get(0).charList.get(0), msg);
+				return;
 			} catch (IndexOutOfBoundsException e) {
-				informGroup(g, "你想做什麼?\n");
+				// do nothing
 			} catch (NullPointerException e) {
-				e.printStackTrace();
-				informGroup(g, "你想做什麼?\n");
+				// do nothing
 			}
-		}*/
-		/*
-		 * Command target = searchCommand(msg[0]); if (target == null){
-		 * informGroup(g, "你想做什麼呢?\n"); return; } String in =
-		 * Parse.mergeString(msg, 1, ' '); target.action(g, in);
-		 */
+
+			// then deal with character command, if no char name assigned,
+			// the first group character will be chosen.
+			ICharacter targetChar = judgePlayerCharacterMove(g, msg);
+			if (targetChar == null) {
+				targetChar = g.list.get(0).charList.get(0);
+				String[] temp = new String[msg.length + 1];
+				temp[0] = targetChar.getEngName();
+				for (int i = 0; i < msg.length; i++)
+					temp[i + 1] = msg[i];
+				msg = temp;
+			}
+			if (targetChar != null) {
+				// character-bonded action, use cmdList
+				if (g.getInBattle()) {
+					// group is in battle
+					int current, max;
+					synchronized (g.getBattleTask().getTimeMap()) {
+						current = g.getBattleTask().getTimeMap()
+								.get(targetChar).getCurrent();
+						max = g.getBattleTask().getTimeMap().get(targetChar)
+								.getMax();
+					}
+					if (current < max) {
+						informGroup(g, "你選擇的對象還沒準備好.\n");
+						return;
+					}
+
+				}
+				try {
+					ICommand targetCmd = searchCommand(msg[1], cmdList);
+					boolean movedInBattle = targetCmd.action(targetChar, msg);
+					if (movedInBattle && g.getInBattle()) {
+						// character has done its action, update the battle
+						// timer
+						synchronized (g.getBattleTask()) {
+							if (g instanceof PlayerGroup) {
+								PlayerGroup pg = (PlayerGroup) g;
+								if (pg.getConfigData().get(
+										config.REALTIMEBATTLE) == false)
+									pg.getBattleTask().notify();
+							}
+							if (g.getBattleTask() != null)
+								g.getBattleTask().resetBattleTime(targetChar);
+						}
+					}
+				} catch (IndexOutOfBoundsException e) {
+					informGroup(
+							g,
+							String.format("你想讓%s做什麼呢?\n",
+									targetChar.getChiName()));
+				} catch (NullPointerException e) {
+					e.printStackTrace();
+					informGroup(
+							g,
+							String.format("你想讓%s做什麼呢?\n",
+									targetChar.getChiName()));
+				}
+				return;
+			}
+		}
 	}
 
 	private static ICommand searchCommand(String msg, ArrayList<ICommand> list) {
@@ -190,9 +184,10 @@ public class CommandServer {
 		try {
 			int index = Integer.parseInt(input[0]);
 			int count = 1;
-			for (CharList cList : g.list){
-				for (ICharacter c : cList.charList){
-					if (count == index) return c;
+			for (CharList cList : g.list) {
+				for (ICharacter c : cList.charList) {
+					if (count == index)
+						return c;
 					count++;
 				}
 			}
@@ -204,30 +199,34 @@ public class CommandServer {
 			return target;
 		}
 	}
-	
-	private static String showTopHelpPage(){
+
+	private static String showTopHelpPage() {
 		StringBuffer buf = new StringBuffer();
 		buf.append("團體指令：\n");
-		
+
 		buf.append("north\tsouth\teast\twest\tup\ndown\t");
 		int index = 1;
 		while (index < groupCmdList.size()) {
 			buf.append(groupCmdList.get(index).getName()[0] + "\t");
 			index++;
-			if (index % 5 == 0) buf.append("\n");
+			if (index % 5 == 0)
+				buf.append("\n");
 		}
-		if (index % 5 != 0) buf.append("\n");
-		
+		if (index % 5 != 0)
+			buf.append("\n");
+
 		buf.append("個人指令：\n");
-		
+
 		index = 0;
-		while (index < cmdList.size()){
+		while (index < cmdList.size()) {
 			buf.append(cmdList.get(index).getName()[0] + "\t");
 			index++;
-			if (index % 5 == 0) buf.append("\n");
+			if (index % 5 == 0)
+				buf.append("\n");
 		}
-		if (index % 5 != 0) buf.append("\n");
-		
+		if (index % 5 != 0)
+			buf.append("\n");
+
 		return buf.toString();
 	}
 }

@@ -7,7 +7,8 @@ import module.character.api.ICharacter;
 public class CStatus {
 	public static enum status{
 		WEAPON_ATTACK("ª«²z¶Ë®`"),
-		SPELL_ATTACK("·N§Ó¶Ë®`");
+		SPELL_ATTACK("·N§Ó¶Ë®`"),
+		SPEED("±Ó±¶");
 		
 		private String chineseName;
 		status (String name){
@@ -36,6 +37,7 @@ public class CStatus {
 		
 		result += displaySingleStatus(status.WEAPON_ATTACK, map.get(status.WEAPON_ATTACK).intValue());
 		result += displaySingleStatus(status.SPELL_ATTACK, map.get(status.SPELL_ATTACK).intValue());
+		result += displaySingleStatus(status.SPEED, map.get(status.SPEED).intValue());
 		return result;
 	}
 }

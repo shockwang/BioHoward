@@ -13,10 +13,10 @@ import module.server.PlayerServer;
 import module.utility.NpcActionUtil;
 
 public abstract class AbstractCharacter implements ICharacter {
-	private ConcurrentHashMap<attribute, IntPair> attributeMap = null;
+	protected ConcurrentHashMap<attribute, IntPair> attributeMap = null;
 	private ConcurrentHashMap<specialStatus, Integer> specialStatusMap = null;
-	private ConcurrentHashMap<status, Integer> statusMap = null;
-	private ConcurrentHashMap<IEquipment.EquipType, IEquipment> equipMap = null;
+	protected ConcurrentHashMap<status, Integer> statusMap = null;
+	protected ConcurrentHashMap<IEquipment.EquipType, IEquipment> equipMap = null;
 	private int level = 1;
 
 	private String chiName = null;
@@ -168,6 +168,7 @@ public abstract class AbstractCharacter implements ICharacter {
 		if (ddd < 25) NpcActionUtil.randomGet(this);
 		//ddd = PlayerServer.getRandom().nextInt(50);
 		//if (ddd < 25) NpcActionUtil.randomDrop(this);
+		if (ddd < 10) NpcActionUtil.attackRandomPlayerGroup(this);
 	}
 
 	@Override

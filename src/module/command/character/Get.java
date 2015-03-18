@@ -29,38 +29,34 @@ public class Get implements ICommand {
 			return false;
 		}
 
-		synchronized (g.getAtRoom().getItemList()) {
-			if (g.getInBattle()) {
-				if (command[2].equals("all")) {
-					CommandServer.informGroup(g, "你正在戰鬥中，無法一次撿起多個物品。\n");
-					return false;
-				}
-
-				IItem obj = g.getAtRoom().getItemList().findItem(command[2]);
-				if (obj != null) {
-					pickUpSingleItem(c, g, obj);
-					return true;
-				} else
-					CommandServer.informGroup(g, "這裡沒有你想撿的東西。\n");
-			} else {
-				synchronized (g.getInventory()) {
-					IItem obj = null;
-					if (command[2].equals("all")) {
-						while (g.getAtRoom().getItemList().itemList.size() > 0) {
-							obj = g.getAtRoom().getItemList().itemList.get(0)
-									.findItem(0);
-							pickUpSingleItem(c, g, obj);
-						}
-						CommandServer.informGroup(g, "OK.\n");
-						return false;
-					}
-					obj = g.getAtRoom().getItemList().findItem(command[2]);
-					if (obj != null) {
-						pickUpSingleItem(c, g, obj);
-					} else
-						CommandServer.informGroup(g, "這裡沒有你想撿的東西。\n");
-				}
+		if (g.getInBattle()) {
+			if (command[2].equals("all")) {
+				CommandServer.informGroup(g, "你正在戰鬥中，無法一次撿起多個物品。\n");
+				return false;
 			}
+
+			IItem obj = g.getAtRoom().getItemList().findItem(command[2]);
+			if (obj != null) {
+				pickUpSingleItem(c, g, obj);
+				return true;
+			} else
+				CommandServer.informGroup(g, "這裡沒有你想撿的東西。\n");
+		} else {
+			IItem obj = null;
+			if (command[2].equals("all")) {
+				while (g.getAtRoom().getItemList().itemList.size() > 0) {
+					obj = g.getAtRoom().getItemList().itemList.get(0).findItem(
+							0);
+					pickUpSingleItem(c, g, obj);
+				}
+				CommandServer.informGroup(g, "OK.\n");
+				return false;
+			}
+			obj = g.getAtRoom().getItemList().findItem(command[2]);
+			if (obj != null) {
+				pickUpSingleItem(c, g, obj);
+			} else
+				CommandServer.informGroup(g, "這裡沒有你想撿的東西。\n");
 		}
 		return false;
 	}

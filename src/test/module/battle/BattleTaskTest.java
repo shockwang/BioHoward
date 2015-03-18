@@ -23,6 +23,7 @@ import module.mission.TestMission;
 import module.mission.TestMission.State;
 import module.mission.api.IMission;
 import module.server.PlayerServer;
+import module.utility.NpcBattleActionUtil;
 
 import org.junit.Test;
 
@@ -39,12 +40,14 @@ public class BattleTaskTest {
 		
 		public CharForTest(String chiName, String engName) {
 			super(chiName, engName);
+			int ddd = PlayerServer.getRandom().nextInt(10);
+			ddd *= 100;
+			this.statusMap.put(status.SPEED, 2000 + ddd);
 		}
 
 		@Override
 		public boolean battleAction(GroupList enemyGroup) {
-			String[] command = {this.getEngName(), "at", "tao"};
-			CommandServer.readCommand(this.getMyGroup(), command);
+			NpcBattleActionUtil.randomAttack(this, enemyGroup);
 			return true;
 		}
 

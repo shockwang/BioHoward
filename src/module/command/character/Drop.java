@@ -29,38 +29,34 @@ public class Drop implements ICommand {
 			return false;
 		}
 
-		synchronized (g.getInventory()) {
-			if (g.getInBattle()) {
-				if (command[2].equals("all")) {
-					CommandServer.informGroup(g, "你正在戰鬥中，無法一次丟下多個物品。\n");
-					return false;
-				}
-
-				IItem obj = g.getInventory().findItem(command[2]);
-				if (obj != null) {
-					dropSingleItem(c, g, obj);
-					return true;
-				} else
-					CommandServer.informGroup(g, "你身上沒有想丟的東西。\n");
-			} else {
-				synchronized (g.getAtRoom().getItemList()) {
-					IItem obj = null;
-					if (command[2].equals("all")) {
-						while (g.getInventory().itemList.size() > 0) {
-							obj = g.getInventory().itemList.get(0).findItem(0);
-							dropSingleItem(c, g, obj);
-						}
-						CommandServer.informGroup(g, "OK.\n");
-						return false;
-					}
-
-					obj = g.getInventory().findItem(command[2]);
-					if (obj != null) {
-						dropSingleItem(c, g, obj);
-					} else
-						CommandServer.informGroup(g, "你身上沒有想丟的東西。\n");
-				}
+		if (g.getInBattle()) {
+			if (command[2].equals("all")) {
+				CommandServer.informGroup(g, "你正在戰鬥中，無法一次丟下多個物品。\n");
+				return false;
 			}
+
+			IItem obj = g.getInventory().findItem(command[2]);
+			if (obj != null) {
+				dropSingleItem(c, g, obj);
+				return true;
+			} else
+				CommandServer.informGroup(g, "你身上沒有想丟的東西。\n");
+		} else {
+			IItem obj = null;
+			if (command[2].equals("all")) {
+				while (g.getInventory().itemList.size() > 0) {
+					obj = g.getInventory().itemList.get(0).findItem(0);
+					dropSingleItem(c, g, obj);
+				}
+				CommandServer.informGroup(g, "OK.\n");
+				return false;
+			}
+
+			obj = g.getInventory().findItem(command[2]);
+			if (obj != null) {
+				dropSingleItem(c, g, obj);
+			} else
+				CommandServer.informGroup(g, "你身上沒有想丟的東西。\n");
 		}
 		return false;
 	}

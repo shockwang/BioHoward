@@ -14,6 +14,7 @@ import module.character.PlayerGroup;
 import module.character.api.ICharacter;
 import module.character.api.IntPair;
 import module.character.constants.CConfig.config;
+import module.character.constants.CStatus.status;
 import module.command.CommandServer;
 import module.utility.EnDecoder;
 import module.utility.ItemUtil;
@@ -26,13 +27,9 @@ public class BattleTask extends TimerTask {
 	private Timer battleTimer;
 	private int updateCounter = 0;
 
-	private static int interval = 2700;
-
 	public BattleTask(Group team1, Group team2) {
 		team1.setInBattle(true);
 		team2.setInBattle(true);
-		// checkPlayerTeam(team1);
-		// checkPlayerTeam(team2);
 		this.team1List = new GroupList();
 		this.team2List = new GroupList();
 		this.team1List.gList.add(team1);
@@ -56,6 +53,19 @@ public class BattleTask extends TimerTask {
 		else
 			side = this.team2List;
 
+		targetG.setInBattle(true);
+		side.gList.add(targetG);
+		targetG.setBattleTask(this);
+		addTimeMap(targetG);
+	}
+	
+	public void addBattleOppositeGroup(Group opposite, Group targetG){
+		GroupList side;
+		if (team1List.gList.contains(opposite))
+			side = this.team2List;
+		else
+			side = this.team1List;
+		
 		targetG.setInBattle(true);
 		side.gList.add(targetG);
 		targetG.setBattleTask(this);
@@ -143,12 +153,18 @@ public class BattleTask extends TimerTask {
 		}
 		return buffer.toString();
 	}
+	
+	public void updatePlayerStatus(PlayerGroup g){
+		String output = "status:" + showPlayerStatus(g);
+		output = EnDecoder.encodeChangeLine(output);
+		EnDecoder.sendUTF8Packet(g.getOutToClient(),
+				output);
+	}
 
 	private void addTimeMap(Group newGroup) {
 		for (CharList cList : newGroup.list) {
 			for (ICharacter c : cList.charList) {
-				timeMap.put(c, new IntPair(0, interval)); // temp assign = 3000
-				interval += 100;
+				timeMap.put(c, new IntPair(0, c.getStatus(status.SPEED))); // temp assign = 3000
 			}
 		}
 	}
@@ -215,11 +231,6 @@ public class BattleTask extends TimerTask {
 				g.updateTime();
 		}
 	}
-
-	/*
-	 * private void checkPlayerTeam(Group g) { if (g instanceof PlayerGroup) {
-	 * PlayerGroup pg = (PlayerGroup) g; pg.setBattleTask(this); } }
-	 */
 
 	public void resetBattleTime(ICharacter c) {
 		synchronized (timeMap) {

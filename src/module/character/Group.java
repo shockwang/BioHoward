@@ -8,12 +8,9 @@ import module.battle.BattleTask;
 import module.character.api.ICharacter;
 import module.character.api.IntPair;
 import module.character.constants.CAttribute;
-import module.command.CommandServer;
 import module.command.api.IndexStringPair;
 import module.item.ItemList;
 import module.map.api.IRoom;
-import module.map.constants.CExit;
-import module.server.PlayerServer;
 import module.time.api.Updatable;
 import module.utility.Parse;
 import module.utility.Search;
@@ -261,13 +258,13 @@ public class Group implements Updatable {
 	}
 	
 	public void setTalking(boolean value){
-		synchronized (this.isTalking){
+		synchronized (this){
 			this.isTalking = value;
 		}
 	}
 	
 	public boolean getTalking(){
-		synchronized (this.isTalking){
+		synchronized (this){
 			return this.isTalking;
 		}
 	}

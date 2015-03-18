@@ -3,6 +3,7 @@ package module.command.character;
 import module.battle.BattleTask;
 import module.character.Group;
 import module.character.GroupList;
+import module.character.PlayerGroup;
 import module.character.api.ICharacter;
 import module.character.constants.CAttribute.attribute;
 import module.command.CommandServer;
@@ -26,8 +27,6 @@ public class Attack implements ICommand {
 
 	@Override
 	public boolean action(ICharacter c, String[] command) {
-		// TODO Auto-generated method stub
-		// start parse from command[2]
 		Group g = c.getMyGroup();
 
 		ICharacter target = null;
@@ -46,9 +45,9 @@ public class Attack implements ICommand {
 					} else {
 						if (!(target.getMyGroup().getInBattle())) {
 							// add the group to enemyList
-							attackMechanism(c, target);
 							g.getBattleTask().addBattleGroup(
 									enemyList.gList.get(0), target.getMyGroup());
+							attackMechanism(c, target);
 							return true;
 						}
 					}
@@ -69,11 +68,14 @@ public class Attack implements ICommand {
 						CommandServer.informGroup(g, "你怎麼這麼狠心想攻擊自己的同伴?\n");
 						return false;
 					} else {
-						if (!g.getInBattle()) {
+						if (!target.getMyGroup().getInBattle()) {
 							// attack mechanism
-							attackMechanism(c, target);
 							new BattleTask(g, target.getMyGroup());
+							attackMechanism(c, target);
 							return false;
+						} else {
+							target.getMyGroup().getBattleTask().addBattleOppositeGroup(
+									target.getMyGroup(), g);
 						}
 					}
 				}
@@ -114,5 +116,9 @@ public class Attack implements ICommand {
 					target.getChiName(), target.getChiName());
 		}
 		src.getMyGroup().getAtRoom().informRoom(out);
+		if (target.getMyGroup() instanceof PlayerGroup) {
+			target.getMyGroup().getBattleTask().updatePlayerStatus(
+					(PlayerGroup) target.getMyGroup());
+		}
 	}
 }

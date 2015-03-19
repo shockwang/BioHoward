@@ -22,6 +22,7 @@ import module.command.character.Unlock;
 import module.command.character.Wear;
 import module.command.group.Inventory;
 import module.command.group.Look;
+import module.command.group.Mission;
 import module.command.group.Move;
 import module.command.group.MyTime;
 import module.command.group.Talk;
@@ -57,9 +58,14 @@ public class CommandServer {
 		groupCmdList.add(new MyTime());
 		groupCmdList.add(new Talk());
 		groupCmdList.add(new Inventory());
+		groupCmdList.add(new Mission());
 	}
 
 	public static void readCommand(Group g, String[] msg) {
+		// do nothing while group is talking
+		if (g.getTalking())
+			return;
+
 		if (msg[0].equals("help")) {
 			if (msg.length == 1) {
 				// show the top help page
@@ -85,77 +91,70 @@ public class CommandServer {
 			return;
 		}
 
-		synchronized (g.getAtRoom()) {
-			// check group command first
+		// check group command first
+		try {
+			ICommand targetCmd = searchCommand(msg[0], groupCmdList);
+			targetCmd.action(g.list.get(0).charList.get(0), msg);
+			return;
+		} catch (IndexOutOfBoundsException e) {
+			// do nothing
+		} catch (NullPointerException e) {
+			// do nothing
+		}
+
+		// then deal with character command, if no char name assigned,
+		// the first group character will be chosen.
+		ICharacter targetChar = judgePlayerCharacterMove(g, msg);
+		if (targetChar == null) {
+			targetChar = g.list.get(0).charList.get(0);
+			String[] temp = new String[msg.length + 1];
+			temp[0] = targetChar.getEngName();
+			for (int i = 0; i < msg.length; i++)
+				temp[i + 1] = msg[i];
+			msg = temp;
+		}
+		if (targetChar != null) {
+			// character-bonded action, use cmdList
+			if (g.getInBattle()) {
+				// group is in battle
+				int current, max;
+				synchronized (g.getBattleTask().getTimeMap()) {
+					current = g.getBattleTask().getTimeMap().get(targetChar)
+							.getCurrent();
+					max = g.getBattleTask().getTimeMap().get(targetChar)
+							.getMax();
+				}
+				if (current < max) {
+					informGroup(g, "你選擇的對象還沒準備好.\n");
+					return;
+				}
+
+			}
 			try {
-				ICommand targetCmd = searchCommand(msg[0], groupCmdList);
-				targetCmd.action(g.list.get(0).charList.get(0), msg);
-				return;
-			} catch (IndexOutOfBoundsException e) {
-				// do nothing
-			} catch (NullPointerException e) {
-				// do nothing
-			}
-
-			// then deal with character command, if no char name assigned,
-			// the first group character will be chosen.
-			ICharacter targetChar = judgePlayerCharacterMove(g, msg);
-			if (targetChar == null) {
-				targetChar = g.list.get(0).charList.get(0);
-				String[] temp = new String[msg.length + 1];
-				temp[0] = targetChar.getEngName();
-				for (int i = 0; i < msg.length; i++)
-					temp[i + 1] = msg[i];
-				msg = temp;
-			}
-			if (targetChar != null) {
-				// character-bonded action, use cmdList
-				if (g.getInBattle()) {
-					// group is in battle
-					int current, max;
-					synchronized (g.getBattleTask().getTimeMap()) {
-						current = g.getBattleTask().getTimeMap()
-								.get(targetChar).getCurrent();
-						max = g.getBattleTask().getTimeMap().get(targetChar)
-								.getMax();
-					}
-					if (current < max) {
-						informGroup(g, "你選擇的對象還沒準備好.\n");
-						return;
-					}
-
-				}
-				try {
-					ICommand targetCmd = searchCommand(msg[1], cmdList);
-					boolean movedInBattle = targetCmd.action(targetChar, msg);
-					if (movedInBattle && g.getInBattle()) {
-						// character has done its action, update the battle
-						// timer
-						synchronized (g.getBattleTask()) {
-							if (g instanceof PlayerGroup) {
-								PlayerGroup pg = (PlayerGroup) g;
-								if (pg.getConfigData().get(
-										config.REALTIMEBATTLE) == false)
-									pg.getBattleTask().notify();
-							}
-							if (g.getBattleTask() != null)
-								g.getBattleTask().resetBattleTime(targetChar);
+				ICommand targetCmd = searchCommand(msg[1], cmdList);
+				boolean movedInBattle = targetCmd.action(targetChar, msg);
+				if (movedInBattle && g.getInBattle()) {
+					// character has done its action, update the battle
+					// timer
+					synchronized (g.getBattleTask()) {
+						if (g instanceof PlayerGroup) {
+							PlayerGroup pg = (PlayerGroup) g;
+							if (pg.getConfigData().get(config.REALTIMEBATTLE) == false)
+								pg.getBattleTask().notify();
 						}
+						if (g.getBattleTask() != null)
+							g.getBattleTask().resetBattleTime(targetChar);
 					}
-				} catch (IndexOutOfBoundsException e) {
-					informGroup(
-							g,
-							String.format("你想讓%s做什麼呢?\n",
-									targetChar.getChiName()));
-				} catch (NullPointerException e) {
-					e.printStackTrace();
-					informGroup(
-							g,
-							String.format("你想讓%s做什麼呢?\n",
-									targetChar.getChiName()));
 				}
-				return;
+			} catch (IndexOutOfBoundsException e) {
+				informGroup(g,
+						String.format("你想讓%s做什麼呢?\n", targetChar.getChiName()));
+			} catch (NullPointerException e) {
+				e.printStackTrace();
+				informGroup(g,
+						String.format("你想讓%s做什麼呢?\n", targetChar.getChiName()));
 			}
+			return;
 		}
 	}
 

@@ -39,7 +39,6 @@ public class EachPlayerServer extends Thread {
 		
 		String input;
 		String[] temp;
-		String out;
 
 		try {
 			inFromClient = new BufferedReader(new InputStreamReader(
@@ -61,31 +60,8 @@ public class EachPlayerServer extends Thread {
 				temp = input.split(" ");
 				if (temp.length == 0)
 					continue;
-				// shock add for CommandServerTest
-				CommandServer.readCommand(playerGroup, temp);
-				// shock add end
 				
-				// shock add for BattleTaskTest
-				/*if (playerGroup.getInBattle()) {
-					ICharacter target = judgePlayerCharacterMove(temp);
-					if (target != null) {
-						EnDecoder.sendUTF8Packet(outToClient, target.getChiName() + "°Ê§@¤F!\n");
-						if (playerGroup.getConfigData().get(
-								config.REALTIMEBATTLE) == false) {
-							synchronized (playerGroup.getBattleTask()) {
-								playerGroup.getBattleTask().notify();
-							}
-						}
-						playerGroup.getBattleTask().resetBattleTime(target);
-					}
-				}*/
-				// shock add end
-				/*
-				 * temp = input.split(" "); if (temp.length == 0) out =
-				 * "screen:"; else if (temp[0].equals("status")){ out =
-				 * "status:" + Parse.mergeString(temp, 1, ' '); } else out =
-				 * "screen:" + input; outToClient.writeBytes(out + "\n");
-				 */
+				CommandServer.readCommand(playerGroup, temp);
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

@@ -39,29 +39,33 @@ public class Move implements ICommand {
 		exit from = MoveUtil.getOppositeWay(go);
 
 		Group g = c.getMyGroup();
-		if (g.getInBattle()) {
-			CommandServer.informGroup(g, "隊伍正在戰鬥中喔!\n");
-		} else {
-			// implement the go-north mechanism.
-			if (g.getAtRoom().getExits().get(go) == null)
-				CommandServer.informGroup(g, "這個方向沒有路喔!\n");
-			else if (g.getAtRoom().getExits().get(go).getDoor() == null
-					|| g.getAtRoom().getExits().get(go).getDoor()
-							.getDoorStatus() == doorStatus.OPENED) {
-				IRoom here = g.getAtRoom();
-				IRoom nRoom = here.getExits().get(go).getRoom();
-				here.getGroupList().gList.remove(g);
-				here.informRoom(g.getChiName() + "朝" + go.chineseName
-						+ "邊離開了。\n");
-				nRoom.getGroupList().gList.add(g);
-				g.setAtRoom(nRoom);
-				nRoom.informRoomExceptGroup(g, g.getChiName() + "從"
-						+ from.chineseName + "邊過來了。\n");
-				CommandServer.informGroup(g, nRoom.displayRoomExceptGroup(g));
-			} else
-				CommandServer.informGroup(g, "那邊的門是關著的。\n");
+
+		synchronized (g.getAtRoom()) {
+			if (g.getInBattle()) {
+				CommandServer.informGroup(g, "隊伍正在戰鬥中喔!\n");
+			} else {
+				// implement the go-north mechanism.
+				if (g.getAtRoom().getExits().get(go) == null)
+					CommandServer.informGroup(g, "這個方向沒有路喔!\n");
+				else if (g.getAtRoom().getExits().get(go).getDoor() == null
+						|| g.getAtRoom().getExits().get(go).getDoor()
+								.getDoorStatus() == doorStatus.OPENED) {
+					IRoom here = g.getAtRoom();
+					IRoom nRoom = here.getExits().get(go).getRoom();
+					here.getGroupList().gList.remove(g);
+					here.informRoom(g.getChiName() + "朝" + go.chineseName
+							+ "邊離開了。\n");
+					nRoom.getGroupList().gList.add(g);
+					g.setAtRoom(nRoom);
+					nRoom.informRoomExceptGroup(g, g.getChiName() + "從"
+							+ from.chineseName + "邊過來了。\n");
+					CommandServer.informGroup(g,
+							nRoom.displayRoomExceptGroup(g));
+				} else
+					CommandServer.informGroup(g, "那邊的門是關著的。\n");
+			}
+			return false;
 		}
-		return false;
 	}
 
 	@Override

@@ -25,30 +25,35 @@ public class Wear implements ICommand {
 	public boolean action(ICharacter c, String[] command) {
 		Group g = c.getMyGroup();
 
-		if (command.length == 2) {
-			CommandServer.informGroup(g, "你想讓" + c.getChiName() + "裝備什麼呢?\n");
+		synchronized (g.getAtRoom()) {
+			if (command.length == 2) {
+				CommandServer.informGroup(g, "你想讓" + c.getChiName()
+						+ "裝備什麼呢?\n");
+				return false;
+			}
+
+			IItem obj = g.getInventory().findItem(command[2]);
+			if (obj == null)
+				CommandServer.informGroup(g, "你身上並沒有那樣東西。\n");
+			else if (!(obj instanceof IEquipment))
+				CommandServer.informGroup(g, "那並不是裝備喔!\n");
+			else {
+				IEquipment equip = (IEquipment) obj;
+				if (g.getInBattle()) {
+					IEquipment oldEquip = c.getEquipment().get(
+							equip.getEquipType());
+					if (oldEquip != null) {
+						CommandServer.informGroup(g, c.getChiName()
+								+ "身上該部位已經穿上裝備，在戰鬥中換裝請先卸下舊裝備。\n");
+						return false;
+					}
+					equip.onWear(c);
+					return true;
+				} else
+					equip.onWear(c);
+			}
 			return false;
 		}
-
-		IItem obj = g.getInventory().findItem(command[2]);
-		if (obj == null)
-			CommandServer.informGroup(g, "你身上並沒有那樣東西。\n");
-		else if (!(obj instanceof IEquipment))
-			CommandServer.informGroup(g, "那並不是裝備喔!\n");
-		else {
-			IEquipment equip = (IEquipment) obj;
-			if (g.getInBattle()){
-				IEquipment oldEquip = c.getEquipment().get(equip.getEquipType());
-				if (oldEquip != null){
-					CommandServer.informGroup(g, c.getChiName() + "身上該部位已經穿上裝備，在戰鬥中換裝請先卸下舊裝備。\n");
-					return false;
-				}
-				equip.onWear(c);
-				return true;
-			}
-			else equip.onWear(c);
-		}
-		return false;
 	}
 
 	@Override

@@ -5,15 +5,15 @@ import module.character.api.ICharacter;
 import module.command.CommandServer;
 import module.command.api.ICommand;
 
-public class Inventory implements ICommand{
+public class Inventory implements ICommand {
 	private String[] name;
-	
-	public Inventory(){
+
+	public Inventory() {
 		name = new String[2];
 		name[0] = "inventory";
 		name[1] = "i";
 	}
-	
+
 	@Override
 	public String[] getName() {
 		return name;
@@ -22,12 +22,17 @@ public class Inventory implements ICommand{
 	@Override
 	public boolean action(ICharacter c, String[] command) {
 		Group g = c.getMyGroup();
-		StringBuffer buf = new StringBuffer();
-		buf.append("你身上攜帶著：\n");
-		if (g.getInventory().itemList.size() == 0) buf.append("空空如也。\n");
-		else buf.append(g.getInventory().displayInfo());
-		CommandServer.informGroup(g, buf.toString());
-		return false;
+
+		synchronized (g.getAtRoom()) {
+			StringBuffer buf = new StringBuffer();
+			buf.append("你身上攜帶著：\n");
+			if (g.getInventory().itemList.size() == 0)
+				buf.append("空空如也。\n");
+			else
+				buf.append(g.getInventory().displayInfo());
+			CommandServer.informGroup(g, buf.toString());
+			return false;
+		}
 	}
 
 	@Override

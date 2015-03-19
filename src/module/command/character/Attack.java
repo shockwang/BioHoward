@@ -29,66 +29,79 @@ public class Attack implements ICommand {
 	public boolean action(ICharacter c, String[] command) {
 		Group g = c.getMyGroup();
 
-		ICharacter target = null;
-		if (g.getInBattle()) {
-			GroupList enemyList = g.getBattleTask().getEnemyGroups(c);
-			if (command.length == 2) {
-				target = enemyList.findFirstAliveChar();
-			} else {
-				String ttt = Parse.mergeString(command, 2, ' ');
-				target = g.getAtRoom().getGroupList()
-						.findCharExceptGroup(g, ttt);
-				if (target != null) {
-					if (target.getMyGroup() == g) {
-						CommandServer.informGroup(g, "你怎麼這麼狠心想攻擊自己的同伴?\n");
-						return false;
-					} else {
-						if (!(target.getMyGroup().getInBattle())) {
-							// add the group to enemyList
-							g.getBattleTask().addBattleGroup(
-									enemyList.gList.get(0), target.getMyGroup());
-							attackMechanism(c, target);
-							return true;
-						}
-					}
-				} else 
-					target = enemyList.findAliveChar(command[2]);
-			}
-		} else {
-			if (command.length == 2) {
-				CommandServer.informGroup(g,
-						String.format("你想讓%s攻擊誰呢?\n", c.getChiName()));
-				return false;
-			} else {
-				String ttt = Parse.mergeString(command, 2, ' ');
-				target = g.getAtRoom().getGroupList()
-						.findCharExceptGroup(g, ttt);
-				if (target != null) {
-					if (target.getMyGroup() == g) {
-						CommandServer.informGroup(g, "你怎麼這麼狠心想攻擊自己的同伴?\n");
-						return false;
-					} else {
-						if (!target.getMyGroup().getInBattle()) {
-							// attack mechanism
-							new BattleTask(g, target.getMyGroup());
-							attackMechanism(c, target);
+		synchronized (g.getAtRoom()) {
+			ICharacter target = null;
+			if (g.getInBattle()) {
+				GroupList enemyList = g.getBattleTask().getEnemyGroups(c);
+				if (command.length == 2) {
+					target = enemyList.findFirstAliveChar();
+				} else {
+					String ttt = Parse.mergeString(command, 2, ' ');
+					target = g.getAtRoom().getGroupList()
+							.findCharExceptGroup(g, ttt);
+					if (target != null) {
+						if (target.getMyGroup() == g) {
+							CommandServer.informGroup(g, "你怎麼這麼狠心想攻擊自己的同伴?\n");
 							return false;
 						} else {
-							target.getMyGroup().getBattleTask().addBattleOppositeGroup(
-									target.getMyGroup(), g);
+							if (!(target.getMyGroup().getInBattle())) {
+								if (target.getMyGroup().getTalking()){
+									CommandServer.informGroup(g, "人家正在講話，等一下吧。\n");
+									return false;
+								}
+								// add the group to enemyList
+								g.getBattleTask().addBattleGroup(
+										enemyList.gList.get(0),
+										target.getMyGroup());
+								attackMechanism(c, target);
+								return true;
+							}
+						}
+					} else
+						target = enemyList.findAliveChar(command[2]);
+				}
+			} else {
+				if (command.length == 2) {
+					CommandServer.informGroup(g,
+							String.format("你想讓%s攻擊誰呢?\n", c.getChiName()));
+					return false;
+				} else {
+					String ttt = Parse.mergeString(command, 2, ' ');
+					target = g.getAtRoom().getGroupList()
+							.findCharExceptGroup(g, ttt);
+					if (target != null) {
+						if (target.getMyGroup() == g) {
+							CommandServer.informGroup(g, "你怎麼這麼狠心想攻擊自己的同伴?\n");
+							return false;
+						} else {
+							if (!target.getMyGroup().getInBattle()) {
+								if (target.getMyGroup().getTalking()){
+									CommandServer.informGroup(g, "人家正在講話，等一下吧。\n");
+									return false;
+								}
+								// attack mechanism
+								new BattleTask(g, target.getMyGroup());
+								attackMechanism(c, target);
+								return false;
+							} else {
+								target.getMyGroup()
+										.getBattleTask()
+										.addBattleOppositeGroup(
+												target.getMyGroup(), g);
+							}
 						}
 					}
 				}
 			}
-		}
 
-		if (target != null) {
-			// attack mechanism
-			attackMechanism(c, target);
-			return true;
-		} else {
-			CommandServer.informGroup(g, "你要攻擊的對象不在這裡.\n");
-			return false;
+			if (target != null) {
+				// attack mechanism
+				attackMechanism(c, target);
+				return true;
+			} else {
+				CommandServer.informGroup(g, "你要攻擊的對象不在這裡.\n");
+				return false;
+			}
 		}
 	}
 
@@ -107,7 +120,7 @@ public class Attack implements ICommand {
 			int current = target.getAttributeMap().get(attribute.HP)
 					.getCurrent();
 			target.getAttributeMap().get(attribute.HP).setCurrent(current - 10);
-			if (target.isDown()){
+			if (target.isDown()) {
 				src.getMyGroup().getAtRoom().informRoom(out);
 				out = Battle.deadMechanism(target);
 			}
@@ -117,8 +130,8 @@ public class Attack implements ICommand {
 		}
 		src.getMyGroup().getAtRoom().informRoom(out);
 		if (target.getMyGroup() instanceof PlayerGroup) {
-			target.getMyGroup().getBattleTask().updatePlayerStatus(
-					(PlayerGroup) target.getMyGroup());
+			target.getMyGroup().getBattleTask()
+					.updatePlayerStatus((PlayerGroup) target.getMyGroup());
 		}
 	}
 }

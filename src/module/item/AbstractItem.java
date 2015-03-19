@@ -1,6 +1,7 @@
 package module.item;
 
 import module.item.api.IItem;
+import module.map.api.IRoom;
 
 public abstract class AbstractItem implements IItem{
 	private String chiName;
@@ -9,6 +10,8 @@ public abstract class AbstractItem implements IItem{
 	private int price = 1;
 	private int level = 1;
 	private int weight = 1;
+	private int ttl = 0;
+	private IRoom atRoom = null;
 	
 	public AbstractItem(String chiName, String engName){
 		this.chiName = chiName;
@@ -74,6 +77,32 @@ public abstract class AbstractItem implements IItem{
 	@Override
 	public int getWeight(){
 		return weight;
+	}
+	
+	@Override
+	public void setTTL(int ttl){
+		this.ttl = ttl;
+	}
+	
+	@Override
+	public void updateTTL(int ttl){
+		this.ttl += ttl;
+	}
+	
+	@Override
+	public boolean isExpired(){
+		if (this.ttl > 60) return true;
+		return false;
+	}
+	
+	@Override
+	public void setAtRoom(IRoom r){
+		this.atRoom = r;
+	}
+	
+	@Override
+	public IRoom getAtRoom(){
+		return atRoom;
 	}
 	
 	// display information

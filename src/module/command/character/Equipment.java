@@ -6,15 +6,15 @@ import module.command.CommandServer;
 import module.command.api.ICommand;
 import module.utility.ItemUtil;
 
-public class Equipment implements ICommand{
+public class Equipment implements ICommand {
 	private String[] name;
-	
-	public Equipment(){
+
+	public Equipment() {
 		name = new String[2];
 		name[0] = "equipment";
 		name[1] = "eq";
 	}
-	
+
 	@Override
 	public String[] getName() {
 		return name;
@@ -23,12 +23,14 @@ public class Equipment implements ICommand{
 	@Override
 	public boolean action(ICharacter c, String[] command) {
 		Group g = c.getMyGroup();
-		
-		StringBuffer buf = new StringBuffer();
-		buf.append(c.getChiName() + "的裝備：\n");
-		buf.append(ItemUtil.showPlayerEquip(c));
-		CommandServer.informGroup(g, buf.toString());
-		return false;
+
+		synchronized (g.getAtRoom()) {
+			StringBuffer buf = new StringBuffer();
+			buf.append(c.getChiName() + "的裝備：\n");
+			buf.append(ItemUtil.showPlayerEquip(c));
+			CommandServer.informGroup(g, buf.toString());
+			return false;
+		}
 	}
 
 	@Override

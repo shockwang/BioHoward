@@ -1,22 +1,26 @@
 package module.time;
 
+import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import module.character.Group;
 import module.character.GroupList;
+import module.item.api.IItem;
 
 public class GlobalTime extends TimerTask{
 	private Timer timer = null;
 	public static boolean isExists = false;
 	private GroupList groupList = null;
 	private int year, month, day, hour, minute;
+	private ArrayList<IItem> groundItemList = null;
 	
 	public GlobalTime(){
 		if (isExists) return;
 		isExists = true;
 		
 		groupList = new GroupList();
+		groundItemList = new ArrayList<IItem>();
 		year = 2008;
 		month = 9;
 		day = 9;
@@ -30,6 +34,14 @@ public class GlobalTime extends TimerTask{
 	
 	public void removeGroup(Group g){
 		this.groupList.gList.remove(g);
+	}
+	
+	public void addItem(IItem obj){
+		this.groundItemList.add(obj);
+	}
+	
+	public void removeItem(IItem obj){
+		this.groundItemList.remove(obj);
 	}
 	
 	public void startTimer(){
@@ -88,7 +100,28 @@ public class GlobalTime extends TimerTask{
 	private void updateObject(){
 		try {
 			for (Group g : groupList.gList) {
-				if (!g.getInBattle()) g.updateTime();
+				if (!g.getInBattle() && !g.getTalking()) g.updateTime();
+			}
+			
+			// update item timer to check if expired
+			for (IItem obj : groundItemList){
+				obj.updateTTL(3);
+				if (obj.isExpired()){
+					synchronized(obj.getAtRoom()){
+						obj.getAtRoom().informRoom(obj.getChiName() + "逐漸被風沙掩埋了，你再也找不到它的蹤影。\n");
+						obj.getAtRoom().getItemList().removeItem(obj);
+						obj.setAtRoom(null);
+					}
+				}
+			}
+			// clean obj from groundItemList
+			int i = 0;
+			while (i < groundItemList.size()){
+				if (groundItemList.get(i).isExpired()) {
+					groundItemList.remove(i);
+					i = 0;
+				}
+				else i++;
 			}
 		} catch (NullPointerException e){
 			// no content, just return

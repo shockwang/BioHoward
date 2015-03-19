@@ -88,6 +88,7 @@ public class BattleTaskTest {
 		}
 		
 		Group g1 = new Group(new CharForTest("小明", "min"){
+			
 			@Override
 			public String onTalk(PlayerGroup g) {
 				TestMission testM = null;
@@ -99,7 +100,7 @@ public class BattleTaskTest {
 				}
 				StringBuffer buf = new StringBuffer();
 				if (testM == null){
-					CommandServer.informGroup(g, "小明說：我三個月前借了小美一本龍族小說，他一直沒有還我，你可以幫我取回來嗎? (y/n)\n");
+					g.getAtRoom().informRoom("小明說：我三個月前借了小美一本龍族小說，他一直沒有還我，你可以幫我取回來嗎? (y/n)\n");
 					String msg = null;
 					while (true){
 						try {
@@ -112,7 +113,7 @@ public class BattleTaskTest {
 								PlayerServer.getMissionSet().add(new TestMission());
 								break;
 							} else 
-								CommandServer.informGroup(g, "小明說：我三個月前借了小美一本龍族小說，他一直沒有還我，你可以幫我取回來嗎? (y/n)\n");
+								g.getAtRoom().informRoom("小明說：我三個月前借了小美一本龍族小說，他一直沒有還我，你可以幫我取回來嗎? (y/n)\n");
 						} catch (IOException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
@@ -167,6 +168,8 @@ public class BattleTaskTest {
 		Group g3 = new Group(new CharForTest("小美", "mei"){
 			@Override
 			public String onTalk(PlayerGroup g){
+				String result = null;
+				
 				TestMission testM = null;
 				for (IMission m : PlayerServer.getMissionSet()){
 					if (m instanceof TestMission){
@@ -178,10 +181,12 @@ public class BattleTaskTest {
 					TestMission.State state = (TestMission.State) testM.getState();
 					if (state == TestMission.State.TALK_WITH_MING){
 						testM.setState(TestMission.State.TALK_WITH_MEI);
-						return "啊，我確實一直忘記還他，拜託你拿給他囉!";
+						result = "啊，我確實一直忘記還他，拜託你拿給他囉!";
 					}
+					else result = "小美說：你好啊~";
 				}
-				return "小美說：你好啊~";
+				else result = "小美說：你好啊~";
+				return result;
 			}
 		});
 		g3.findChar("mei").addAttribute(attribute.HP, 30);

@@ -8,6 +8,7 @@ import module.character.api.ICharacter;
 import module.command.CommandServer;
 import module.item.SingleItemList;
 import module.item.api.IItem;
+import module.map.api.IRoom;
 import module.map.constants.CExit;
 import module.server.PlayerServer;
 
@@ -126,5 +127,12 @@ public class NpcActionUtil {
 			}
 		}
 		return null;
+	}
+	
+	public static void checkAutoAttackPlayerGroup(IRoom r){
+		for (Group g : r.getGroupList().gList){
+			if (g.list.get(0).charList.get(0).getHostile())
+				attackRandomPlayerGroup(g.list.get(0).charList.get(0));
+		}
 	}
 }

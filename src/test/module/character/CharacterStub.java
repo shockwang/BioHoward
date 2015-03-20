@@ -218,5 +218,23 @@ public class CharacterStub implements ICharacter{
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public void looting() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setHostile(boolean value) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public boolean getHostile() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 	
 }

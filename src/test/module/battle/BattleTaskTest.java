@@ -61,6 +61,13 @@ public class BattleTaskTest {
 			return desc;
 		}
 		
+		@Override
+		public void looting(){
+			boolean drop = PlayerServer.getRandom().nextBoolean();
+			if (drop) this.getMyGroup().getInventory().addItem(
+					new ItemForTest("¤ú¾¦", "tooth", "´N¬O¤ú¾¦¡C"));
+		}
+		
 	}
 	
 	private class ItemForTest extends AbstractItem{
@@ -162,6 +169,7 @@ public class BattleTaskTest {
 		for (CharList cList : g2.list){
 			for (ICharacter c : cList.charList){
 				c.setMyGroup(g2);
+				c.setHostile(false);
 			}
 		}
 		

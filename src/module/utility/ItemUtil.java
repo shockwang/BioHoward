@@ -2,6 +2,7 @@ package module.utility;
 
 import java.util.concurrent.ConcurrentHashMap;
 
+import module.character.CharList;
 import module.character.Group;
 import module.character.api.ICharacter;
 import module.item.SingleItemList;
@@ -104,6 +105,13 @@ public class ItemUtil {
 				g.getAtRoom().getItemList().addItem(obj);
 			}
 			g.getAtRoom().informRoomExceptGroup(g, buf.toString());
+		}
+	}
+	
+	public static void createLootingItem(Group g){
+		for (CharList cList : g.list){
+			for (ICharacter c : cList.charList)
+				c.looting();
 		}
 	}
 }

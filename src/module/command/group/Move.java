@@ -8,6 +8,7 @@ import module.map.api.IRoom;
 import module.map.constants.CDoorAttribute.doorStatus;
 import module.map.constants.CExit.exit;
 import module.utility.MoveUtil;
+import module.utility.NpcActionUtil;
 
 public class Move implements ICommand {
 	private String[] name;
@@ -61,6 +62,7 @@ public class Move implements ICommand {
 							+ from.chineseName + "邊過來了。\n");
 					CommandServer.informGroup(g,
 							nRoom.displayRoomExceptGroup(g));
+					NpcActionUtil.checkAutoAttackPlayerGroup(g.getAtRoom());
 				} else
 					CommandServer.informGroup(g, "那邊的門是關著的。\n");
 			}

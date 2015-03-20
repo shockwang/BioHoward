@@ -50,4 +50,7 @@ public interface IRoom {
 	// item list
 	void setItemList(ItemList list);
 	ItemList getItemList();
+	
+	// special command when in this room
+	boolean specialCommand(String msg); // true if special command match
 }

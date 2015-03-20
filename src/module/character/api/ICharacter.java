@@ -52,6 +52,10 @@ public interface ICharacter extends Updatable{
 	boolean battleAction(GroupList enemyGroup);
 	boolean isDown();  // true if the character is not able to fight anymore.
 	
+	// auto attack player group or not
+	void setHostile(boolean value);
+	boolean getHostile();
+	
 	// character level
 	void setLevel(int level);
 	int getLevel();
@@ -72,4 +76,7 @@ public interface ICharacter extends Updatable{
 	
 	// react with others
 	String onTalk(PlayerGroup g);
+	
+	// left items when dead
+	void looting();
 }

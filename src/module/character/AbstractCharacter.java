@@ -18,6 +18,7 @@ public abstract class AbstractCharacter implements ICharacter {
 	protected ConcurrentHashMap<status, Integer> statusMap = null;
 	protected ConcurrentHashMap<IEquipment.EquipType, IEquipment> equipMap = null;
 	private int level = 1;
+	private boolean hostile = true;
 
 	private String chiName = null;
 	private String engName = null;
@@ -204,5 +205,20 @@ public abstract class AbstractCharacter implements ICharacter {
 	@Override
 	public ConcurrentHashMap<IEquipment.EquipType, IEquipment> getEquipment(){
 		return this.equipMap;
+	}
+	
+	@Override
+	public void looting(){
+		// default drop nothing
+	}
+	
+	@Override
+	public void setHostile(boolean value){
+		this.hostile = value;
+	}
+	
+	@Override
+	public boolean getHostile(){
+		return hostile;
 	}
 }

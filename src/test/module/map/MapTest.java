@@ -2,6 +2,8 @@ package test.module.map;
 
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.junit.Test;
+
 import module.character.Group;
 import module.command.CommandServer;
 import module.item.BaseEquipment;
@@ -14,6 +16,7 @@ import module.map.PositionDoor;
 import module.map.api.IRoom;
 import module.map.constants.CDoorAttribute.doorAttribute;
 import module.map.constants.CExit.exit;
+import module.utility.MapUtil;
 
 public class MapTest {
 	private IRoom start = null;
@@ -116,5 +119,10 @@ public class MapTest {
 		result.setTitle(title);
 		result.setDescription(description);
 		return result;
+	}
+	
+	@Test
+	public void jsonParsingTest(){
+		MapUtil.parseMapFromJSON("jsonTest.txt");
 	}
 }

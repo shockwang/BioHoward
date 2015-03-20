@@ -151,4 +151,10 @@ public class BaseRoom implements IRoom{
 		}
 	}
 
+	@Override
+	public boolean specialCommand(String msg) {
+		// default do nothing
+		return false;
+	}
+
 }

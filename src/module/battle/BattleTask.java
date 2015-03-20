@@ -295,10 +295,17 @@ public class BattleTask extends TimerTask {
 					}
 				}
 				if (groupDown) {
+					if (g instanceof PlayerGroup) {
+						// TODO: implement player group dead action
+						CommandServer.informGroup(g, "你的隊伍全滅了...\n");
+					} else {
+						ItemUtil.createLootingItem(g);
+						// group inventory drop to the ground
+						ItemUtil.dropAllItemOnDefeat(g);
+					}
+					
 					// a group is down, remove data from this battle
 					removeGroupFromTimeMap(g);
-					// group inventory drop to the ground
-					ItemUtil.dropAllItemOnDefeat(g);
 					g.getAtRoom().getGroupList().gList.remove(g);
 					g.setAtRoom(null);
 					g.setInBattle(false);

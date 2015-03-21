@@ -12,13 +12,13 @@ public class BaseDoor implements IDoor {
 	private PositionDoor pd = null;
 	private doorAttribute da;
 	private doorStatus ds;
-	private IItem key = null;
+	private String keyName = null;
 
 	public BaseDoor(String desc, PositionDoor pd) {
 		this.description = desc;
 		this.pd = pd;
 		this.da = doorAttribute.UNLOCKABLE;
-		this.ds = doorStatus.OPENED;
+		this.ds = doorStatus.CLOSED;
 	}
 
 	@Override
@@ -62,13 +62,13 @@ public class BaseDoor implements IDoor {
 	}
 
 	@Override
-	public void setKey(IItem key) {
-		this.key = key;
+	public void setKeyName(String name) {
+		this.keyName = name;
 	}
 
 	@Override
-	public IItem getKey() {
-		return this.key;
+	public String getKeyName() {
+		return this.keyName;
 	}
 
 	@Override
@@ -83,7 +83,7 @@ public class BaseDoor implements IDoor {
 
 	private boolean hasKey(ICharacter c) {
 		for (SingleItemList list : c.getMyGroup().getInventory().itemList) {
-			if (key.getEngName().equals(list.list.get(0).getEngName()))
+			if (keyName.equals(list.list.get(0).getEngName()))
 				return true;
 		}
 		return false;

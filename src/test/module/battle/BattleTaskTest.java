@@ -18,11 +18,13 @@ import module.command.CommandServer;
 import module.item.AbstractItem;
 import module.item.BaseEquipment;
 import module.item.api.IEquipment.EquipType;
+import module.map.Position;
 import module.map.api.IRoom;
 import module.mission.TestMission;
 import module.mission.TestMission.State;
 import module.mission.api.IMission;
 import module.server.PlayerServer;
+import module.utility.MapUtil;
 import module.utility.NpcBattleActionUtil;
 
 import org.junit.Test;
@@ -232,7 +234,7 @@ public class BattleTaskTest {
 		//task = new BattleTask(g1, g2);
 		
 		// add for map test, but use some code of BattleTaskTest
-		MapTest map = new MapTest();
+		/*MapTest map = new MapTest();
 		map.initialize();
 		IRoom start = map.getStart();
 		g1.setAtRoom(start);
@@ -243,17 +245,27 @@ public class BattleTaskTest {
 		g3.setInitialRoom(start);
 		start.getGroupList().gList.add(g1);
 		start.getGroupList().gList.add(g2);
-		start.getGroupList().gList.add(g3);
+		start.getGroupList().gList.add(g3);*/
 		// add end
 		
+		// MoveUtil test
+		MapUtil.parseMapFromJSON("jsonTest.txt");
+		MapUtil.parseDoorFromJSON("jsonDoorTest.txt");
+		IRoom start = MapUtil.searchRoomByPosition(new Position(100,100,0));
+		g2.setAtRoom(start);
+		g2.setInitialRoom(start);
+		start.getGroupList().gList.add(g2);
+		
 		// add for GlobalTime test
-		PlayerServer.getSystemTime().addGroup(g1);
+		//PlayerServer.getSystemTime().addGroup(g1);
 		PlayerServer.getSystemTime().addGroup(g2);
-		PlayerServer.getSystemTime().addGroup(g3);
+		//PlayerServer.getSystemTime().addGroup(g3);
 		// add end
 		
 		try {
-			Thread.sleep(1000000);
+			while (true) {
+				Thread.sleep(1000000);
+			}
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

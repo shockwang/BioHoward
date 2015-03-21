@@ -28,8 +28,8 @@ public class BaseRoom implements IRoom{
 	}
 	
 	@Override
-	public void setPosition(int x, int y, int z) {
-		this.pos = new Position(x, y, z);
+	public void setPosition(Position pos) {
+		this.pos = pos;
 	}
 
 	@Override

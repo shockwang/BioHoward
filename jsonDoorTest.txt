@@ -1,0 +1,28 @@
+{ "door":[
+	{
+		"description":[
+			"door",
+			"door2"
+		],
+		"positionDoor":{
+			"connect1":{"direction":"west","connectTo":"100,100,0"},
+			"connect2":{"direction":"east","connectTo":"101,100,0"}
+		},
+		"doorAttribute":"unlockable",
+		"doorStatus":"opened"
+	},
+	{
+		"description":[
+			"balabala",
+			"odaodaoda"
+		],
+		"positionDoor":{
+			"connect1":{"direction":"east","connectTo":"102,100,0"},
+			"connect2":{"direction":"west","connectTo":"101,100,0"}
+		},
+		"doorAttribute":"lockable",
+		"doorStatus":"locked",
+		"keyName":"opg"
+	}
+]
+}

@@ -2,10 +2,6 @@ package test.module.map;
 
 import java.util.concurrent.ConcurrentHashMap;
 
-import org.junit.Test;
-
-import module.character.Group;
-import module.command.CommandServer;
 import module.item.BaseEquipment;
 import module.item.api.IEquipment.EquipType;
 import module.map.BaseDoor;
@@ -17,6 +13,8 @@ import module.map.api.IRoom;
 import module.map.constants.CDoorAttribute.doorAttribute;
 import module.map.constants.CExit.exit;
 import module.utility.MapUtil;
+
+import org.junit.Test;
 
 public class MapTest {
 	private IRoom start = null;
@@ -108,14 +106,14 @@ public class MapTest {
 				start.getPosition(), exit.SOUTH, n.getPosition(), exit.NORTH);
 		BaseDoor testDoor2 = new BaseDoor("就是扇可以鎖的門", pd2);
 		testDoor2.setDoorAttribute(doorAttribute.LOCKABLE);
-		testDoor2.setKey(new BaseEquipment("食人魔力量手套", "opg", EquipType.GLOVES));
+		testDoor2.setKeyName("opg");
 		start.getExits().get(exit.NORTH).setDoor(testDoor2);
 		n.getExits().get(exit.SOUTH).setDoor(testDoor2);
 	}
 	
 	private IRoom createRoom(Position pos, String title, String description){
 		IRoom result = new BaseRoom();
-		result.setPosition(pos.x, pos.y, pos.z);
+		result.setPosition(pos);
 		result.setTitle(title);
 		result.setDescription(description);
 		return result;

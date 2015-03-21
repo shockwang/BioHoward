@@ -10,4 +10,9 @@ public class Position {
 		this.y = y;
 		this.z = z;
 	}
+	
+	@Override
+	public String toString(){
+		return String.format("%d,%d,%d", x, y, z);
+	}
 }

@@ -16,7 +16,7 @@ public interface IRoom {
 	// interface for map unit in the game
 
 	// position information
-	void setPosition(int x, int y, int z);
+	void setPosition(Position pos);
 	Position getPosition();
 	
 	// title, name of the room

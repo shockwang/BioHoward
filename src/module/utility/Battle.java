@@ -16,18 +16,7 @@ public class Battle {
 			synchronized (g.getBattleTask().getTimeMap()) {
 				g.getBattleTask().getTimeMap().get(target).setCurrent(0);
 			}
-		} else {
-			// NPC group
-			/*g.removeChar(target);
-			if (g.list.isEmpty()) {
-				g.getBattleTask().getMyGroups(target).gList.remove(g);
-				g.setInBattle(false);
-				g.getAtRoom().getGroupList().gList.remove(g);
-				g.setAtRoom(null);
-			}
-			target.setMyGroup(null);
-			target = null;*/
-		}
+		} 
 		boolean battleOver = g.getBattleTask().checkBattleEnd();
 		if (battleOver)
 			buffer.append("¾Ô°«µ²§ô!\n");

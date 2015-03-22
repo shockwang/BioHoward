@@ -3,9 +3,7 @@ package module.utility;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map.Entry;
 
 import module.map.BaseDoor;
@@ -24,7 +22,7 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 public class MapUtil {
-	public static ArrayList<IRoom> roomList = new ArrayList<IRoom>();
+	public static HashMap<String, IRoom> roomMap = new HashMap<String, IRoom>();
 	public static HashMap<IRoom, HashMap<exit, Position>> linkMap = new HashMap<IRoom, HashMap<exit, Position>>();
 	public static JSONParser parser = new JSONParser();
 	
@@ -56,7 +54,7 @@ public class MapUtil {
 					exit way = MoveUtil.getWay((String) dirObj.get("direction"));
 					Position connectTo = getPositionFromString(
 							(String) dirObj.get("connectTo"));
-					IRoom targetRoom = searchRoomByPosition(connectTo);
+					IRoom targetRoom = roomMap.get(connectTo.toString());
 					if (targetRoom != null) {
 						roomToCreate.setSingleExit(way, new Neighbor(targetRoom));
 					}
@@ -71,13 +69,13 @@ public class MapUtil {
 						}
 					}
 				}
-				roomList.add(roomToCreate);
+				roomMap.put(pos.toString(), roomToCreate);
 			}
 			
 			// update room link
 			for (Entry<IRoom, HashMap<exit, Position>> entry : linkMap.entrySet()){
 				for (Entry<exit, Position> exitEntry : entry.getValue().entrySet()){
-					IRoom targetRoom = searchRoomByPosition(exitEntry.getValue());
+					IRoom targetRoom = roomMap.get(exitEntry.getValue().toString());
 					entry.getKey().setSingleExit(exitEntry.getKey(), new Neighbor(targetRoom));
 				}
 			}
@@ -143,11 +141,11 @@ public class MapUtil {
 				}
 				
 				// connect door with related rooms
-				IRoom r1 = searchRoomByPosition(pos1);
+				IRoom r1 = roomMap.get(pos1.toString());
 				exit r1RelatedDirection = MoveUtil.getOppositeWay(way1);
 				r1.getExits().get(r1RelatedDirection).setDoor(doorToConfig);
 				
-				IRoom r2 = searchRoomByPosition(pos2);
+				IRoom r2 = roomMap.get(pos2.toString());
 				exit r2RelatedDirection = MoveUtil.getOppositeWay(way2);
 				r2.getExits().get(r2RelatedDirection).setDoor(doorToConfig);
 			}
@@ -170,12 +168,5 @@ public class MapUtil {
 		y = Integer.parseInt(temp[1]);
 		z = Integer.parseInt(temp[2]);
 		return new Position(x, y, z);
-	}
-	
-	public static IRoom searchRoomByPosition(Position pos){
-		for (IRoom r : roomList){
-			if (pos.toString().equals(r.getPosition().toString())) return r;
-		}
-		return null;
 	}
 }

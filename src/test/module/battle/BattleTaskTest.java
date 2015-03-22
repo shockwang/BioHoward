@@ -216,7 +216,7 @@ public class BattleTaskTest {
 		playerG.getInventory().addItem(new ItemForTest("率安安", "anan", "蠢安安"));
 		playerG.getInventory().addItem(new ItemForTest("帥安安", "anan2", "蠢安安"));
 		playerG.getInventory().addItem(new ItemForTest("蠢安安", "anan3", "蠢安安"));
-		playerG.getInventory().addItem(new ItemForTest("小安安", "anan4", "蠢安安"));
+		playerG.getInventory().addItem(new ItemForTest("義齋306號房的鑰匙", "key 306", "就是鑰匙"));
 		
 		// equipment test
 		BaseEquipment testEquip = new BaseEquipment("手甲", "hand protect", EquipType.GLOVES);
@@ -249,9 +249,9 @@ public class BattleTaskTest {
 		// add end
 		
 		// MoveUtil test
-		MapUtil.parseMapFromJSON("jsonTest.txt");
-		MapUtil.parseDoorFromJSON("jsonDoorTest.txt");
-		IRoom start = MapUtil.searchRoomByPosition(new Position(100,100,0));
+		MapUtil.parseMapFromJSON("map/chapter0/YiDormitory.map");
+		MapUtil.parseDoorFromJSON("map/chapter0/YiDormitory.door");
+		IRoom start = MapUtil.roomMap.get("102,100,3");
 		g2.setAtRoom(start);
 		g2.setInitialRoom(start);
 		start.getGroupList().gList.add(g2);

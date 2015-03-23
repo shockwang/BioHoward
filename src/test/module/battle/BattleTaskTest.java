@@ -15,6 +15,7 @@ import module.character.constants.CAttribute.attribute;
 import module.character.constants.CStatus.status;
 import module.client.ClientUser;
 import module.command.CommandServer;
+import module.event.map.instance.chapter0.YiDormitoryEvent;
 import module.item.AbstractItem;
 import module.item.BaseEquipment;
 import module.item.api.IEquipment.EquipType;
@@ -251,6 +252,7 @@ public class BattleTaskTest {
 		// MoveUtil test
 		MapUtil.parseMapFromJSON("map/chapter0/YiDormitory.map");
 		MapUtil.parseDoorFromJSON("map/chapter0/YiDormitory.door");
+		YiDormitoryEvent.initialize();
 		IRoom start = MapUtil.roomMap.get("102,100,3");
 		g2.setAtRoom(start);
 		g2.setInitialRoom(start);

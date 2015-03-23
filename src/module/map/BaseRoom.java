@@ -156,15 +156,4 @@ public class BaseRoom implements IRoom{
 		// default do nothing
 		return false;
 	}
-	
-	@Override
-	public void roomEvent(Group g){
-		// default do nothing, but need to notify
-		g.getAtRoom().notify();
-	}
-	
-	@Override
-	public boolean triggerRoomEvent(Group g){
-		return false;
-	}
 }

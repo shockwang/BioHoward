@@ -53,8 +53,4 @@ public interface IRoom {
 	
 	// special command when in this room
 	boolean specialCommand(String msg); // true if special command match
-	
-	// special event when arrive this room
-	boolean triggerRoomEvent(Group g); // return true if this group triggered room event
-	void roomEvent(Group g); // group event, usually for player group
 }

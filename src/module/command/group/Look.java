@@ -8,6 +8,7 @@ import module.item.api.IItem;
 import module.map.api.IDoor;
 import module.map.constants.CDoorAttribute.doorStatus;
 import module.map.constants.CExit.exit;
+import module.utility.EventUtil;
 import module.utility.ItemUtil;
 import module.utility.MoveUtil;
 
@@ -31,7 +32,7 @@ public class Look implements ICommand {
 				// look at the environment
 				CommandServer.informGroup(g, g.getAtRoom()
 						.displayRoomExceptGroup(g));
-				triggerRoomEvent = g.getAtRoom().triggerRoomEvent(g);
+				triggerRoomEvent = EventUtil.triggerRoomEvent(g);
 				if (triggerRoomEvent) g.setTalking(true);
 			} else {
 				// look at the specific object
@@ -88,7 +89,7 @@ public class Look implements ICommand {
 			}
 		}
 		if (triggerRoomEvent){
-			g.getAtRoom().roomEvent(g);
+			EventUtil.doRoomEvent(g);
 			g.setTalking(false);
 		}
 		return false;

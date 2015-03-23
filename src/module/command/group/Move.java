@@ -7,6 +7,7 @@ import module.command.api.ICommand;
 import module.map.api.IRoom;
 import module.map.constants.CDoorAttribute.doorStatus;
 import module.map.constants.CExit.exit;
+import module.utility.EventUtil;
 import module.utility.MoveUtil;
 import module.utility.NpcActionUtil;
 
@@ -65,7 +66,7 @@ public class Move implements ICommand {
 							nRoom.displayRoomExceptGroup(g));
 					
 					// check if trigger room event
-					triggerRoomEvent = g.getAtRoom().triggerRoomEvent(g);
+					triggerRoomEvent = EventUtil.triggerRoomEvent(g);
 					if (triggerRoomEvent) g.setTalking(true);
 					
 					NpcActionUtil.checkAutoAttackPlayerGroup(g.getAtRoom());
@@ -74,7 +75,7 @@ public class Move implements ICommand {
 			}
 		}
 		if (triggerRoomEvent){
-			g.getAtRoom().roomEvent(g);
+			EventUtil.doRoomEvent(g);
 			g.setTalking(false);
 		}
 		

@@ -40,7 +40,8 @@ public class Move implements ICommand {
 		exit from = MoveUtil.getOppositeWay(go);
 
 		Group g = c.getMyGroup();
-
+		
+		boolean triggerRoomEvent = false;
 		synchronized (g.getAtRoom()) {
 			if (g.getInBattle()) {
 				CommandServer.informGroup(g, "隊伍正在戰鬥中喔!\n");
@@ -62,12 +63,22 @@ public class Move implements ICommand {
 							+ from.chineseName + "邊過來了。\n");
 					CommandServer.informGroup(g,
 							nRoom.displayRoomExceptGroup(g));
+					
+					// check if trigger room event
+					triggerRoomEvent = g.getAtRoom().triggerRoomEvent(g);
+					if (triggerRoomEvent) g.setTalking(true);
+					
 					NpcActionUtil.checkAutoAttackPlayerGroup(g.getAtRoom());
 				} else
 					CommandServer.informGroup(g, "那邊的門是關著的。\n");
 			}
-			return false;
 		}
+		if (triggerRoomEvent){
+			g.getAtRoom().roomEvent(g);
+			g.setTalking(false);
+		}
+		
+		return false;
 	}
 
 	@Override

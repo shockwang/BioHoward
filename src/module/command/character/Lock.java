@@ -41,9 +41,6 @@ public class Lock implements ICommand {
 				synchronized (targetDoor) {
 					switch (targetDoor.getDoorStatus()) {
 					case OPENED:
-					case BROKEN:
-						CommandServer.informGroup(g, "你必須先把門關上才能上鎖。\n");
-						break;
 					case LOCKED:
 						CommandServer.informGroup(g, "這扇門已經是鎖上的了。\n");
 						break;

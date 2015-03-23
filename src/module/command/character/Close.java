@@ -5,6 +5,7 @@ import module.character.api.ICharacter;
 import module.command.CommandServer;
 import module.command.api.ICommand;
 import module.map.api.IDoor;
+import module.map.constants.CDoorAttribute.doorAttribute;
 import module.map.constants.CDoorAttribute.doorStatus;
 import module.map.constants.CExit.exit;
 import module.utility.MoveUtil;
@@ -37,16 +38,14 @@ public class Close implements ICommand{
 				IDoor targetDoor = g.getAtRoom().getExits().get(direction).getDoor();
 				synchronized (targetDoor){
 					switch (targetDoor.getDoorStatus()){
-					case CLOSED:
+					case CLOSED: case LOCKED:
 						CommandServer.informGroup(g, "這個方向的門已經是關著的了。\n");
 						break;
-					case BROKEN:
-						CommandServer.informGroup(g, "這個方向的門壞掉了，關不起來。\n");
-						break;
-					case LOCKED:
-						CommandServer.informGroup(g, "這個方向的門是鎖著的。\n");
-						break;
 					case OPENED:
+						if (targetDoor.getDoorAttribute() == doorAttribute.BROKEN){
+							CommandServer.informGroup(g, "這個方向的門壞掉了，關不起來。\n");
+							return false;
+						}
 						targetDoor.setDoorStatus(doorStatus.CLOSED);
 						g.getAtRoom().informRoom(c.getChiName() + "關上了" + direction.chineseName + "方的門。\n");
 						if (g.getInBattle()) return true;

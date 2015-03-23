@@ -41,9 +41,8 @@ public class Unlock implements ICommand {
 					switch (targetDoor.getDoorStatus()) {
 					case OPENED:
 					case CLOSED:
-					case BROKEN:
 						CommandServer.informGroup(g, "這扇門並沒有上鎖。\n");
-						break;
+						return false;
 					case LOCKED:
 						if (targetDoor.onUnlock(c)) {
 							targetDoor.setDoorStatus(doorStatus.CLOSED);

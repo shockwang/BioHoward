@@ -5,7 +5,11 @@ import module.character.api.ICharacter;
 import module.command.CommandServer;
 import module.command.api.ICommand;
 import module.item.api.IItem;
+import module.map.api.IDoor;
+import module.map.constants.CDoorAttribute.doorStatus;
+import module.map.constants.CExit.exit;
 import module.utility.ItemUtil;
+import module.utility.MoveUtil;
 
 public class Look implements ICommand {
 	private String[] name;
@@ -19,15 +23,18 @@ public class Look implements ICommand {
 	@Override
 	public boolean action(ICharacter c, String[] command) {
 		Group g = c.getMyGroup();
-
+		
+		// add for room event
+		boolean triggerRoomEvent = false;
 		synchronized (g.getAtRoom()) {
 			if (command.length == 1) {
 				// look at the environment
 				CommandServer.informGroup(g, g.getAtRoom()
 						.displayRoomExceptGroup(g));
+				triggerRoomEvent = g.getAtRoom().triggerRoomEvent(g);
+				if (triggerRoomEvent) g.setTalking(true);
 			} else {
 				// look at the specific object
-				// TODO: define the see-object method
 				if (command.length == 2) {
 					IItem obj = g.getInventory().findItem(command[1]);
 					if (obj != null) {
@@ -38,6 +45,26 @@ public class Look implements ICommand {
 					if (obj != null) {
 						CommandServer.informGroup(g, obj.display());
 						return false;
+					}
+					
+					// look at direction
+					exit way = MoveUtil.getWay(command[1]);
+					if (way != null){
+						if (g.getAtRoom().getExits().containsKey(way)){
+							IDoor door = g.getAtRoom().getExits().get(way).getDoor();
+							if (door == null || door.getDoorStatus() == doorStatus.OPENED){
+								CommandServer.informGroup(g, 
+										g.getAtRoom().getExits().get(way).getRoom().displayRoom());
+								return false;
+							}
+							else {
+								CommandServer.informGroup(g, door.getDescription() + "\n");
+								return false;
+							}
+						} else {
+							CommandServer.informGroup(g, "那個方向並沒有什麼特別的。\n");
+							return false;
+						}
 					}
 				}
 
@@ -59,8 +86,12 @@ public class Look implements ICommand {
 				} else
 					CommandServer.informGroup(g, "這裡沒有你想要看的東西。\n");
 			}
-			return false;
 		}
+		if (triggerRoomEvent){
+			g.getAtRoom().roomEvent(g);
+			g.setTalking(false);
+		}
+		return false;
 	}
 
 	@Override

@@ -2,7 +2,6 @@ package module.map;
 
 import module.character.api.ICharacter;
 import module.item.SingleItemList;
-import module.item.api.IItem;
 import module.map.api.IDoor;
 import module.map.constants.CDoorAttribute.doorAttribute;
 import module.map.constants.CDoorAttribute.doorStatus;

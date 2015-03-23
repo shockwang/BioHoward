@@ -80,8 +80,6 @@ public class MapUtil {
 				}
 			}
 			
-			// TODO: update door
-			
 			// clear resources
 			//roomList.clear();
 			linkMap.clear();

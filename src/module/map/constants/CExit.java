@@ -96,8 +96,7 @@ public class CExit {
 	private static String displaySingleExit(ConcurrentHashMap<CExit.exit, Neighbor> map, exit way){
 		if (map.get(way) != null){
 			Neighbor nei = map.get(way);
-			if (nei.getDoor() == null || nei.getDoor().getDoorStatus() == doorStatus.OPENED
-					|| nei.getDoor().getDoorStatus() == doorStatus.BROKEN)
+			if (nei.getDoor() == null || nei.getDoor().getDoorStatus() == doorStatus.OPENED)
 				return " " + way.chineseName;
 		}
 		return "";

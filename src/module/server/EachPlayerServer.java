@@ -53,7 +53,7 @@ public class EachPlayerServer extends Thread {
 			}
 			
 			CommandServer.informGroup(playerGroup, "status:" + playerGroup.showGroupStatus());
-			CommandServer.readCommand(playerGroup, "look".split(" "));
+			//CommandServer.readCommand(playerGroup, "look".split(" "));
 
 			while (PlayerServer.getServerRun()) {
 				input = inFromClient.readLine();

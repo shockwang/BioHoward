@@ -25,6 +25,7 @@ import module.mission.TestMission;
 import module.mission.TestMission.State;
 import module.mission.api.IMission;
 import module.server.PlayerServer;
+import module.utility.EventUtil;
 import module.utility.MapUtil;
 import module.utility.NpcBattleActionUtil;
 
@@ -102,12 +103,7 @@ public class BattleTaskTest {
 			@Override
 			public String onTalk(PlayerGroup g) {
 				TestMission testM = null;
-				for (IMission m : PlayerServer.getMissionSet()){
-					if (m instanceof TestMission){
-						testM = (TestMission) m;
-						break;
-					}
-				}
+				testM = (TestMission) PlayerServer.getMissionMap().get(TestMission.class.toString());
 				StringBuffer buf = new StringBuffer();
 				if (testM == null){
 					g.getAtRoom().informRoom("小明說：我三個月前借了小美一本龍族小說，他一直沒有還我，你可以幫我取回來嗎? (y/n)\n");
@@ -120,7 +116,8 @@ public class BattleTaskTest {
 								break;
 							} else if (msg.equals("y")){
 								buf.append("小明很高興的說：太好了! 就交給你囉!");
-								PlayerServer.getMissionSet().add(new TestMission());
+								IMission missionToAdd = new TestMission();
+								PlayerServer.getMissionMap().put(TestMission.class.toString(), missionToAdd);
 								break;
 							} else 
 								g.getAtRoom().informRoom("小明說：我三個月前借了小美一本龍族小說，他一直沒有還我，你可以幫我取回來嗎? (y/n)\n");
@@ -181,12 +178,8 @@ public class BattleTaskTest {
 			public String onTalk(PlayerGroup g){
 				String result = null;
 				
-				TestMission testM = null;
-				for (IMission m : PlayerServer.getMissionSet()){
-					if (m instanceof TestMission){
-						testM = (TestMission) m;
-					}
-				}
+				TestMission testM = (TestMission) PlayerServer.getMissionMap().get(
+						TestMission.class.toString());
 				
 				if (testM != null){
 					TestMission.State state = (TestMission.State) testM.getState();
@@ -263,6 +256,8 @@ public class BattleTaskTest {
 		PlayerServer.getSystemTime().addGroup(g2);
 		//PlayerServer.getSystemTime().addGroup(g3);
 		// add end
+		
+		EventUtil.doRoomEvent(g2);
 		
 		try {
 			while (true) {

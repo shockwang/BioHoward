@@ -5,7 +5,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashSet;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
@@ -21,7 +21,7 @@ public class PlayerServer extends Thread{
 	private static GlobalTime systemTime = null;
 	private static Random rand = null;
 	private int port;
-	private static HashSet<IMission> missionSet = null;
+	private static HashMap<String, IMission> missionMap = null;
 	
 	public PlayerServer(){
 		if (isExists) return;
@@ -34,7 +34,7 @@ public class PlayerServer extends Thread{
 		systemTime.startTimer();
 		
 		rand = new Random();
-		missionSet = new HashSet<IMission>();
+		missionMap = new HashMap<String, IMission>();
 	}
 	
 	public void setServerRun(boolean input){
@@ -77,11 +77,11 @@ public class PlayerServer extends Thread{
 	
 	public static Random getRandom(){return rand;}
 	
-	public static void setMissionSet(HashSet<IMission> set){
-		missionSet = set;
+	public static void setMissionMap(HashMap<String, IMission> map){
+		missionMap = map;
 	}
 	
-	public static HashSet<IMission> getMissionSet(){
-		return missionSet;
+	public static HashMap<String, IMission> getMissionMap(){
+		return missionMap;
 	}
 }

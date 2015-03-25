@@ -1,5 +1,7 @@
 package module.command.group;
 
+import java.util.Map.Entry;
+
 import module.character.api.ICharacter;
 import module.command.CommandServer;
 import module.command.api.ICommand;
@@ -26,8 +28,8 @@ public class Mission implements ICommand {
 		buf.append("你目前手邊的任務狀況：\n");
 		
 		StringBuffer buf2 = new StringBuffer();
-		for (IMission m : PlayerServer.getMissionSet()) {
-			buf2.append(m.displayState());
+		for (Entry<String, IMission> entry : PlayerServer.getMissionMap().entrySet()){
+			buf2.append(entry.getValue().displayState());
 		}
 		if (buf2.toString().equals("")) buf.append("無");
 		else buf.append(buf2.toString());

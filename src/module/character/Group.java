@@ -28,6 +28,7 @@ public class Group implements Updatable {
 	private int charNum;
 	private ItemList itemList = null;
 	private Boolean isTalking = false;
+	private Boolean isInEvent = false;
 
 	public String getChiName() {
 		return Chiname;
@@ -266,6 +267,18 @@ public class Group implements Updatable {
 	public boolean getTalking(){
 		synchronized (this){
 			return this.isTalking;
+		}
+	}
+	
+	public void setInEvent(boolean value){
+		synchronized (this){
+			this.isInEvent = value;
+		}
+	}
+	
+	public boolean getInEvent(){
+		synchronized (this) {
+			return this.isInEvent;
 		}
 	}
 }

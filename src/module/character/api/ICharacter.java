@@ -75,7 +75,7 @@ public interface ICharacter extends Updatable{
 	String showStatus();
 	
 	// react with others
-	String onTalk(PlayerGroup g);
+	void onTalk(PlayerGroup g);
 	
 	// left items when dead
 	void looting();

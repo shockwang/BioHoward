@@ -13,6 +13,7 @@ import javax.swing.text.Document;
 
 import module.client.gui.ClientGUI;
 import module.utility.EnDecoder;
+import module.utility.IOUtil;
 import module.utility.Parse;
 
 public class ClientUser extends Thread {
@@ -63,7 +64,7 @@ public class ClientUser extends Thread {
 			String[] temp;
 
 			while (clientRun) {
-				input = inFromServer.readLine();
+				input = IOUtil.readLineFromClientSocket(inFromServer);
 				input = EnDecoder.decodeChangeLine(input);
 				temp = input.split(":");
 				if (temp[0].equals("status")) { // messages to refresh the

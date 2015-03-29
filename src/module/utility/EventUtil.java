@@ -1,5 +1,6 @@
 package module.utility;
 
+import java.io.BufferedReader;
 import java.util.HashMap;
 
 import module.character.Group;
@@ -26,5 +27,17 @@ public class EventUtil {
 	public static void checkSkipEvent(String msg) throws SkipEventException{
 		if (msg.equals("q")) throw new SkipEventException();
 		return;
+	}
+	
+	public static void informCheckReset(Group g, StringBuffer buf, BufferedReader in) throws SkipEventException{
+		g.getAtRoom().informRoom(buf.toString() + "<ENTER>\n");
+		checkSkipEvent(IOUtil.readLineFromClientSocket(in));
+		buf.setLength(0);
+	}
+	
+	public static void informReset(Group g, StringBuffer buf, BufferedReader in){
+		g.getAtRoom().informRoom(buf.toString() + "<ENTER>\n");
+		IOUtil.readLineFromClientSocket(in);
+		buf.setLength(0);
 	}
 }

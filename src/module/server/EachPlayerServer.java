@@ -8,6 +8,7 @@ import java.net.Socket;
 
 import module.character.PlayerGroup;
 import module.command.CommandServer;
+import module.utility.IOUtil;
 
 public class EachPlayerServer extends Thread {
 	private Socket connectionSocket = null;
@@ -56,7 +57,8 @@ public class EachPlayerServer extends Thread {
 			//CommandServer.readCommand(playerGroup, "look".split(" "));
 
 			while (PlayerServer.getServerRun()) {
-				input = inFromClient.readLine();
+				if (playerGroup.getInEvent()) continue;
+				input = IOUtil.readLineFromClientSocket(inFromClient);
 				temp = input.split(" ");
 				if (temp.length == 0)
 					continue;

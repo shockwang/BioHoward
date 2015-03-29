@@ -31,6 +31,7 @@ public abstract class AbstractCharacter implements ICharacter {
 		addAttribute(attribute.HP, 100);
 		specialStatusMap = new ConcurrentHashMap<specialStatus, Integer>();
 		statusMap = new ConcurrentHashMap<status, Integer>();
+		statusMap.put(status.SPEED, 4000);
 		equipMap = new ConcurrentHashMap<IEquipment.EquipType, IEquipment>();
 	}
 
@@ -183,8 +184,9 @@ public abstract class AbstractCharacter implements ICharacter {
 	}
 	
 	@Override
-	public String onTalk(PlayerGroup g){
-		return this.getChiName() + "看來不想理你。";
+	public void onTalk(PlayerGroup g){
+		g.getAtRoom().informRoom(String.format("%s嘗試要和%s交談，但%s看來不想理他。\n", 
+				g.list.get(0).charList.get(0).getChiName(), this.getChiName(), this.getChiName()));
 	}
 	
 	@Override

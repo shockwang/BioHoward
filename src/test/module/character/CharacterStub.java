@@ -190,9 +190,8 @@ public class CharacterStub implements ICharacter{
 	}
 
 	@Override
-	public String onTalk(PlayerGroup g) {
+	public void onTalk(PlayerGroup g) {
 		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override

@@ -8,6 +8,7 @@ public class MainMission implements IMission{
 	public enum State{
 		BEFORE_OPENING("開頭劇情前"),
 		AFTER_OPENING("開頭劇情後"),
+		START_SEARCHING("設法逃出宿舍，先去一樓大門看看吧。"),
 		DONE("結束!");
 		
 		public String name;

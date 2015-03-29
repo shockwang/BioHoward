@@ -56,7 +56,7 @@ public class Talk implements ICommand {
 		
 		// do the real talk action
 		if (canTalk) {
-			CommandServer.informGroup(g, target.onTalk((PlayerGroup) g) + "\n");
+			target.onTalk((PlayerGroup) g);
 			target.getMyGroup().setTalking(false);
 			g.setTalking(false);
 		}

@@ -22,6 +22,7 @@ public class PlayerGroup extends Group {
 	private void initializeConfig() {
 		configData = new HashMap<config, Boolean>();
 		configData.put(config.REALTIMEBATTLE, false);
+		configData.put(config.TUTORIAL_ON, true);
 	}
 
 	public void setOutToClient(DataOutputStream out) {
@@ -36,6 +37,8 @@ public class PlayerGroup extends Group {
 		// so far we only have 1 config in the list
 		if (newConfig == config.REALTIMEBATTLE)
 			configData.put(config.REALTIMEBATTLE, (Boolean) value);
+		else if (newConfig == config.TUTORIAL_ON)
+			configData.put(config.TUTORIAL_ON, (Boolean) value);
 	}
 
 	public HashMap<config, Boolean> getConfigData() {

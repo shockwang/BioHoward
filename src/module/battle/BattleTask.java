@@ -20,11 +20,11 @@ import module.utility.EnDecoder;
 import module.utility.ItemUtil;
 
 public class BattleTask extends TimerTask {
-	private GroupList team1List;
-	private GroupList team2List;
+	protected GroupList team1List;
+	protected GroupList team2List;
 	private ConcurrentHashMap<ICharacter, IntPair> timeMap;
-	private ArrayList<ICharacter> ready;
-	private Timer battleTimer;
+	protected ArrayList<ICharacter> ready;
+	protected Timer battleTimer;
 	private int updateCounter = 0;
 
 	public BattleTask(Group team1, Group team2) {
@@ -125,7 +125,7 @@ public class BattleTask extends TimerTask {
 		}
 	}
 
-	private void updatePlayerStatus(List<Group> groupList) {
+	protected void updatePlayerStatus(List<Group> groupList) {
 		for (Group g : groupList) {
 			if (g instanceof PlayerGroup) {
 				String output = "status:" + showPlayerStatus(g);
@@ -190,7 +190,7 @@ public class BattleTask extends TimerTask {
 			return team2List;
 	}
 
-	private ArrayList<ICharacter> updateTime() {
+	protected ArrayList<ICharacter> updateTime() {
 		// update the battle time per 100ms
 		ArrayList<ICharacter> readyList = new ArrayList<ICharacter>();
 		int max, current;
@@ -220,7 +220,7 @@ public class BattleTask extends TimerTask {
 		}
 	}
 
-	private void updatePlayerStatus() {
+	protected void updatePlayerStatus() {
 		updateCounter++;
 		if (updateCounter == 30) {
 			updateCounter = 0;

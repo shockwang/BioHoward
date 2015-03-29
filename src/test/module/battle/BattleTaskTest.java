@@ -13,6 +13,7 @@ import module.character.PlayerGroup;
 import module.character.api.ICharacter;
 import module.character.constants.CAttribute.attribute;
 import module.character.constants.CStatus.status;
+import module.character.instance.chapter0.Roommate;
 import module.client.ClientUser;
 import module.command.CommandServer;
 import module.event.map.instance.chapter0.YiDormitoryEvent;
@@ -26,6 +27,7 @@ import module.mission.TestMission.State;
 import module.mission.api.IMission;
 import module.server.PlayerServer;
 import module.utility.EventUtil;
+import module.utility.IOUtil;
 import module.utility.MapUtil;
 import module.utility.NpcBattleActionUtil;
 
@@ -101,7 +103,7 @@ public class BattleTaskTest {
 		Group g1 = new Group(new CharForTest("小明", "min"){
 			
 			@Override
-			public String onTalk(PlayerGroup g) {
+			public void onTalk(PlayerGroup g) {
 				TestMission testM = null;
 				testM = (TestMission) PlayerServer.getMissionMap().get(TestMission.class.toString());
 				StringBuffer buf = new StringBuffer();
@@ -109,22 +111,17 @@ public class BattleTaskTest {
 					g.getAtRoom().informRoom("小明說：我三個月前借了小美一本龍族小說，他一直沒有還我，你可以幫我取回來嗎? (y/n)\n");
 					String msg = null;
 					while (true){
-						try {
-							msg = g.getInFromClient().readLine();
-							if (msg.equals("n")){
-								buf.append("小明聳聳肩：那就算了!");
-								break;
-							} else if (msg.equals("y")){
-								buf.append("小明很高興的說：太好了! 就交給你囉!");
-								IMission missionToAdd = new TestMission();
-								PlayerServer.getMissionMap().put(TestMission.class.toString(), missionToAdd);
-								break;
-							} else 
-								g.getAtRoom().informRoom("小明說：我三個月前借了小美一本龍族小說，他一直沒有還我，你可以幫我取回來嗎? (y/n)\n");
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
+						msg = IOUtil.readLineFromClientSocket(g.getInFromClient());
+						if (msg.equals("n")){
+							buf.append("小明聳聳肩：那就算了!");
+							break;
+						} else if (msg.equals("y")){
+							buf.append("小明很高興的說：太好了! 就交給你囉!");
+							IMission missionToAdd = new TestMission();
+							PlayerServer.getMissionMap().put(TestMission.class.toString(), missionToAdd);
+							break;
+						} else 
+							g.getAtRoom().informRoom("小明說：我三個月前借了小美一本龍族小說，他一直沒有還我，你可以幫我取回來嗎? (y/n)\n");
 					}
 				} else {
 					TestMission.State state = (TestMission.State) testM.getState();
@@ -140,7 +137,7 @@ public class BattleTaskTest {
 						buf.append("小明專心的看著小說，沒空理你。");
 					}
 				}
-				return buf.toString();
+				g.getAtRoom().informRoom(buf.toString() + "\n");
 			}
 		});
 		g1.addChar(new CharForTest("小華", "hua"));
@@ -154,13 +151,7 @@ public class BattleTaskTest {
 		g1.findChar("hua", 0).addAttribute(attribute.HP, 50);
 		g1.findChar("hua").setDesc("就是小華。");
 		
-		Group g2 = new PlayerGroup(new CharForTest("掏委", "tao"){
-			@Override
-			public boolean battleAction(GroupList gList){
-				return false;
-			}
-		});
-		g2.addChar(new CharForTest("高粱", "kao"){
+		Group g2 = new PlayerGroup(new CharForTest("霍華", "enf"){
 			@Override
 			public boolean battleAction(GroupList gList){
 				return false;
@@ -175,7 +166,7 @@ public class BattleTaskTest {
 		
 		Group g3 = new Group(new CharForTest("小美", "mei"){
 			@Override
-			public String onTalk(PlayerGroup g){
+			public void onTalk(PlayerGroup g){
 				String result = null;
 				
 				TestMission testM = (TestMission) PlayerServer.getMissionMap().get(
@@ -190,7 +181,7 @@ public class BattleTaskTest {
 					else result = "小美說：你好啊~";
 				}
 				else result = "小美說：你好啊~";
-				return result;
+				g.getAtRoom().informRoom(result + "\n");
 			}
 		});
 		g3.findChar("mei").addAttribute(attribute.HP, 30);
@@ -204,26 +195,14 @@ public class BattleTaskTest {
 		//playerG.getConfigData().put(config.REALTIMEBATTLE, true);
 		
 		// setup player group inventory
-		playerG.getInventory().addItem(new ItemForTest("杯子", "cup", "就是杯子。"));
-		playerG.getInventory().addItem(new ItemForTest("牙齒", "tooth", "就是牙齒。"));
-		playerG.getInventory().addItem(new ItemForTest("杯子", "cup", "就是杯子。"));
-		playerG.getInventory().addItem(new ItemForTest("率安安", "anan", "蠢安安"));
-		playerG.getInventory().addItem(new ItemForTest("帥安安", "anan2", "蠢安安"));
-		playerG.getInventory().addItem(new ItemForTest("蠢安安", "anan3", "蠢安安"));
 		playerG.getInventory().addItem(new ItemForTest("義齋306號房的鑰匙", "key 306", "就是鑰匙"));
 		
 		// equipment test
-		BaseEquipment testEquip = new BaseEquipment("手甲", "hand protect", EquipType.GLOVES);
-		testEquip.setDescription("就是手甲。");
+		BaseEquipment testEquip = new BaseEquipment("普物課本", "physics book", EquipType.WEAPON);
+		testEquip.setDescription("又厚又重。");
 		testEquip.setPrice(100);
-		testEquip.getAttribute().put(attribute.HP, 10);
-		testEquip.getStatus().put(status.WEAPON_ATTACK, 5);
+		testEquip.getStatus().put(status.WEAPON_ATTACK, 10);
 		playerG.getInventory().addItem(testEquip);
-		BaseEquipment testEquip2 = new BaseEquipment("食人魔力量手套", "opg", EquipType.GLOVES);
-		testEquip2.setDescription("修奇戴的。");
-		testEquip2.setPrice(100000);
-		testEquip2.getStatus().put(status.WEAPON_ATTACK, 100000);
-		playerG.getInventory().addItem(testEquip2);
 		
 		//task = new BattleTask(g1, g2);
 		
@@ -251,12 +230,25 @@ public class BattleTaskTest {
 		g2.setInitialRoom(start);
 		start.getGroupList().gList.add(g2);
 		
+		// add roommate
+		Group ggg = new Group(new Roommate());
+		for (CharList cList : ggg.list){
+			for (ICharacter c : cList.charList)
+				c.setMyGroup(ggg);
+		}
+		ggg.setAtRoom(start);
+		ggg.setInitialRoom(start);
+		start.getGroupList().gList.add(ggg);
+		
 		// add for GlobalTime test
 		//PlayerServer.getSystemTime().addGroup(g1);
 		PlayerServer.getSystemTime().addGroup(g2);
+		PlayerServer.getSystemTime().addGroup(ggg);
 		//PlayerServer.getSystemTime().addGroup(g3);
 		// add end
 		
+		// start event test
+		g2.setInEvent(true);
 		EventUtil.doRoomEvent(g2);
 		
 		try {

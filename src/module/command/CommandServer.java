@@ -64,10 +64,6 @@ public class CommandServer {
 	public static void readCommand(Group g, String[] msg) {
 		// execute room special command
 		if (g.getAtRoom().specialCommand(msg[0])) return;
-		
-		// do nothing while group is talking
-		if (g.getTalking())
-			return;
 
 		if (msg[0].equals("help")) {
 			if (msg.length == 1) {

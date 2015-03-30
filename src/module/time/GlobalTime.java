@@ -100,7 +100,7 @@ public class GlobalTime extends TimerTask{
 	private void updateObject(){
 		try {
 			for (Group g : groupList.gList) {
-				if (!g.getInBattle() && !g.getTalking()) g.updateTime();
+				if (!g.getInBattle() && !g.getTalking() && !g.getInEvent()) g.updateTime();
 			}
 			
 			// update item timer to check if expired

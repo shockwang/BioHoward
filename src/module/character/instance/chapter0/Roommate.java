@@ -7,8 +7,10 @@ import module.battle.chapter0.FirstTutorialBattle;
 import module.character.AbstractCharacter;
 import module.character.GroupList;
 import module.character.PlayerGroup;
+import module.character.constants.CAttribute.attribute;
 import module.character.constants.CConfig.config;
 import module.utility.EventUtil;
+import module.utility.NpcBattleActionUtil;
 
 public class Roommate extends AbstractCharacter{
 	private String description = null;
@@ -21,6 +23,7 @@ public class Roommate extends AbstractCharacter{
 		super(chiName, engName);
 		// TODO assign attribute here
 		this.description= "´N¬O«Ç¤Í¡C";
+		this.addAttribute(attribute.HP, 50);
 	}
 
 	@Override
@@ -35,8 +38,8 @@ public class Roommate extends AbstractCharacter{
 
 	@Override
 	public boolean battleAction(GroupList enemyGroup) {
-		// TODO Auto-generated method stub
-		return false;
+		NpcBattleActionUtil.randomAttack(this, enemyGroup);
+		return true;
 	}
 	
 	@Override

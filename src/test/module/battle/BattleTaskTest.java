@@ -236,6 +236,7 @@ public class BattleTaskTest {
 			for (ICharacter c : cList.charList)
 				c.setMyGroup(ggg);
 		}
+		ggg.setIsRespawn(false);
 		ggg.setAtRoom(start);
 		ggg.setInitialRoom(start);
 		start.getGroupList().gList.add(ggg);

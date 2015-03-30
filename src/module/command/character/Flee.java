@@ -4,6 +4,7 @@ import module.character.Group;
 import module.character.api.ICharacter;
 import module.command.CommandServer;
 import module.command.api.ICommand;
+import module.map.constants.CExit;
 import module.utility.NpcActionUtil;
 
 public class Flee implements ICommand {
@@ -32,7 +33,7 @@ public class Flee implements ICommand {
 				// TODO: implement flee mechanism
 				int prob = 60;
 				if (prob > 50) {
-					if (g.getAtRoom().getExits().size() == 0) {
+					if (CExit.getAccessibleExitsRoom(g.getAtRoom()) == null) {
 						g.getAtRoom().informRoom(
 								String.format(
 										"%s成功找到一個空隙準備逃離戰鬥，但卻發現房間沒有出口，無法逃脫!\n",

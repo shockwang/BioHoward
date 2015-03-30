@@ -246,17 +246,22 @@ public class BattleTask extends TimerTask {
 		return this.timeMap;
 	}
 
-	public boolean checkBattleEnd() {
+	public void checkBattleEnd() {
 		boolean over = false;
-		/*
-		 * if (team1List.gList.isEmpty()) over = true; if
-		 * (team2List.gList.isEmpty()) over = true;
-		 */
-
-		if (checkGroupListDown(team1List) || checkGroupListDown(team2List))
+		GroupList aliveGroups = null;
+		
+		if (checkGroupListDown(team1List)) {
 			over = true;
+			aliveGroups = team2List;
+		} else if (checkGroupListDown(team2List)){
+			over = true;
+			aliveGroups = team1List;
+		}
 
 		if (over == true) {
+			// inform room that battle is end
+			aliveGroups.gList.get(0).getAtRoom().informRoom("¾Ô°«µ²§ô!\n");
+			
 			// free the battle resources
 			battleTimer.cancel();
 			for (Group g : team1List.gList) {
@@ -273,12 +278,10 @@ public class BattleTask extends TimerTask {
 					CommandServer.informGroup(g,
 							"status:" + ((PlayerGroup) g).showGroupStatus());
 			}
-			return true;
 		}
-		return false;
 	}
 
-	private boolean checkGroupListDown(GroupList list) {
+	protected boolean checkGroupListDown(GroupList list) {
 		boolean allDown = true;
 		boolean groupDown;
 		boolean isDown = false;

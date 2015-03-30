@@ -25,6 +25,7 @@ public class Group implements Updatable {
 	private IRoom initialRoom = null; // the place that group should locate at
 										// when respawn
 	private IntPair respawnTime = new IntPair(0, 30);
+	private boolean isRespawn = true;  // group will respawn after period of time if true
 	private int charNum;
 	private ItemList itemList = null;
 	private Boolean isTalking = false;
@@ -189,7 +190,7 @@ public class Group implements Updatable {
 	public void updateTime() {
 		// TODO Auto-generated method stub
 		// must not implement time waste instructions in this method!
-		if (getGroupDown()) { // waiting for respawn
+		if (getGroupDown() && isRespawn) { // waiting for respawn
 			int current = respawnTime.getCurrent();
 			System.out.println("respawn count: " + current);
 			current++;
@@ -280,5 +281,13 @@ public class Group implements Updatable {
 		synchronized (this) {
 			return this.isInEvent;
 		}
+	}
+	
+	public void setIsRespawn(boolean value){
+		this.isRespawn = value;
+	}
+	
+	public boolean getIsRespawn(){
+		return this.isRespawn;
 	}
 }

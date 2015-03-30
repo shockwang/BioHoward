@@ -6,8 +6,7 @@ import module.character.api.ICharacter;
 import module.character.constants.CAttribute.attribute;
 
 public class Battle {
-	public static String deadMechanism(ICharacter target) {
-		StringBuilder buffer = new StringBuilder();
+	public static void deadMechanism(ICharacter target) {
 		Group g = target.getMyGroup();
 		target.getMyGroup().getAtRoom().informRoom(target.getChiName() + "倒地不起了!\n");
 
@@ -17,9 +16,6 @@ public class Battle {
 				g.getBattleTask().getTimeMap().get(target).setCurrent(0);
 			}
 		} 
-		boolean battleOver = g.getBattleTask().checkBattleEnd();
-		if (battleOver)
-			buffer.append("戰鬥結束!\n");
-		return buffer.toString();
+		g.getBattleTask().checkBattleEnd();
 	}
 }

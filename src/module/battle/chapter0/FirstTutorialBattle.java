@@ -4,10 +4,13 @@ import java.io.BufferedReader;
 
 import module.battle.BattleTask;
 import module.character.Group;
+import module.character.GroupList;
 import module.character.PlayerGroup;
 import module.character.api.ICharacter;
 import module.character.constants.CConfig.config;
 import module.command.CommandServer;
+import module.mission.chapter0.MainMission;
+import module.server.PlayerServer;
 import module.utility.EventUtil;
 import module.utility.IOUtil;
 
@@ -67,15 +70,17 @@ public class FirstTutorialBattle extends BattleTask{
 		String input;
 		switch (playerMoveCount){
 		case 1: 
+			g.getAtRoom().informRoom("<ENTER>\n");
+			IOUtil.clearBufferedReader(in);
 			buf.append("霍華心想：嗚嗚嗚，身上有什麼可以用的東西嗎?");
 			EventUtil.informReset(g, buf, in);
 			buf.append("說明：輸入\"inventory\"或\"i\"可查看現在身上帶的物品有哪些。\n");
-			buf.append("請輸入\"inventory\"來查看身上的物品。");
+			buf.append("請輸入\"inventory\"或\"i\"來查看身上的物品。");
 			g.getAtRoom().informRoom(buf.toString() + "\n");
 			buf.setLength(0);
 			input = IOUtil.readLineFromClientSocket(in);
-			while (!input.equals("inventory")){
-				g.getAtRoom().informRoom("請輸入\"inventory\"來查看身上的物品。\n");
+			while (!input.equals("inventory") && !input.equals("i")){
+				g.getAtRoom().informRoom("請輸入\"inventory\"或\"i\"來查看身上的物品。\n");
 				input = IOUtil.readLineFromClientSocket(in);
 			}
 			String[] msg = {"inventory"};
@@ -99,6 +104,8 @@ public class FirstTutorialBattle extends BattleTask{
 			CommandServer.readCommand(g, msg2);
 			return true;
 		case 2:
+			g.getAtRoom().informRoom("<ENTER>\n");
+			IOUtil.clearBufferedReader(in);
 			buf.append("霍華：好哩~準備開打!");
 			EventUtil.informReset(g, buf, in);
 			buf.append("說明：你可以輸入\"equipment\"或\"eq\"來查看隊伍中角色的裝備\n");
@@ -106,23 +113,24 @@ public class FirstTutorialBattle extends BattleTask{
 			buf.append("角色名稱，則自動指定隊伍中第一位角色作為操作對象。\n");
 			buf.append("詳細說明可輸入\"help equipment\"來查詢。");
 			EventUtil.informReset(g, buf, in);
-			g.getAtRoom().informRoom("請輸入\"equipment\"來查看霍華的裝備。\n");
+			g.getAtRoom().informRoom("請輸入\"equipment\"或\"eq\"來查看霍華的裝備。\n");
 			input = IOUtil.readLineFromClientSocket(in);
-			while (!input.equals("equipment")){
-				g.getAtRoom().informRoom("請輸入\"equipment\"來查看霍華的裝備。\n");
+			while (!input.equals("equipment") && !input.equals("eq")){
+				g.getAtRoom().informRoom("請輸入\"equipment\"或\"eq\"來查看霍華的裝備。\n");
 				input = IOUtil.readLineFromClientSocket(in);
 			}
 			String[] msg3 = {"equipment"};
 			CommandServer.readCommand(g, msg3);
 			buf.append("說明：普通攻擊指令為\"attack\"或\"at\"，指令格式為\n");
 			buf.append("\"<我方角色名稱> <attack> <敵方角色名稱>\"。若不指定我方\n");
-			buf.append("角色名稱，則自動指定隊伍中的第一位角色來動作。詳細說明可輸入\n");
-			buf.append("\"help attack\"來查詢。");
+			buf.append("角色名稱，則自動指定隊伍中的第一位角色來動作。另外，在戰鬥中\n");
+			buf.append("若不指定特定敵方目標，則自動指定敵方隊伍中第一位角色進行攻擊\n");
+			buf.append("。詳細說明可輸入\"help attack\"來查詢。");
 			EventUtil.informReset(g, buf, in);
-			g.getAtRoom().informRoom("請輸入\"at roommate\"來攻擊室友。\n");
+			g.getAtRoom().informRoom("請輸入\"at roommate\"或\"at\"來攻擊室友。\n");
 			input = IOUtil.readLineFromClientSocket(in);
-			while (!input.equals("at roommate")){
-				g.getAtRoom().informRoom("請輸入\"at roommate\"來攻擊室友。\n");
+			while (!input.equals("at roommate") && !input.equals("at")){
+				g.getAtRoom().informRoom("請輸入\"at roommate\"或\"at\"來攻擊室友。\n");
 				input = IOUtil.readLineFromClientSocket(in);
 			}
 			String[] msg4 = {"at", "roommate"};
@@ -131,5 +139,45 @@ public class FirstTutorialBattle extends BattleTask{
 			return true;
 		}
 		return false;
+	}
+	
+	@Override
+	public void checkBattleEnd() {
+		boolean over = false;
+		GroupList aliveGroups = null;
+		
+		if (checkGroupListDown(team1List)) {
+			over = true;
+			aliveGroups = team2List;
+		} else if (checkGroupListDown(team2List)){
+			over = true;
+			aliveGroups = team1List;
+		}
+
+		if (over == true) {
+			// inform room that battle is end
+			aliveGroups.gList.get(0).getAtRoom().informRoom("戰鬥結束!\n");
+			
+			// free the battle resources
+			battleTimer.cancel();
+			for (Group g : team1List.gList) {
+				g.setInBattle(false);
+				g.setBattleTask(null);
+				if (g instanceof PlayerGroup)
+					CommandServer.informGroup(g,
+							"status:" + ((PlayerGroup) g).showGroupStatus());
+			}
+			for (Group g : team2List.gList) {
+				g.setInBattle(false);
+				g.setBattleTask(null);
+				if (g instanceof PlayerGroup)
+					CommandServer.informGroup(g,
+							"status:" + ((PlayerGroup) g).showGroupStatus());
+			}
+			MainMission mm = (MainMission) PlayerServer.getMissionMap().get(MainMission.class.toString());
+			mm.setState(MainMission.State.AFTER_FIRST_BATTLE);
+			aliveGroups.gList.get(0).setInEvent(true);
+			EventUtil.doRoomEvent(aliveGroups.gList.get(0));
+		}
 	}
 }

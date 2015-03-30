@@ -117,18 +117,19 @@ public class Attack implements ICommand {
 
 		if (target.getAttributeMap().get(attribute.HP) != null) {
 			out += String.format("對他造成%d點傷害!\n", 10);
+			src.getMyGroup().getAtRoom().informRoom(out);
 			int current = target.getAttributeMap().get(attribute.HP)
 					.getCurrent();
 			target.getAttributeMap().get(attribute.HP).setCurrent(current - 10);
 			if (target.isDown()) {
 				src.getMyGroup().getAtRoom().informRoom(out);
-				out = Battle.deadMechanism(target);
+				Battle.deadMechanism(target);
 			}
 		} else {
 			out += String.format("但對%s看似絲毫不起作用!\n", src.getChiName(),
 					target.getChiName(), target.getChiName());
+			src.getMyGroup().getAtRoom().informRoom(out);
 		}
-		src.getMyGroup().getAtRoom().informRoom(out);
 		if (target.getMyGroup() instanceof PlayerGroup) {
 			target.getMyGroup().getBattleTask()
 					.updatePlayerStatus((PlayerGroup) target.getMyGroup());

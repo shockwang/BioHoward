@@ -122,7 +122,6 @@ public class Attack implements ICommand {
 					.getCurrent();
 			target.getAttributeMap().get(attribute.HP).setCurrent(current - 10);
 			if (target.isDown()) {
-				src.getMyGroup().getAtRoom().informRoom(out);
 				Battle.deadMechanism(target);
 			}
 		} else {

@@ -194,9 +194,6 @@ public class BattleTaskTest {
 		playerG.setInFromClient(PlayerServer.pList.get(0).getInFromClient());
 		//playerG.getConfigData().put(config.REALTIMEBATTLE, true);
 		
-		// setup player group inventory
-		playerG.getInventory().addItem(new ItemForTest("義齋306號房的鑰匙", "key 306", "就是鑰匙"));
-		
 		// equipment test
 		BaseEquipment testEquip = new BaseEquipment("普物課本", "physics book", EquipType.WEAPON);
 		testEquip.setDescription("又厚又重。");
@@ -236,6 +233,8 @@ public class BattleTaskTest {
 			for (ICharacter c : cList.charList)
 				c.setMyGroup(ggg);
 		}
+		// setup player group inventory
+		ggg.getInventory().addItem(new ItemForTest("義齋306號房的鑰匙", "key 306", "就是鑰匙"));
 		ggg.setIsRespawn(false);
 		ggg.setAtRoom(start);
 		ggg.setInitialRoom(start);

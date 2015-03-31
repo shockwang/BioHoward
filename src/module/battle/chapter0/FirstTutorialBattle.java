@@ -35,11 +35,13 @@ public class FirstTutorialBattle extends BattleTask{
 		try {
 			for (ICharacter c : ready) {
 				if (c.getMyGroup() instanceof PlayerGroup) {
-					isBlocked = true;
-					playerMoveCount++;
-					boolean skip = doEvent((PlayerGroup) c.getMyGroup());
-					isBlocked = false;
-					if (skip) continue;
+					if (((PlayerGroup) c.getMyGroup()).getConfigData().get(config.TUTORIAL_ON)){
+						isBlocked = true;
+						playerMoveCount++;
+						boolean skip = doEvent((PlayerGroup) c.getMyGroup());
+						isBlocked = false;
+						if (skip) continue;
+					}
 					
 					if (((PlayerGroup) c.getMyGroup()).getConfigData().get(
 							config.REALTIMEBATTLE)) {
@@ -137,6 +139,11 @@ public class FirstTutorialBattle extends BattleTask{
 			CommandServer.readCommand(g, msg4);
 			g.setInEvent(false);
 			return true;
+		case 5:
+			buf.append("提示：重複輸入同樣的指令很煩嗎? 你可以利用\"!\"指令代表你\n");
+			buf.append("上一次輸入的指令喔! 你可以試著使用\"!\"來代替\"at\"或\n");
+			buf.append("\"at roommate\"。\n");
+			g.getAtRoom().informRoom(buf.toString());
 		}
 		return false;
 	}

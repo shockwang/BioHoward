@@ -55,14 +55,20 @@ public class EachPlayerServer extends Thread {
 			
 			CommandServer.informGroup(playerGroup, "status:" + playerGroup.showGroupStatus());
 			//CommandServer.readCommand(playerGroup, "look".split(" "));
-
+			
+			// keep the last input msg
+			String[] lastInput = {""};
+			
 			while (PlayerServer.getServerRun()) {
 				if (playerGroup.getInEvent()) continue;
 				input = IOUtil.readLineFromClientSocket(inFromClient);
 				temp = input.split(" ");
 				if (temp.length == 0)
 					continue;
+				if (temp[0].equals("!"))
+					temp = lastInput;
 				
+				lastInput = temp;
 				CommandServer.readCommand(playerGroup, temp);
 			}
 		} catch (IOException e) {

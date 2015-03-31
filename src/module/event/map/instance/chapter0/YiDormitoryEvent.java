@@ -193,11 +193,64 @@ public class YiDormitoryEvent {
 						}
 						buf.append("霍華；好~的~休息夠了之後就出發探索吧!");
 						EventUtil.informCheckReset(pg, buf, in);
+						if (pg.getConfigData().get(config.TUTORIAL_ON)){
+							buf.append("說明：\"mission\"或\"m\"指令能夠讓你查看自己目前身上有哪些任務\n");
+							buf.append("以及接下來可以採取哪些行動。在遊戲進行時如果忘記自己接下來要做什麼，\n");
+							buf.append("這會是一個很好用的指令喔!");
+							EventUtil.informCheckReset(pg, buf, in);
+							g.getAtRoom().informRoom("請輸入\"mission\"或\"m\"來查看當前任務。\n");
+							input = IOUtil.readLineFromClientSocket(in);
+							while (!input.equals("mission") && !input.equals("m")){
+								g.getAtRoom().informRoom("請輸入\"mission\"或\"m\"來查看當前任務。\n");
+								input = IOUtil.readLineFromClientSocket(in);
+							}
+							mm.setState(MainMission.State.START_SEARCHING);
+							String[] msg7 = {"mission"};
+							CommandServer.readCommand(pg, msg7);
+							EventUtil.informCheckReset(pg, buf, in);
+							buf.append("說明：隊伍移動時直接輸入方位名稱即可，方位就如同之前提過的那樣，\n");
+							buf.append("共有\"東/西/南/北/上/下\"六種可能的情況，對應指令分別為\"east/\n");
+							buf.append("west/south/north/up/down\"，或簡寫為\"e/w/s/n/u/d\"。");
+							EventUtil.informCheckReset(pg, buf, in);
+							buf.append("說明：當你輸入\"look\"觀察所在房間的資訊時，房間敘述下面會顯示\n");
+							buf.append("出口資訊，用中括號包起來。值得注意的是，出口資訊只會顯示當下可以\n");
+							buf.append("直接行走的方向，其他沒顯示的方向可能只是門關起來了，不一定就是\n");
+							buf.append("沒有出口喔! 因此平常就可以輸入不同的方位來探索看看有沒有自己還\n");
+							buf.append("沒發現的通道!");
+							EventUtil.informCheckReset(pg, buf, in);
+							buf.append("說明：以上是進行本遊戲會用到的基本指令。現在再整理一下：\n");
+							buf.append("\"<look/l>\"可以用來觀察所在房間的資訊。\n");
+							buf.append("\"<look/l> <方位代稱>\"可以用來觀察某方向的資訊。\n");
+							buf.append("\"<talk/ta> <角色名稱>\"可以讓你與某人對話。\n");
+							buf.append("\"<attack/at> <角色名稱>\"可以讓你攻擊某位角色並進入戰鬥。\n");
+							buf.append("\"<inventory/i>\"可以讓你查看身上的物品。");
+							EventUtil.informCheckReset(pg, buf, in);
+							buf.append("\"<equipment/eq>\"可以讓你查看隊伍中角色的裝備情況。\n");
+							buf.append("\"<get/g> <物品名稱>\"可以讓你撿起地上的某件特定物品。\n");
+							buf.append("\"<drop/dr> <物品名稱>\"可以讓你丟下身上的某件特定物品。\n");
+							buf.append("\"<wear/wea> <裝備名稱>\"可以讓角色穿上某件裝備。\n");
+							buf.append("\"<open/o> <方位名稱>\"可以讓角色開啟某方向的門。\n");
+							buf.append("\"<close/cl> <方位名稱>\"可以讓角色關閉某方向的門。");
+							EventUtil.informCheckReset(pg, buf, in);
+							buf.append("\"<unlock/un> <方位名稱>\"可以讓角色解開某方向的門鎖。\n");
+							buf.append("\"<lock/loc> <方位名稱>\"可以讓角色鎖上某方向的門。\n");
+							buf.append("\"<e/w/s/n/u/d>\"可以讓隊伍往\"東/西/南/北/上/下\"移動。\n");
+							buf.append("\"<time/t>\"可以讓你查看遊戲中的時間。\n");
+							buf.append("\"<mission/m>\"可以讓你查看目前身上有哪些任務，以及接下來的方向。");
+							EventUtil.informCheckReset(pg, buf, in);
+							buf.append("以上所有的指令皆可輸入\"<help> <指令名稱>\"來查詢詳細的\n");
+							buf.append("說明，亦可以直接輸入\"help\"來查看可以使用的指令有哪些。\n");
+							buf.append("遊戲中的指令說明暫時告一段落，接著就實際體驗文字遊戲帶給你\n");
+							buf.append("的感受吧!");
+							EventUtil.informCheckReset(pg, buf, in);
+						}
 					} catch (SkipEventException e){
 						CommandServer.informGroup(pg, "跳過劇情。\n");
 					}
 					mm.setState(MainMission.State.START_SEARCHING);
 					pg.setInEvent(false);
+					String[] msg6 = {"look"};
+					CommandServer.readCommand(pg, msg6);
 				} else if (mm.getState() == MainMission.State.START_SEARCHING){
 					// TODO: define actions after battle
 					g.getAtRoom().informRoom("start searching~~~\n");

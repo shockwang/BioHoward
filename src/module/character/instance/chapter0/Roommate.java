@@ -2,7 +2,6 @@ package module.character.instance.chapter0;
 
 import java.io.BufferedReader;
 
-import module.battle.BattleTask;
 import module.battle.chapter0.FirstTutorialBattle;
 import module.character.AbstractCharacter;
 import module.character.GroupList;
@@ -74,7 +73,7 @@ public class Roommate extends AbstractCharacter{
 			// TODO: add modify config method & explanation
 			buf.append("此項設定的預設值為\"非即時戰鬥\"，你可以透過blabla修改它。");
 			EventUtil.informReset(g, buf, in);
-			BattleTask task = new FirstTutorialBattle(this.getMyGroup(), g);
+			new FirstTutorialBattle(this.getMyGroup(), g);
 		}
 	}
 	

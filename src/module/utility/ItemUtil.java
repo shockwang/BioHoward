@@ -31,6 +31,27 @@ public class ItemUtil {
 			return null;
 		}
 	}
+	
+	public static String getEquipmentType(IEquipment equip){
+		switch (equip.getEquipType()){
+		case WEAPON:
+			return "武器";
+		case SHIELD:
+			return "盾牌";
+		case HELMET:
+			return "頭盔";
+		case ARMOR:
+			return "護甲";
+		case GLOVES:
+			return "手套";
+		case BOOTS:
+			return "鞋子";
+		case ACCESSORY:
+			return "飾品";
+		default:
+			return null;
+		}
+	}
 
 	public static String showPlayerEquip(ICharacter c) {
 		ConcurrentHashMap<IEquipment.EquipType, IEquipment> equipMap = c

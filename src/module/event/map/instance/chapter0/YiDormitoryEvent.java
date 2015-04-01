@@ -251,9 +251,6 @@ public class YiDormitoryEvent {
 					pg.setInEvent(false);
 					String[] msg6 = {"look"};
 					CommandServer.readCommand(pg, msg6);
-				} else if (mm.getState() == MainMission.State.START_SEARCHING){
-					// TODO: define actions after battle
-					g.getAtRoom().informRoom("start searching~~~\n");
 				}
 			}
 		});

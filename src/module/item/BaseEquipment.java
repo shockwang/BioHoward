@@ -64,6 +64,7 @@ public class BaseEquipment extends AbstractItem implements IEquipment{
 	public String display(){
 		StringBuffer buf = new StringBuffer();
 		buf.append(super.display());
+		buf.append("裝備類型：" + ItemUtil.getEquipmentType(this) + "\t");
 		buf.append("裝備等級：" + this.getLevel() + "\n");
 		buf.append("影響：\n");
 		

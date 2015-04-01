@@ -41,7 +41,7 @@ public class BattleTaskTest {
 	private ClientUser oneUser;
 	
 	
-	private class CharForTest extends AbstractCharacter{
+	public class CharForTest extends AbstractCharacter{
 		String desc = null;
 		
 		public CharForTest(String chiName, String engName) {
@@ -76,7 +76,7 @@ public class BattleTaskTest {
 		
 	}
 	
-	private class ItemForTest extends AbstractItem{
+	public class ItemForTest extends AbstractItem{
 		public ItemForTest(String chiName, String engName, String description) {
 			super(chiName, engName);
 			this.setDescription(description);

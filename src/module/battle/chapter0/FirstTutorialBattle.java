@@ -183,7 +183,6 @@ public class FirstTutorialBattle extends BattleTask{
 			}
 			MainMission mm = (MainMission) PlayerServer.getMissionMap().get(MainMission.class.toString());
 			mm.setState(MainMission.State.AFTER_FIRST_BATTLE);
-			aliveGroups.gList.get(0).setInEvent(true);
 			EventUtil.doRoomEvent(aliveGroups.gList.get(0));
 		}
 	}

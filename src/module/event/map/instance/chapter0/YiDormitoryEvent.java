@@ -9,20 +9,25 @@ import module.command.CommandServer;
 import module.event.AbstractEvent;
 import module.event.map.SkipEventException;
 import module.mission.chapter0.MainMission;
+import module.mission.chapter0.TwoDoorsMission;
 import module.server.PlayerServer;
 import module.utility.EventUtil;
 import module.utility.IOUtil;
 
 public class YiDormitoryEvent {
 	public static void initialize(){
-		EventUtil.mapEventMap.put("101,100,3", new AbstractEvent(){
-			@Override
-			public void doEvent(Group g) {
-				CommandServer.informGroup(g, "你聽到一聲哇哈哈~\n");
-			}
-		});
-		
 		EventUtil.mapEventMap.put("102,100,3", new AbstractEvent(){
+			@Override
+			public boolean isTriggered(Group g){
+				if (super.isTriggered(g)){
+					MainMission mm = (MainMission) PlayerServer.getMissionMap().get(MainMission.class.toString());
+					if (mm == null ||
+							mm.getState() == MainMission.State.AFTER_OPENING ||
+							mm.getState() == MainMission.State.AFTER_FIRST_BATTLE)
+						return true;
+				}
+				return false;
+			}
 
 			@Override
 			public void doEvent(Group g) {
@@ -31,6 +36,7 @@ public class YiDormitoryEvent {
 				MainMission mm = (MainMission) PlayerServer.getMissionMap()
 						.get(MainMission.class.toString());
 				if (mm == null) {
+					g.setInEvent(true);
 					mm = new MainMission();
 					PlayerServer.getMissionMap().put(MainMission.class.toString(), mm);
 					try {
@@ -94,6 +100,7 @@ public class YiDormitoryEvent {
 					String[] msg2 = {"talk", "roommate"};
 					CommandServer.readCommand(pg, msg2);
 				} else if (mm.getState() == MainMission.State.AFTER_FIRST_BATTLE){
+					g.setInEvent(true);
 					BufferedReader in = pg.getInFromClient();
 					StringBuffer buf = new StringBuffer();
 					try {
@@ -253,6 +260,148 @@ public class YiDormitoryEvent {
 					CommandServer.readCommand(pg, msg6);
 				}
 			}
+		});
+		
+		EventUtil.mapEventMap.put("100,92,1", new AbstractEvent(){
+			@Override
+			public boolean isTriggered(Group g){
+				if (super.isTriggered(g)){
+					TwoDoorsMission tdm = (TwoDoorsMission) PlayerServer.getMissionMap()
+							.get(TwoDoorsMission.class.toString());
+					if (tdm == null ||
+							tdm.south == false)
+						return true;
+				}
+				return false;
+			}
+			
+			@Override
+			public void doEvent(Group g) {
+				g.setInEvent(true);
+				PlayerGroup pg = (PlayerGroup) g;
+				
+				TwoDoorsMission tdm = (TwoDoorsMission) PlayerServer.getMissionMap()
+						.get(TwoDoorsMission.class.toString());
+				if (tdm == null) {
+					tdm = new TwoDoorsMission();
+					PlayerServer.getMissionMap().put(TwoDoorsMission.class.toString(), tdm);
+				} 
+				
+				BufferedReader in = pg.getInFromClient();
+				StringBuffer buf = new StringBuffer();
+				try {
+					buf.append("這裡被雜物堆滿了，要出去顯然不可能。");
+					EventUtil.informCheckReset(pg, buf, in);
+					if (tdm.north == false){
+						buf.append("去北邊的門看看有沒有機會。");
+						g.getAtRoom().informRoom(buf.toString() + "\n");
+					}
+				} catch (SkipEventException e){
+					CommandServer.informGroup(pg, "跳過劇情。\n");
+				}
+				tdm.south = true;
+				if (tdm.south && tdm.north){
+					tdm.setState(TwoDoorsMission.State.DONE);
+					buf.append("去宿舍管理中心看看吧!");
+					g.getAtRoom().informRoom(buf.toString() + "\n");
+					MainMission mm = (MainMission) PlayerServer.getMissionMap().get(
+							MainMission.class.toString());
+					mm.setState(MainMission.State.FOUND_DOORS_BLOCKED);
+				}
+				g.setInEvent(false);
+			}
+		});
+		
+		EventUtil.mapEventMap.put("100,103,1", new AbstractEvent(){
+			
+			@Override
+			public boolean isTriggered(Group g){
+				if (super.isTriggered(g)){
+					TwoDoorsMission tdm = (TwoDoorsMission) PlayerServer.getMissionMap()
+							.get(TwoDoorsMission.class.toString());
+					if (tdm == null ||
+							tdm.north == false)
+						return true;
+				}
+				return false;
+			}
+
+			@Override
+			public void doEvent(Group g) {
+				g.setInEvent(true);
+				PlayerGroup pg = (PlayerGroup) g;
+				
+				TwoDoorsMission tdm = (TwoDoorsMission) PlayerServer.getMissionMap()
+						.get(TwoDoorsMission.class.toString());
+				if (tdm == null) {
+					tdm = new TwoDoorsMission();
+					PlayerServer.getMissionMap().put(TwoDoorsMission.class.toString(), tdm);
+				} 
+				
+				BufferedReader in = pg.getInFromClient();
+				StringBuffer buf = new StringBuffer();
+				try {
+					buf.append("這裡自動門壞了，打不開。");
+					EventUtil.informCheckReset(pg, buf, in);
+					if (tdm.south == false){
+						buf.append("去南邊的門看看有沒有機會。");
+						g.getAtRoom().informRoom(buf.toString() + "\n");
+					}
+				} catch (SkipEventException e){
+					CommandServer.informGroup(pg, "跳過劇情。\n");
+				}
+				tdm.north = true;
+				if (tdm.south && tdm.north){
+					tdm.setState(TwoDoorsMission.State.DONE);
+					buf.append("去宿舍管理中心看看吧!");
+					g.getAtRoom().informRoom(buf.toString() + "\n");
+					MainMission mm = (MainMission) PlayerServer.getMissionMap().get(
+							MainMission.class.toString());
+					mm.setState(MainMission.State.FOUND_DOORS_BLOCKED);
+				}
+				g.setInEvent(false);
+			}
+			
+		});
+		
+		EventUtil.mapEventMap.put("101,92,1", new AbstractEvent(){
+			
+			@Override
+			public boolean isTriggered(Group g){
+				if (super.isTriggered(g)){
+					MainMission mm = (MainMission) PlayerServer.getMissionMap().get(MainMission.class.toString());
+					if (mm.getState() == MainMission.State.FOUND_DOORS_BLOCKED)
+						return true;
+				}
+				return false;
+			}
+
+			@Override
+			public void doEvent(Group g) {
+				PlayerGroup pg = (PlayerGroup) g;
+				
+				MainMission mm = (MainMission) PlayerServer.getMissionMap().get(MainMission.class.toString());
+				if (mm.getState() == MainMission.State.FOUND_DOORS_BLOCKED){
+					g.setInEvent(true);
+					mm.setState(MainMission.State.BEFORE_BREAK_MANAGE_DOOR);
+					BufferedReader in = pg.getInFromClient();
+					StringBuffer buf = new StringBuffer();
+					try {
+						buf.append("霍華：南邊就是宿舍管理室了，不過看來也是鎖著的。\n");
+						buf.append("嗯~門上有玻璃，找個沉重、堅硬一點的東西應該可以破壞吧!");
+						EventUtil.informCheckReset(pg, buf, in);
+						String[] msg = {"look", "s"};
+						CommandServer.readCommand(pg, msg);
+						EventUtil.informCheckReset(pg, buf, in);
+						buf.append("霍華：只好去找找看有沒有什麼可用的工具了。\n");
+						g.getAtRoom().informRoom(buf.toString());
+					} catch (SkipEventException e){
+						CommandServer.informGroup(pg, "跳過劇情。\n");
+					}
+					g.setInEvent(false);
+				}
+			}
+			
 		});
 	}
 }

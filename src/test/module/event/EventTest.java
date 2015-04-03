@@ -9,6 +9,7 @@ import module.character.constants.CStatus.status;
 import module.client.ClientUser;
 import module.command.CommandServer;
 import module.event.map.instance.chapter0.YiDormitoryEvent;
+import module.event.map.instance.chapter0.YiDormitoryRoomCommand;
 import module.item.BaseEquipment;
 import module.item.api.IEquipment.EquipType;
 import module.map.api.IRoom;
@@ -66,6 +67,7 @@ public class EventTest {
 		MapUtil.parseMapFromJSON("map/chapter0/YiDormitory.map");
 		MapUtil.parseDoorFromJSON("map/chapter0/YiDormitory.door");
 		YiDormitoryEvent.initialize();
+		YiDormitoryRoomCommand.initialize();
 	}
 	
 	@Test
@@ -87,6 +89,10 @@ public class EventTest {
 		pg.setAtRoom(start);
 		pg.setInitialRoom(start);
 		start.getGroupList().gList.add(pg);
+		
+		// set a place to put fire extinguisher
+		IRoom r1 = MapUtil.roomMap.get("101,99,1");
+		r1.getItemList().addItem(btt.new ItemForTest("滅火器", "fire extinguisher", "就是滅火器"));
 		
 		// set player group to system time
 		PlayerServer.getSystemTime().addGroup(pg);

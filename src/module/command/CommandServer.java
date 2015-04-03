@@ -27,6 +27,7 @@ import module.command.group.Move;
 import module.command.group.MyTime;
 import module.command.group.Talk;
 import module.utility.EnDecoder;
+import module.utility.EventUtil;
 import module.utility.Parse;
 
 public class CommandServer {
@@ -63,7 +64,7 @@ public class CommandServer {
 
 	public static void readCommand(Group g, String[] msg) {
 		// execute room special command
-		if (g.getAtRoom().specialCommand(msg[0])) return;
+		if (EventUtil.doRoomCommand(g, msg)) return;
 
 		if (msg[0].equals("help")) {
 			if (msg.length == 1) {

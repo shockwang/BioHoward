@@ -1381,7 +1381,7 @@
 			{"direction":"south","connectTo":"101,91,1"},
 			{"direction":"east","connectTo":"102,92,1"},
 			{"direction":"west","connectTo":"100,92,1"},
-			{"direction":"up","connectTo":"100,92,1"}
+			{"direction":"up","connectTo":"101,92,2"}
 		]
 	},
 	{

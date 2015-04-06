@@ -36,6 +36,8 @@ public class YiDormitoryRoomCommand {
 						}
 					} else if (((MainMission.State) mm.getState()).index >= MainMission.State.AFTER_BREAK_MANAGE_DOOR.index) {
 						g.getAtRoom().informRoom("門上的玻璃已經被打碎了。\n");
+					} else {
+						g.getAtRoom().informRoom("先去宿舍大門看看吧。\n");
 					}
 					return true;
 				} else if (msg[0].equals("climb")) {

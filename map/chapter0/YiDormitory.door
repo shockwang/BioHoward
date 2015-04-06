@@ -9,7 +9,7 @@
 		},
 		"doorAttribute":"lockable",
 		"doorStatus":"locked"
-		"keyName":"key 301"
+		"keyName":"manager key"
 	},
 	{
 		"description":[
@@ -21,7 +21,7 @@
 		},
 		"doorAttribute":"lockable",
 		"doorStatus":"locked"
-		"keyName":"key 303"
+		"keyName":"manager key"
 	},
 	{
 		"description":[
@@ -33,7 +33,7 @@
 		},
 		"doorAttribute":"lockable",
 		"doorStatus":"locked"
-		"keyName":"key 305"
+		"keyName":"manager key"
 	},
 	{
 		"description":[
@@ -45,7 +45,7 @@
 		},
 		"doorAttribute":"lockable",
 		"doorStatus":"locked"
-		"keyName":"key 307"
+		"keyName":"manager key"
 	},
 	{
 		"description":[
@@ -57,7 +57,7 @@
 		},
 		"doorAttribute":"lockable",
 		"doorStatus":"locked"
-		"keyName":"key 309"
+		"keyName":"manager key"
 	},
 	{
 		"description":[
@@ -69,7 +69,7 @@
 		},
 		"doorAttribute":"lockable",
 		"doorStatus":"locked"
-		"keyName":"key 311"
+		"keyName":"manager key"
 	},
 	{
 		"description":[
@@ -81,7 +81,7 @@
 		},
 		"doorAttribute":"lockable",
 		"doorStatus":"locked"
-		"keyName":"key 313"
+		"keyName":"manager key"
 	},
 	{
 		"description":[
@@ -93,7 +93,7 @@
 		},
 		"doorAttribute":"lockable",
 		"doorStatus":"locked"
-		"keyName":"key 315"
+		"keyName":"manager key"
 	},
 	{
 		"description":[
@@ -105,7 +105,7 @@
 		},
 		"doorAttribute":"lockable",
 		"doorStatus":"locked"
-		"keyName":"key 317"
+		"keyName":"manager key"
 	},
 	{
 		"description":[
@@ -117,7 +117,7 @@
 		},
 		"doorAttribute":"lockable",
 		"doorStatus":"locked"
-		"keyName":"key 319"
+		"keyName":"manager key"
 	},
 	{
 		"description":[
@@ -129,7 +129,7 @@
 		},
 		"doorAttribute":"lockable",
 		"doorStatus":"locked"
-		"keyName":"key 302"
+		"keyName":"manager key"
 	},
 	{
 		"description":[
@@ -141,7 +141,7 @@
 		},
 		"doorAttribute":"lockable",
 		"doorStatus":"locked"
-		"keyName":"key 304"
+		"keyName":"manager key"
 	},
 	{
 		"description":[
@@ -165,7 +165,7 @@
 		},
 		"doorAttribute":"lockable",
 		"doorStatus":"locked"
-		"keyName":"key 308"
+		"keyName":"manager key"
 	},
 	{
 		"description":[
@@ -177,7 +177,7 @@
 		},
 		"doorAttribute":"lockable",
 		"doorStatus":"locked"
-		"keyName":"key 310"
+		"keyName":"manager key"
 	},
 	{
 		"description":[
@@ -189,7 +189,7 @@
 		},
 		"doorAttribute":"lockable",
 		"doorStatus":"locked"
-		"keyName":"key 312"
+		"keyName":"manager key"
 	},
 	{
 		"description":[
@@ -201,7 +201,7 @@
 		},
 		"doorAttribute":"lockable",
 		"doorStatus":"locked"
-		"keyName":"key 314"
+		"keyName":"manager key"
 	},
 	{
 		"description":[
@@ -213,7 +213,7 @@
 		},
 		"doorAttribute":"lockable",
 		"doorStatus":"locked"
-		"keyName":"key 316"
+		"keyName":"manager key"
 	},
 	{
 		"description":[
@@ -225,7 +225,7 @@
 		},
 		"doorAttribute":"lockable",
 		"doorStatus":"locked"
-		"keyName":"key 318"
+		"keyName":"manager key"
 	},
 	{
 		"description":[
@@ -237,7 +237,524 @@
 		},
 		"doorAttribute":"lockable",
 		"doorStatus":"locked"
-		"keyName":"key 320"
+		"keyName":"manager key"
+	},
+	{
+		"description":[
+			"201號房門"
+		],
+		"positionDoor":{
+			"connect1":{"direction":"west","connectTo":"100,102,2"},
+			"connect2":{"direction":"east","connectTo":"101,102,2"}
+		},
+		"doorAttribute":"lockable",
+		"doorStatus":"locked"
+		"keyName":"manager key"
+	},
+	{
+		"description":[
+			"203號房門"
+		],
+		"positionDoor":{
+			"connect1":{"direction":"west","connectTo":"100,101,2"},
+			"connect2":{"direction":"east","connectTo":"101,101,2"}
+		},
+		"doorAttribute":"lockable",
+		"doorStatus":"locked"
+		"keyName":"manager key"
+	},
+	{
+		"description":[
+			"205號房門"
+		],
+		"positionDoor":{
+			"connect1":{"direction":"west","connectTo":"100,100,2"},
+			"connect2":{"direction":"east","connectTo":"101,100,2"}
+		},
+		"doorAttribute":"lockable",
+		"doorStatus":"locked"
+		"keyName":"manager key"
+	},
+	{
+		"description":[
+			"207號房門"
+		],
+		"positionDoor":{
+			"connect1":{"direction":"west","connectTo":"100,99,2"},
+			"connect2":{"direction":"east","connectTo":"101,99,2"}
+		},
+		"doorAttribute":"lockable",
+		"doorStatus":"locked"
+		"keyName":"manager key"
+	},
+	{
+		"description":[
+			"209號房門"
+		],
+		"positionDoor":{
+			"connect1":{"direction":"west","connectTo":"100,98,2"},
+			"connect2":{"direction":"east","connectTo":"101,98,2"}
+		},
+		"doorAttribute":"lockable",
+		"doorStatus":"locked"
+		"keyName":"manager key"
+	},
+	{
+		"description":[
+			"211號房門"
+		],
+		"positionDoor":{
+			"connect1":{"direction":"west","connectTo":"100,97,2"},
+			"connect2":{"direction":"east","connectTo":"101,97,2"}
+		},
+		"doorAttribute":"lockable",
+		"doorStatus":"locked"
+		"keyName":"manager key"
+	},
+	{
+		"description":[
+			"213號房門"
+		],
+		"positionDoor":{
+			"connect1":{"direction":"west","connectTo":"100,96,2"},
+			"connect2":{"direction":"east","connectTo":"101,96,2"}
+		},
+		"doorAttribute":"lockable",
+		"doorStatus":"locked"
+		"keyName":"manager key"
+	},
+	{
+		"description":[
+			"215號房門"
+		],
+		"positionDoor":{
+			"connect1":{"direction":"west","connectTo":"100,95,2"},
+			"connect2":{"direction":"east","connectTo":"101,95,2"}
+		},
+		"doorAttribute":"lockable",
+		"doorStatus":"locked"
+		"keyName":"manager key"
+	},
+	{
+		"description":[
+			"217號房門"
+		],
+		"positionDoor":{
+			"connect1":{"direction":"west","connectTo":"100,94,2"},
+			"connect2":{"direction":"east","connectTo":"101,94,2"}
+		},
+		"doorAttribute":"lockable",
+		"doorStatus":"locked"
+		"keyName":"manager key"
+	},
+	{
+		"description":[
+			"219號房門"
+		],
+		"positionDoor":{
+			"connect1":{"direction":"west","connectTo":"100,93,2"},
+			"connect2":{"direction":"east","connectTo":"101,93,2"}
+		},
+		"doorAttribute":"lockable",
+		"doorStatus":"locked"
+		"keyName":"manager key"
+	},
+	{
+		"description":[
+			"202號房門"
+		],
+		"positionDoor":{
+			"connect1":{"direction":"west","connectTo":"101,102,2"},
+			"connect2":{"direction":"east","connectTo":"102,102,2"}
+		},
+		"doorAttribute":"lockable",
+		"doorStatus":"locked"
+		"keyName":"manager key"
+	},
+	{
+		"description":[
+			"204號房門"
+		],
+		"positionDoor":{
+			"connect1":{"direction":"west","connectTo":"101,101,2"},
+			"connect2":{"direction":"east","connectTo":"102,101,2"}
+		},
+		"doorAttribute":"lockable",
+		"doorStatus":"locked"
+		"keyName":"manager key"
+	},
+	{
+		"description":[
+			"206號房門"
+		],
+		"positionDoor":{
+			"connect1":{"direction":"west","connectTo":"101,100,2"},
+			"connect2":{"direction":"east","connectTo":"102,100,2"}
+		},
+		"doorAttribute":"lockable",
+		"doorStatus":"locked"
+		"keyName":"manager key"
+	},
+	{
+		"description":[
+			"208號房門"
+		],
+		"positionDoor":{
+			"connect1":{"direction":"west","connectTo":"101,99,2"},
+			"connect2":{"direction":"east","connectTo":"102,99,2"}
+		},
+		"doorAttribute":"lockable",
+		"doorStatus":"locked"
+		"keyName":"manager key"
+	},
+	{
+		"description":[
+			"210號房門"
+		],
+		"positionDoor":{
+			"connect1":{"direction":"west","connectTo":"101,98,2"},
+			"connect2":{"direction":"east","connectTo":"102,98,2"}
+		},
+		"doorAttribute":"lockable",
+		"doorStatus":"locked"
+		"keyName":"manager key"
+	},
+	{
+		"description":[
+			"212號房門"
+		],
+		"positionDoor":{
+			"connect1":{"direction":"west","connectTo":"101,97,2"},
+			"connect2":{"direction":"east","connectTo":"102,97,2"}
+		},
+		"doorAttribute":"lockable",
+		"doorStatus":"locked"
+		"keyName":"manager key"
+	},
+	{
+		"description":[
+			"214號房門"
+		],
+		"positionDoor":{
+			"connect1":{"direction":"west","connectTo":"101,96,2"},
+			"connect2":{"direction":"east","connectTo":"102,96,2"}
+		},
+		"doorAttribute":"lockable",
+		"doorStatus":"locked"
+		"keyName":"manager key"
+	},
+	{
+		"description":[
+			"216號房門"
+		],
+		"positionDoor":{
+			"connect1":{"direction":"west","connectTo":"101,95,2"},
+			"connect2":{"direction":"east","connectTo":"102,95,2"}
+		},
+		"doorAttribute":"lockable",
+		"doorStatus":"locked"
+		"keyName":"manager key"
+	},
+	{
+		"description":[
+			"218號房門"
+		],
+		"positionDoor":{
+			"connect1":{"direction":"west","connectTo":"101,94,2"},
+			"connect2":{"direction":"east","connectTo":"102,94,2"}
+		},
+		"doorAttribute":"lockable",
+		"doorStatus":"locked"
+		"keyName":"manager key"
+	},
+	{
+		"description":[
+			"220號房門"
+		],
+		"positionDoor":{
+			"connect1":{"direction":"west","connectTo":"101,93,2"},
+			"connect2":{"direction":"east","connectTo":"102,93,2"}
+		},
+		"doorAttribute":"lockable",
+		"doorStatus":"locked"
+		"keyName":"manager key"
+	},
+	{
+		"description":[
+			"101號房門"
+		],
+		"positionDoor":{
+			"connect1":{"direction":"west","connectTo":"100,102,1"},
+			"connect2":{"direction":"east","connectTo":"101,102,1"}
+		},
+		"doorAttribute":"lockable",
+		"doorStatus":"locked"
+		"keyName":"manager key"
+	},
+	{
+		"description":[
+			"103號房門"
+		],
+		"positionDoor":{
+			"connect1":{"direction":"west","connectTo":"100,101,1"},
+			"connect2":{"direction":"east","connectTo":"101,101,1"}
+		},
+		"doorAttribute":"lockable",
+		"doorStatus":"locked"
+		"keyName":"manager key"
+	},
+	{
+		"description":[
+			"105號房門"
+		],
+		"positionDoor":{
+			"connect1":{"direction":"west","connectTo":"100,100,1"},
+			"connect2":{"direction":"east","connectTo":"101,100,1"}
+		},
+		"doorAttribute":"lockable",
+		"doorStatus":"locked"
+		"keyName":"manager key"
+	},
+	{
+		"description":[
+			"107號房門"
+		],
+		"positionDoor":{
+			"connect1":{"direction":"west","connectTo":"100,99,1"},
+			"connect2":{"direction":"east","connectTo":"101,99,1"}
+		},
+		"doorAttribute":"lockable",
+		"doorStatus":"locked"
+		"keyName":"manager key"
+	},
+	{
+		"description":[
+			"109號房門"
+		],
+		"positionDoor":{
+			"connect1":{"direction":"west","connectTo":"100,98,1"},
+			"connect2":{"direction":"east","connectTo":"101,98,1"}
+		},
+		"doorAttribute":"lockable",
+		"doorStatus":"locked"
+		"keyName":"manager key"
+	},
+	{
+		"description":[
+			"111號房門"
+		],
+		"positionDoor":{
+			"connect1":{"direction":"west","connectTo":"100,97,1"},
+			"connect2":{"direction":"east","connectTo":"101,97,1"}
+		},
+		"doorAttribute":"lockable",
+		"doorStatus":"locked"
+		"keyName":"manager key"
+	},
+	{
+		"description":[
+			"113號房門"
+		],
+		"positionDoor":{
+			"connect1":{"direction":"west","connectTo":"100,96,1"},
+			"connect2":{"direction":"east","connectTo":"101,96,1"}
+		},
+		"doorAttribute":"lockable",
+		"doorStatus":"locked"
+		"keyName":"manager key"
+	},
+	{
+		"description":[
+			"115號房門"
+		],
+		"positionDoor":{
+			"connect1":{"direction":"west","connectTo":"100,95,1"},
+			"connect2":{"direction":"east","connectTo":"101,95,1"}
+		},
+		"doorAttribute":"lockable",
+		"doorStatus":"locked"
+		"keyName":"manager key"
+	},
+	{
+		"description":[
+			"117號房門"
+		],
+		"positionDoor":{
+			"connect1":{"direction":"west","connectTo":"100,94,1"},
+			"connect2":{"direction":"east","connectTo":"101,94,1"}
+		},
+		"doorAttribute":"lockable",
+		"doorStatus":"locked"
+		"keyName":"manager key"
+	},
+	{
+		"description":[
+			"119號房門"
+		],
+		"positionDoor":{
+			"connect1":{"direction":"west","connectTo":"100,93,1"},
+			"connect2":{"direction":"east","connectTo":"101,93,1"}
+		},
+		"doorAttribute":"lockable",
+		"doorStatus":"locked"
+		"keyName":"manager key"
+	},
+	{
+		"description":[
+			"102號房門"
+		],
+		"positionDoor":{
+			"connect1":{"direction":"west","connectTo":"101,102,1"},
+			"connect2":{"direction":"east","connectTo":"102,102,1"}
+		},
+		"doorAttribute":"lockable",
+		"doorStatus":"locked"
+		"keyName":"manager key"
+	},
+	{
+		"description":[
+			"104號房門"
+		],
+		"positionDoor":{
+			"connect1":{"direction":"west","connectTo":"101,101,1"},
+			"connect2":{"direction":"east","connectTo":"102,101,1"}
+		},
+		"doorAttribute":"lockable",
+		"doorStatus":"locked"
+		"keyName":"manager key"
+	},
+	{
+		"description":[
+			"106號房門"
+		],
+		"positionDoor":{
+			"connect1":{"direction":"west","connectTo":"101,100,1"},
+			"connect2":{"direction":"east","connectTo":"102,100,1"}
+		},
+		"doorAttribute":"lockable",
+		"doorStatus":"locked"
+		"keyName":"manager key"
+	},
+	{
+		"description":[
+			"108號房門"
+		],
+		"positionDoor":{
+			"connect1":{"direction":"west","connectTo":"101,99,1"},
+			"connect2":{"direction":"east","connectTo":"102,99,1"}
+		},
+		"doorAttribute":"lockable",
+		"doorStatus":"locked"
+		"keyName":"manager key"
+	},
+	{
+		"description":[
+			"110號房門"
+		],
+		"positionDoor":{
+			"connect1":{"direction":"west","connectTo":"101,98,1"},
+			"connect2":{"direction":"east","connectTo":"102,98,1"}
+		},
+		"doorAttribute":"lockable",
+		"doorStatus":"locked"
+		"keyName":"manager key"
+	},
+	{
+		"description":[
+			"112號房門"
+		],
+		"positionDoor":{
+			"connect1":{"direction":"west","connectTo":"101,97,1"},
+			"connect2":{"direction":"east","connectTo":"102,97,1"}
+		},
+		"doorAttribute":"lockable",
+		"doorStatus":"locked"
+		"keyName":"manager key"
+	},
+	{
+		"description":[
+			"114號房門"
+		],
+		"positionDoor":{
+			"connect1":{"direction":"west","connectTo":"101,96,1"},
+			"connect2":{"direction":"east","connectTo":"102,96,1"}
+		},
+		"doorAttribute":"lockable",
+		"doorStatus":"locked"
+		"keyName":"manager key"
+	},
+	{
+		"description":[
+			"116號房門"
+		],
+		"positionDoor":{
+			"connect1":{"direction":"west","connectTo":"101,95,1"},
+			"connect2":{"direction":"east","connectTo":"102,95,1"}
+		},
+		"doorAttribute":"lockable",
+		"doorStatus":"locked"
+		"keyName":"manager key"
+	},
+	{
+		"description":[
+			"118號房門"
+		],
+		"positionDoor":{
+			"connect1":{"direction":"west","connectTo":"101,94,1"},
+			"connect2":{"direction":"east","connectTo":"102,94,1"}
+		},
+		"doorAttribute":"lockable",
+		"doorStatus":"locked"
+		"keyName":"manager key"
+	},
+	{
+		"description":[
+			"120號房門"
+		],
+		"positionDoor":{
+			"connect1":{"direction":"west","connectTo":"101,93,1"},
+			"connect2":{"direction":"east","connectTo":"102,93,1"}
+		},
+		"doorAttribute":"lockable",
+		"doorStatus":"locked"
+		"keyName":"manager key"
+	},
+	{
+		"description":[
+			"宿舍管理中心的大門。門是鎖著的，但門上有一片極薄的玻璃，或許你可以用什麼堅硬的",
+			"物品將他砸碎(crash)，再從門上的開口爬過去(climb)。"
+		],
+		"positionDoor":{
+			"connect1":{"direction":"north","connectTo":"101,92,1"},
+			"connect2":{"direction":"south","connectTo":"101,91,1"}
+		},
+		"doorAttribute":"lockable",
+		"doorStatus":"locked"
+		"keyName":"manager door key"
+	},
+	{
+		"description":[
+			"宿舍北側的大門，已經在混亂中不知被誰砸壞了，並堆上了許多雜物。想必是宿舍內的人",
+			"為了避免宿舍外的發狂者侵入而為。但可惜的是最後他們自己也無法倖免於異變。"
+		],
+		"positionDoor":{
+			"connect1":{"direction":"west","connectTo":"99,103,1"},
+			"connect2":{"direction":"east","connectTo":"100,103,1"}
+		},
+		"doorAttribute":"broken",
+		"doorStatus":"closed"
+	},
+	{
+		"description":[
+			"宿舍南側的大門。由於不知名原因的斷電，厚重的自動門已經毫無反應。從透明的厚玻璃",
+			"可以看到外面同樣聚集著奇怪的人，最好不要從這裡出去，以免被圍攻。"
+		],
+		"positionDoor":{
+			"connect1":{"direction":"west","connectTo":"99,92,1"},
+			"connect2":{"direction":"east","connectTo":"100,92,1"}
+		},
+		"doorAttribute":"broken",
+		"doorStatus":"closed"
 	}
 ]
 }

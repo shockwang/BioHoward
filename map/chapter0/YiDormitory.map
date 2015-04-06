@@ -910,7 +910,20 @@
 			{"direction":"north","connectTo":"101,93,2"},
 			{"direction":"east","connectTo":"102,92,2"},
 			{"direction":"up","connectTo":"101,92,3"},
-			{"direction":"down","connectTo":"101,92,1"}
+			{"direction":"down","connectTo":"101,92,1"},
+			{"direction":"south","connectTo":"101,91,2"}
+		]
+	},
+	{
+		"name":"義齋交誼廳",
+		"description":[
+			"hahaha",
+			"hehehe",
+			"hohoho"
+		],
+		"position":"101,91,2",
+		"exit":[
+			{"direction":"north","connectTo":"101,92,2"}
 		]
 	},
 	{
@@ -1418,7 +1431,8 @@
 		],
 		"position":"100,103,1",
 		"exit":[
-			{"direction":"east","connectTo":"101,103,1"}
+			{"direction":"east","connectTo":"101,103,1"},
+			{"direction":"west","connectTo":"99,103,1"}
 		]
 	},
 	{
@@ -1430,7 +1444,8 @@
 		],
 		"position":"100,92,1",
 		"exit":[
-			{"direction":"east","connectTo":"101,92,1"}
+			{"direction":"east","connectTo":"101,92,1"},
+			{"direction":"west","connectTo":"99,92,1"}
 		]
 	},
 	{
@@ -1456,6 +1471,30 @@
 		"position":"100,91,1",
 		"exit":[
 			{"direction":"east","connectTo":"101,91,1"}
+		]
+	},
+	{
+		"name":"義齋南側庭園",
+		"description":[
+			"hahaha",
+			"hehehe",
+			"hohoho"
+		],
+		"position":"99,92,1",
+		"exit":[
+			{"direction":"east","connectTo":"100,92,1"}
+		]
+	},
+	{
+		"name":"義齋北側庭園",
+		"description":[
+			"hahaha",
+			"hehehe",
+			"hohoho"
+		],
+		"position":"99,103,1",
+		"exit":[
+			{"direction":"east","connectTo":"100,103,1"}
 		]
 	}
 ]

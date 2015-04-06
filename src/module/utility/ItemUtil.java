@@ -5,7 +5,10 @@ import java.util.concurrent.ConcurrentHashMap;
 import module.character.CharList;
 import module.character.Group;
 import module.character.api.ICharacter;
+import module.command.CommandServer;
+import module.item.ItemList;
 import module.item.SingleItemList;
+import module.item.api.IContainer;
 import module.item.api.IEquipment;
 import module.item.api.IEquipment.EquipType;
 import module.item.api.IItem;
@@ -134,5 +137,17 @@ public class ItemUtil {
 			for (ICharacter c : cList.charList)
 				c.looting();
 		}
+	}
+	
+	public static IContainer checkIsContainer(Group g, ItemList list, String target){
+		IItem objContainer = list.findItem(target);
+		if (objContainer != null) {
+			if (objContainer instanceof IContainer){
+				return (IContainer) objContainer;
+			} else
+				CommandServer.informGroup(g, "那樣東西並不是容器喔!\n");
+		} else
+			CommandServer.informGroup(g, "這裡沒有你指定的容器。\n");
+		return null;
 	}
 }

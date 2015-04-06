@@ -12,6 +12,8 @@ import module.event.map.instance.chapter0.YiDormitoryEvent;
 import module.event.map.instance.chapter0.YiDormitoryRoomCommand;
 import module.item.BaseEquipment;
 import module.item.api.IEquipment.EquipType;
+import module.item.api.IItem;
+import module.item.container.instance.chapter0.Refrigerator;
 import module.map.api.IRoom;
 import module.mission.chapter0.MainMission;
 import module.server.PlayerServer;
@@ -89,6 +91,10 @@ public class EventTest {
 		pg.setAtRoom(start);
 		pg.setInitialRoom(start);
 		start.getGroupList().gList.add(pg);
+		
+		// set container test
+		IItem refrigerator = new Refrigerator(start);
+		start.getItemList().addItem(refrigerator);
 		
 		// set a place to put fire extinguisher
 		IRoom r1 = MapUtil.roomMap.get("101,99,1");

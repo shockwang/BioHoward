@@ -4,7 +4,7 @@ import module.character.api.ICharacter;
 import module.item.ItemList;
 import module.map.constants.CDoorAttribute;
 
-public interface IContainer extends IItem{
+public interface IContainer {
 	enum Type {
 		MOVEABLE,
 		FIXED_POSITION,
@@ -29,4 +29,7 @@ public interface IContainer extends IItem{
 	
 	boolean onLock(ICharacter c);
 	boolean onUnlock(ICharacter c);
+	
+	boolean onOpen(ICharacter c);
+	boolean onClose(ICharacter c);
 }

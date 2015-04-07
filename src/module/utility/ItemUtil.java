@@ -150,4 +150,14 @@ public class ItemUtil {
 			CommandServer.informGroup(g, "這裡沒有你指定的容器。\n");
 		return null;
 	}
+	
+	public static String showContainerStatus(IContainer c){
+		switch (c.getStatus()){
+		case CLOSED: case LOCKED:
+			return "關";
+		case OPENED: 
+			return "開";
+		}
+		return null;
+	}
 }

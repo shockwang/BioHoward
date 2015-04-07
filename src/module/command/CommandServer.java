@@ -17,8 +17,10 @@ import module.command.character.Flee;
 import module.command.character.Get;
 import module.command.character.Lock;
 import module.command.character.Open;
+import module.command.character.Put;
 import module.command.character.Remove;
 import module.command.character.Unlock;
+import module.command.character.Use;
 import module.command.character.Wear;
 import module.command.group.Inventory;
 import module.command.group.Look;
@@ -53,6 +55,8 @@ public class CommandServer {
 		cmdList.add(new Close());
 		cmdList.add(new Lock());
 		cmdList.add(new Unlock());
+		cmdList.add(new Put());
+		cmdList.add(new Use());
 
 		groupCmdList.add(new Move());
 		groupCmdList.add(new Look());

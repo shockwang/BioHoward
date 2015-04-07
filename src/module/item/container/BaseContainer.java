@@ -5,6 +5,7 @@ import module.character.api.ICharacter;
 import module.command.CommandServer;
 import module.item.AbstractItem;
 import module.item.ItemList;
+import module.item.SingleItemList;
 import module.item.api.IContainer;
 import module.item.api.IItem;
 import module.map.constants.CDoorAttribute;
@@ -16,6 +17,7 @@ public class BaseContainer extends AbstractItem implements IContainer{
 	protected IContainer.Type type;
 	protected CDoorAttribute.doorAttribute attribute;
 	protected CDoorAttribute.doorStatus status;
+	protected String keyName = null;
 
 	public BaseContainer(String chiName, String engName) {
 		super(chiName, engName);
@@ -29,6 +31,11 @@ public class BaseContainer extends AbstractItem implements IContainer{
 	@Override
 	public void displayContent(ICharacter c) {
 		Group g = c.getMyGroup();
+		
+		if (this.status != doorStatus.OPENED){
+			CommandServer.informGroup(g, "這個容器現在是關著的。\n");
+			return;
+		}
 		
 		StringBuffer buf = new StringBuffer();
 		buf.append(this.getChiName() + "裡面有下列物品：\n");
@@ -44,6 +51,10 @@ public class BaseContainer extends AbstractItem implements IContainer{
 	public boolean onGetContent(ICharacter c, String target) {
 		Group g = c.getMyGroup();
 		
+		if (this.status != doorStatus.OPENED){
+			CommandServer.informGroup(g, "這個容器現在是關著的。\n");
+			return false;
+		}
 		IItem obj = list.findItem(target);
 		if (obj != null) {
 			list.removeItem(obj);
@@ -61,6 +72,10 @@ public class BaseContainer extends AbstractItem implements IContainer{
 	public boolean onPutContent(ICharacter c, String target) {
 		Group g = c.getMyGroup();
 		
+		if (this.status != doorStatus.OPENED){
+			CommandServer.informGroup(g, "這個容器現在是關著的。\n");
+			return false;
+		}
 		IItem obj = g.getInventory().findItem(target);
 		if (obj != null){
 			g.getInventory().removeItem(obj);
@@ -106,16 +121,106 @@ public class BaseContainer extends AbstractItem implements IContainer{
 
 	@Override
 	public boolean onLock(ICharacter c) {
+		Group g = c.getMyGroup();
+		
+		if (this.attribute == doorAttribute.LOCKABLE){
+			switch (this.status){
+			case OPENED:
+				CommandServer.informGroup(g, "這個容器現在是打開著的。\n");
+				break;
+			case LOCKED:
+				CommandServer.informGroup(g, "這個容器已經是鎖著的了。\n");
+				break;
+			case CLOSED:
+				if (hasKey(c)){
+					this.status = doorStatus.LOCKED;
+					g.getAtRoom().informRoom(String.format("%s鎖上了%s。\n", c.getChiName(), this.getChiName()));
+					return true;
+				} else
+					CommandServer.informGroup(g, c.getChiName() + "身上並沒有帶著合適的鑰匙。\n");
+			}
+		} else
+			CommandServer.informGroup(g, "這個容器是無法上鎖的喔。\n");
 		return false;
 	}
 
 	@Override
 	public boolean onUnlock(ICharacter c) {
+		Group g = c.getMyGroup();
+		
+		switch (this.status){
+		case OPENED: case CLOSED:
+			CommandServer.informGroup(g, "這個容器並沒有上鎖。\n");
+			break;
+		case LOCKED:
+			if (hasKey(c)){
+				this.status = doorStatus.CLOSED;
+				g.getAtRoom().informRoom(String.format("%s解開了%s上面的鎖。\n", 
+						c.getChiName(), this.getChiName()));
+				return true;
+			} else
+				CommandServer.informGroup(g, c.getChiName() + "身上並沒有帶著合適的鑰匙。\n");
+		}
+		
 		return false;
 	}
 
 	@Override
 	public ItemList getItemList() {
 		return this.list;
+	}
+
+	@Override
+	public boolean onOpen(ICharacter c) {
+		Group g = c.getMyGroup();
+		
+		if (this.attribute == doorAttribute.BROKEN) {
+			CommandServer.informGroup(g, "這個容器是打不開的喔!\n");
+			return false;
+		}
+		
+		switch (this.status){
+		case OPENED:
+			CommandServer.informGroup(g, "這個容器已經是開著的了。\n");
+			break;
+		case LOCKED:
+			CommandServer.informGroup(g, "這個容器現在是鎖著的。\n");
+			break;
+		case CLOSED:
+			this.status = doorStatus.OPENED;
+			g.getAtRoom().informRoom(String.format("%s打開了%s。\n", 
+					c.getChiName(), this.getChiName()));
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public boolean onClose(ICharacter c) {
+		Group g = c.getMyGroup();
+		
+		if (this.attribute == doorAttribute.BROKEN){
+			CommandServer.informGroup(g, "這個容器是關不起來的喔!\n");
+			return false;
+		}
+		
+		switch (this.status){
+		case CLOSED: case LOCKED:
+			CommandServer.informGroup(g, "這個容器已經是關著的了。\n");
+			break;
+		case OPENED:
+			this.status = doorStatus.CLOSED;
+			g.getAtRoom().informRoom(String.format("%s關上了%s。\n", 
+					c.getChiName(), this.getChiName()));
+		}
+		return false;
+	}
+	
+	private boolean hasKey(ICharacter c) {
+		for (SingleItemList list : c.getMyGroup().getInventory().itemList) {
+			if (keyName.equals(list.list.get(0).getEngName()))
+				return true;
+		}
+		return false;
 	}
 }

@@ -4,6 +4,7 @@ import module.character.Group;
 import module.character.api.ICharacter;
 import module.command.CommandServer;
 import module.command.api.ICommand;
+import module.item.api.IContainer;
 import module.item.api.IItem;
 import module.map.api.IDoor;
 import module.map.constants.CDoorAttribute.doorStatus;
@@ -34,7 +35,15 @@ public class Look implements ICommand {
 						.displayRoomExceptGroup(g));
 				triggerRoomEvent = EventUtil.triggerRoomEvent(g);
 				if (triggerRoomEvent) g.setTalking(true);
-			} else {
+			} else if (command.length >= 3 && command[1].equals("in")){
+				// look in container
+				IContainer container = ItemUtil.checkIsContainer(g, g.getAtRoom().getItemList(), command[2]);
+				if (container != null){
+					container.displayContent(c);
+				}
+				return false;
+			}
+			else {
 				// look at the specific object
 				if (command.length == 2) {
 					IItem obj = g.getInventory().findItem(command[1]);

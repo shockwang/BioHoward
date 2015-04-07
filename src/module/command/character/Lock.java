@@ -4,10 +4,12 @@ import module.character.Group;
 import module.character.api.ICharacter;
 import module.command.CommandServer;
 import module.command.api.ICommand;
+import module.item.api.IContainer;
 import module.map.api.IDoor;
 import module.map.constants.CDoorAttribute.doorAttribute;
 import module.map.constants.CDoorAttribute.doorStatus;
 import module.map.constants.CExit.exit;
+import module.utility.ItemUtil;
 import module.utility.MoveUtil;
 
 public class Lock implements ICommand {
@@ -32,7 +34,8 @@ public class Lock implements ICommand {
 			CommandServer.informGroup(g, "你想讓" + c.getChiName() + "把什麼鎖上呢?\n");
 			return false;
 		}
-
+		
+		// exit case
 		exit direction = MoveUtil.getWay(command[2]);
 		if (direction != null) {
 			try {
@@ -66,8 +69,14 @@ public class Lock implements ICommand {
 			} catch (NullPointerException e) {
 				CommandServer.informGroup(g, "這個方向沒有門喔。\n");
 			}
-		} else
-			CommandServer.informGroup(g, "這裡沒有你想上鎖的東西。\n");
+			return false;
+		} 
+		
+		// container case
+		IContainer container = ItemUtil.checkIsContainer(g, g.getAtRoom().getItemList(), command[2]);
+		if (container != null){
+			if (container.onLock(c)) return true;
+		}
 
 		return false;
 	}

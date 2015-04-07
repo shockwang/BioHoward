@@ -14,6 +14,7 @@ import module.item.BaseEquipment;
 import module.item.api.IEquipment.EquipType;
 import module.item.api.IItem;
 import module.item.container.instance.chapter0.Refrigerator;
+import module.item.instance.chapter0.FireExtinguisher;
 import module.map.api.IRoom;
 import module.mission.chapter0.MainMission;
 import module.server.PlayerServer;
@@ -98,7 +99,7 @@ public class EventTest {
 		
 		// set a place to put fire extinguisher
 		IRoom r1 = MapUtil.roomMap.get("101,99,1");
-		r1.getItemList().addItem(btt.new ItemForTest("滅火器", "fire extinguisher", "就是滅火器"));
+		r1.getItemList().addItem(new FireExtinguisher());
 		
 		// set player group to system time
 		PlayerServer.getSystemTime().addGroup(pg);

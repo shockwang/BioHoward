@@ -8,7 +8,7 @@ import module.character.api.IntPair;
 
 public class CAttribute {
 	public static enum attribute {
-		HP("生命"), MP("魔力"), SP("內力");
+		HP("體力"), MP("魔力"), SP("內力");
 
 		private String chineseName;
 

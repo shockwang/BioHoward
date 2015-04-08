@@ -21,7 +21,7 @@ public class CSpecialStatus {
 	}
 
 	public static String displaySingleSpecialStatus(specialStatus atr, int value) {
-		return String.format("%s: %dhr|", getName(atr), value);
+		return String.format("%s: %d分|", getName(atr), value);
 	}
 
 	public static String displaySpecialStatus(ICharacter ch) {
@@ -67,9 +67,7 @@ public class CSpecialStatus {
 	// remove a special status from a character
 	public static void removeSpecialStatus(ICharacter ch, specialStatus ss) {
 		ch.getSpecialStatusMap().remove(ss);
-		// TODO: display messages to the current character & the others inside
-		// the same room
-		System.out.println(String.format("%s狀態從%s身上消失了.", ss.chineseName, ch
-				.getChiName()));
+		ch.getMyGroup().getAtRoom().informRoom(String.format("%s狀態從%s身上消失了。\n", 
+				ss.chineseName, ch.getChiName()));
 	}
 }

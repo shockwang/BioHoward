@@ -5,12 +5,14 @@ import java.util.concurrent.ConcurrentHashMap;
 import module.character.api.ICharacter;
 import module.character.api.IntPair;
 import module.character.constants.CAttribute;
+import module.character.constants.CSpecialStatus;
 import module.character.constants.CAttribute.attribute;
 import module.character.constants.CSpecialStatus.specialStatus;
 import module.character.constants.CStatus.status;
 import module.item.api.IEquipment;
 import module.server.PlayerServer;
 import module.utility.NpcActionUtil;
+import module.utility.NpcBattleActionUtil;
 
 public abstract class AbstractCharacter implements ICharacter {
 	protected ConcurrentHashMap<attribute, IntPair> attributeMap = null;
@@ -22,6 +24,7 @@ public abstract class AbstractCharacter implements ICharacter {
 
 	private String chiName = null;
 	private String engName = null;
+	private String description = null;
 	private Group myGroup = null;
 
 	public AbstractCharacter(String chiName, String engName) {
@@ -159,6 +162,9 @@ public abstract class AbstractCharacter implements ICharacter {
 		buffer.append(String.format("%s/%s ", this.chiName, this.engName));
 		buffer.append(CAttribute.displayAttribute(this));
 		// TODO: add the show special status method
+		if (this.specialStatusMap.size() > 0){
+			buffer.append("  " + CSpecialStatus.displaySpecialStatus(this));
+		}
 		return buffer.toString();
 	}
 
@@ -181,6 +187,11 @@ public abstract class AbstractCharacter implements ICharacter {
 		if (value > pair.getMax())
 			value = pair.getMax();
 		pair.setCurrent(value);
+		
+		// TODO: define special status recover mechanism
+		if (this.specialStatusMap.size() > 0){
+			CSpecialStatus.updateSpecialStatus(this, 1);
+		}
 	}
 	
 	@Override
@@ -222,5 +233,21 @@ public abstract class AbstractCharacter implements ICharacter {
 	@Override
 	public boolean getHostile(){
 		return hostile;
+	}
+	
+	@Override
+	public void setDesc(String description) {
+		this.description = description;
+	}
+
+	@Override
+	public String getDesc() {
+		return this.description;
+	}
+
+	@Override
+	public boolean battleAction(GroupList enemyGroup) {
+		NpcBattleActionUtil.randomAttack(this, enemyGroup);
+		return true;
 	}
 }

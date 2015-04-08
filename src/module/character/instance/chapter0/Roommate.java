@@ -4,41 +4,22 @@ import java.io.BufferedReader;
 
 import module.battle.chapter0.FirstTutorialBattle;
 import module.character.AbstractCharacter;
-import module.character.GroupList;
 import module.character.PlayerGroup;
 import module.character.constants.CAttribute.attribute;
 import module.character.constants.CConfig.config;
 import module.utility.EventUtil;
-import module.utility.NpcBattleActionUtil;
 
 public class Roommate extends AbstractCharacter{
-	private String description = null;
 	
 	public Roommate(){
-		this("室友", "howard's roommate");
+		this("室友", "enf's roommate");
 	}
 	
 	public Roommate(String chiName, String engName) {
 		super(chiName, engName);
 		// TODO assign attribute here
-		this.description= "就是室友。";
+		this.setDesc("就是室友");
 		this.addAttribute(attribute.HP, 50);
-	}
-
-	@Override
-	public void setDesc(String description) {
-		this.description = description;
-	}
-
-	@Override
-	public String getDesc() {
-		return this.description;
-	}
-
-	@Override
-	public boolean battleAction(GroupList enemyGroup) {
-		NpcBattleActionUtil.randomAttack(this, enemyGroup);
-		return true;
 	}
 	
 	@Override

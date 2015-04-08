@@ -94,8 +94,9 @@ public class EventTest {
 		start.getGroupList().gList.add(pg);
 		
 		// set container test
-		IItem refrigerator = new Refrigerator(start);
-		start.getItemList().addItem(refrigerator);
+		IRoom livingRoom = MapUtil.roomMap.get("101,91,2");
+		IItem refrigerator = new Refrigerator(livingRoom);
+		livingRoom.getItemList().addItem(refrigerator);
 		
 		// set a place to put fire extinguisher
 		IRoom r1 = MapUtil.roomMap.get("101,99,1");

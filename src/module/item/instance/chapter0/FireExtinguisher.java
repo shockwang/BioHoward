@@ -2,19 +2,20 @@ package module.item.instance.chapter0;
 
 import module.character.Group;
 import module.character.api.ICharacter;
+import module.character.constants.CSpecialStatus.specialStatus;
 import module.command.CommandServer;
 import module.item.useable.AbstractUsableItem;
 
-public class FireExtinguisher extends AbstractUsableItem{
+public class FireExtinguisher extends AbstractUsableItem {
 	private int count;
-	
-	public FireExtinguisher(){
+
+	public FireExtinguisher() {
 		this("滅火器", "fire extinguisher");
 		this.setPrice(1000);
 		this.setDescription("每間宿舍必備的滅火器，還蠻重的，平常該不會有人拿來重訓?");
 		count = 0;
 	}
-	
+
 	public FireExtinguisher(String chiName, String engName) {
 		super(chiName, engName);
 	}
@@ -22,13 +23,24 @@ public class FireExtinguisher extends AbstractUsableItem{
 	@Override
 	public boolean onUse(ICharacter src) {
 		Group g = src.getMyGroup();
-		
-		if (super.onUse(src)){
+
+		if (super.onUse(src)) {
+			/*
+			 * StringBuffer buf = new StringBuffer();
+			 * buf.append(String.format("%s舉起%s放在胸前，身體微向後傾，溫柔環抱%s如同薩克斯風。\n",
+			 * src.getChiName(), this.getChiName(), this.getChiName()));
+			 * buf.append("他輕閉雙眼，眉頭微皺，專注的把滅火器的噴嘴當做吹嘴，深情演奏著。\n");
+			 * buf.append("你不禁想要駐足聆聽那深情動人的音...更正，是假裝你不認識他。\n");
+			 * buf.append("Jazz for you Soul!\n");
+			 * g.getAtRoom().informRoom(buf.toString());
+			 */
 			if (count >= 10)
-				CommandServer.informGroup(g, this.getChiName() + "的內容物已經耗盡，再也噴不出東西來了。\n");
+				CommandServer.informGroup(g, this.getChiName()
+						+ "的內容物已經耗盡，再也噴不出東西來了。\n");
 			else {
-				g.getAtRoom().informRoom(String.format("%s舉起%s亂噴，把泡沫灑的到處都是!\n", 
-						src.getChiName(), this.getChiName()));
+				g.getAtRoom().informRoom(
+						String.format("%s舉起%s亂噴，把泡沫灑的到處都是!\n",
+								src.getChiName(), this.getChiName()));
 				count++;
 				return true;
 			}
@@ -39,18 +51,26 @@ public class FireExtinguisher extends AbstractUsableItem{
 	@Override
 	public boolean onUse(ICharacter src, ICharacter target) {
 		Group g = src.getMyGroup();
-		
-		if (super.onUse(src)){
+
+		if (super.onUse(src)) {
 			if (count >= 10)
-				CommandServer.informGroup(g, this.getChiName() + "的內容物已經耗盡，再也噴不出東西來了。\n");
+				CommandServer.informGroup(g, this.getChiName()
+						+ "的內容物已經耗盡，再也噴不出東西來了。\n");
 			else {
-				if (src == target) 
-					g.getAtRoom().informRoom(String.format("%s舉起%s對著自己的臉狂噴，他有病嗎?\n", 
-							src.getChiName(), this.getChiName()));
+				if (src == target) {
+					g.getAtRoom().informRoom(
+							String.format("%s舉起%s對著自己的臉狂噴，他有病嗎?\n滿臉的泡沫使%s暫時失明了!\n",
+									src.getChiName(), this.getChiName(), src.getChiName()));
+					src.setSpecialStatus(specialStatus.BLIND, 10);
+				}
 				else {
-					g.getAtRoom().informRoom(String.format("%s舉起%s對著%s的臉上噴去，滿臉的泡沫使%s暫時失明了!\n",
-							src.getChiName(), this.getChiName(), target.getChiName(), target.getChiName()));
-					// TODO: implement blind mechanism, also trigger battle event
+					g.getAtRoom().informRoom(
+							String.format("%s舉起%s對著%s的臉上噴去，滿臉的泡沫使%s暫時失明了!\n",
+									src.getChiName(), this.getChiName(),
+									target.getChiName(), target.getChiName()));
+					// TODO: implement blind mechanism, also trigger battle
+					// event
+					target.setSpecialStatus(specialStatus.BLIND, 10);
 				}
 				count++;
 				return true;
@@ -58,9 +78,9 @@ public class FireExtinguisher extends AbstractUsableItem{
 		}
 		return false;
 	}
-	
+
 	@Override
-	public boolean isExpired(){
+	public boolean isExpired() {
 		// special item, not gonna to expire
 		return false;
 	}

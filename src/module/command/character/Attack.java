@@ -8,7 +8,7 @@ import module.character.api.ICharacter;
 import module.character.constants.CAttribute.attribute;
 import module.command.CommandServer;
 import module.command.api.ICommand;
-import module.utility.Battle;
+import module.utility.BattleUtil;
 import module.utility.Parse;
 
 public class Attack implements ICommand {
@@ -122,7 +122,7 @@ public class Attack implements ICommand {
 					.getCurrent();
 			target.getAttributeMap().get(attribute.HP).setCurrent(current - 10);
 			if (target.isDown()) {
-				Battle.deadMechanism(target);
+				BattleUtil.deadMechanism(target);
 			}
 		} else {
 			out += String.format("但對%s看似絲毫不起作用!\n", src.getChiName(),

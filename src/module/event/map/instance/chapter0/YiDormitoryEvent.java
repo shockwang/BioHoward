@@ -8,6 +8,8 @@ import module.character.constants.CConfig.config;
 import module.command.CommandServer;
 import module.event.AbstractEvent;
 import module.event.map.SkipEventException;
+import module.mission.api.IMission;
+import module.mission.chapter0.ContainerTutorialMission;
 import module.mission.chapter0.MainMission;
 import module.mission.chapter0.TwoDoorsMission;
 import module.server.PlayerServer;
@@ -395,6 +397,106 @@ public class YiDormitoryEvent {
 						EventUtil.informCheckReset(pg, buf, in);
 						buf.append("霍華：只好去找找看有沒有什麼可用的工具了。\n");
 						g.getAtRoom().informRoom(buf.toString());
+					} catch (SkipEventException e){
+						CommandServer.informGroup(pg, "跳過劇情。\n");
+					}
+					g.setInEvent(false);
+				}
+			}
+			
+		});
+		
+		EventUtil.mapEventMap.put("101,91,2", new AbstractEvent() {
+
+			@Override
+			public boolean isTriggered(Group g){
+				if (super.isTriggered(g)){
+					IMission m = PlayerServer.getMissionMap().get(ContainerTutorialMission.class.toString());
+					if (m == null) return true;
+				}
+				return false;
+			}
+			
+			@Override
+			public void doEvent(Group g) {
+				PlayerGroup pg = (PlayerGroup) g;
+				
+				if (pg.getConfigData().get(config.TUTORIAL_ON)){
+					g.setInEvent(true);
+					PlayerServer.getMissionMap().put(ContainerTutorialMission.class.toString(), 
+							new ContainerTutorialMission());
+					try {
+						StringBuffer buf = new StringBuffer();
+						BufferedReader in = pg.getInFromClient();
+						buf.append("霍華：是宿舍的冰箱耶，雖然平常沒什麼在用，但現在這種誇張的時刻\n");
+						buf.append("，還是看一下裡面有沒有什麼可以用的東西吧。");
+						EventUtil.informCheckReset(pg, buf, in);
+						buf.append("說明：遊戲中的\"容器\"也是物品的一種，差別在於它能夠用來盛裝\n");
+						buf.append("其他物品。容器在顯示時會順便顯示它的狀態為\"開/關\"。你一樣\n");
+						buf.append("可以用物品指令存取它，但同時也能夠用\"open/close/lock/unlock\"\n");
+						buf.append("來對它進行操作。");
+						EventUtil.informCheckReset(pg, buf, in);
+						g.getAtRoom().informRoom("現在試著輸入\"open refrigerator\"來打開冰箱：\n");
+						String input = IOUtil.readLineFromClientSocket(in);
+						while (!input.equals("open refrigerator")){
+							g.getAtRoom().informRoom("現在試著輸入\"open refrigerator\"來打開冰箱：\n");
+							input = IOUtil.readLineFromClientSocket(in);
+						}
+						String[] msg = {"open", "refrigerator"};
+						CommandServer.readCommand(pg, msg);
+						buf.append("霍華：來看看裡面有沒有什麼可用的東西吧!\n");
+						EventUtil.informCheckReset(pg, buf, in);
+						buf.append("說明：你可以使用\"look\"指令來查看一個容器中的物品，前提是這個容器\n");
+						buf.append("是開著的。指令格式為\"<look> <in> <容器名稱>\"。");
+						EventUtil.informCheckReset(pg, buf, in);
+						g.getAtRoom().informRoom("請輸入\"look in refrigerator\"來查看冰箱內有哪些物品：\n");
+						input = IOUtil.readLineFromClientSocket(in);
+						while (!input.equals("look in refrigerator")){
+							g.getAtRoom().informRoom("請輸入\"look in refrigerator\"來查看冰箱內有哪些物品：\n");
+							input = IOUtil.readLineFromClientSocket(in);
+						}
+						String[] msg2 = {"look", "in", "refrigerator"};
+						CommandServer.readCommand(pg, msg2);
+						buf.append("霍華：正好口有點渴了，這杯果汁看起來...算了，我賭它沒壞!");
+						EventUtil.informCheckReset(pg, buf, in);
+						buf.append("說明：你可以使用\"get\"指令將物品從容器中拿出來，指令格式為\n");
+						buf.append("\"<get> <物品名稱> <容器名稱>\"，另外也能夠使用\"put\"指令\n");
+						buf.append("將身上的物品放入容器內。指令格式為\"<put> <物品名稱> <容器名稱>\"。\n");
+						buf.append("詳細說明可以輸入\"help get\"以及\"help put\"來查詢。");
+						EventUtil.informCheckReset(pg, buf, in);
+						g.getAtRoom().informRoom("請輸入\"get juice refrigerator\"來從冰箱內拿出果汁：\n");
+						input = IOUtil.readLineFromClientSocket(in);
+						while (!input.equals("get juice refrigerator")){
+							g.getAtRoom().informRoom("請輸入\"get juice refrigerator\"來從冰箱內拿出果汁：\n");
+							input = IOUtil.readLineFromClientSocket(in);
+						}
+						String[] msg3 = {"get", "juice", "refrigerator"};
+						CommandServer.readCommand(pg, msg3);
+						buf.append("說明：你可以輸入\"use\"指令來使用某些可使用的物品，指令格式為\n");
+						buf.append("\"<use> <物品名稱>\"或\"<use> <物品名稱> <目標名稱>\"。物品的使用\n");
+						buf.append("效果能夠輸入\"<look> <物品名稱>\"來觀看到。");
+						EventUtil.informCheckReset(pg, buf, in);
+						g.getAtRoom().informRoom("請輸入\"use juice\"來喝果汁：\n");
+						input = IOUtil.readLineFromClientSocket(in);
+						while (!input.equals("use juice")){
+							g.getAtRoom().informRoom("請輸入\"use juice\"來喝果汁：\n");
+							input = IOUtil.readLineFromClientSocket(in);
+						}
+						String[] msg4 = {"use", "juice"};
+						CommandServer.readCommand(pg, msg4);
+						buf.append("說明：使用物品時，若不指定使用對象，則參照各個物品的屬性來判斷，沒有\n");
+						buf.append("一定的行為。若指定使用對象，則一定會作用在該對象身上，即便該對象是敵\n");
+						buf.append("人。指定對象的使用指令格式為\"<use> <物品名稱> <對象名稱>\"。若對\n");
+						buf.append("象為我方隊伍內的角色，則需輸入\"<team> <角色名稱>\"。");
+						EventUtil.informCheckReset(pg, buf, in);
+						buf.append("舉例來說，果汁在不指定使用者的情況下會直接被該角色使用，但你同樣可以\n");
+						buf.append("輸入\"use juice team enf\"來指定霍華喝這杯果汁。基本上，回復類的\n");
+						buf.append("物品都能夠不指定使用者而直接回復該角色的狀態。相對的，會造成傷害的物品\n");
+						buf.append("則不會在不指定使用者的情況下直接傷害使用者。另外，在戰鬥中使用物品會\n");
+						buf.append("消耗角色一回合的時間。");
+						EventUtil.informCheckReset(pg, buf, in);
+						buf.append("說明到此結束，冰箱中還有一塊蛋糕，你可以考慮一起帶上它!");
+						g.getAtRoom().informRoom(buf.toString() + "\n");
 					} catch (SkipEventException e){
 						CommandServer.informGroup(pg, "跳過劇情。\n");
 					}

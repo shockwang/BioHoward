@@ -35,7 +35,8 @@ public abstract class AbstractUsableItem extends AbstractItem implements IUseabl
 	public String display(){
 		StringBuffer buf = new StringBuffer();
 		buf.append(super.display());
-		buf.append("\n使用效果：\n");
+		buf.append("\n使用等級：" + this.getLevel() + "\n");
+		buf.append("使用效果：");
 		buf.append(this.useEffect() + "\n");
 		return buf.toString();
 	}

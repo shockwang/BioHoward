@@ -29,6 +29,7 @@ public class ClientGUI {
 		
 		frame = new JFrame();
 		frame.setSize(600, 800);
+		frame.setResizable(false);
 		
 		status = new JTextArea();
 		status.setEditable(false);
@@ -66,27 +67,30 @@ public class ClientGUI {
 		c0.gridx = 0;
 		c0.gridy = 0;
 		c0.weightx = 1;
-		c0.weighty = 65;
+		c0.weighty = 0.0;
 		c0.fill = GridBagConstraints.BOTH;
 		c0.anchor = GridBagConstraints.WEST;
+		c0.ipady = 570;
 		frame.add(scroll, c0);
 		
 		GridBagConstraints c1 = new GridBagConstraints();
 		c1.gridx = 0;
 		c1.gridy = 1;
 		c1.weightx = 1;
-		c1.weighty = 14;
+		c1.weighty = 0.0;
 		c1.fill = GridBagConstraints.BOTH;
 		c1.anchor = GridBagConstraints.WEST;
+		c1.ipady = 130;
 		frame.add(status, c1);
 		
 		GridBagConstraints c2 = new GridBagConstraints();
 		c2.gridx = 0;
 		c2.gridy = 2;
 		c2.weightx = 1;
-		c2.weighty = 1;
+		c2.weighty = 0.0;
 		c2.fill = GridBagConstraints.BOTH;
 		c2.anchor = GridBagConstraints.WEST;
+		c2.ipady = 10;
 		frame.add(input, c2);
 		
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

@@ -82,6 +82,7 @@ public class Group implements Updatable {
 	public Group(ICharacter obj) {
 		CharList firstObj = new CharList(obj); // Group is responsible for
 		// newing CharList
+		obj.setMyGroup(this);
 		list = Collections.synchronizedList(new ArrayList<CharList>());
 		list.add(firstObj);
 		this.Chiname = obj.getChiName();
@@ -97,11 +98,13 @@ public class Group implements Updatable {
 			if (Search.searchName(exist.charList.get(0).getEngName(),
 					obj.getEngName())) {
 				exist.charList.add(obj);
+				obj.setMyGroup(this);
 				return;
 			}
 		}
 		// no data matched, create a new CharList
 		list.add(new CharList(obj));
+		obj.setMyGroup(this);
 	}
 
 	public boolean removeChar(ICharacter target) {
@@ -113,6 +116,7 @@ public class Group implements Updatable {
 					if (exist.charList.isEmpty())
 						list.remove(exist);
 					objExists = true;
+					target.setMyGroup(null);
 					// decrease char number
 					this.charNum--;
 					this.judgeName();

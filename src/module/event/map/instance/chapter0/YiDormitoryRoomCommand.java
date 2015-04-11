@@ -3,7 +3,9 @@ package module.event.map.instance.chapter0;
 import module.character.Group;
 import module.command.CommandServer;
 import module.event.api.IRoomCommand;
+import module.map.api.IDoor;
 import module.map.api.IRoom;
+import module.map.constants.CDoorAttribute.doorStatus;
 import module.map.constants.CExit.exit;
 import module.mission.chapter0.MainMission;
 import module.server.PlayerServer;
@@ -96,6 +98,141 @@ public class YiDormitoryRoomCommand {
 					}
 					return true;
 				}
+				return false;
+			}
+			
+		});
+		
+		EventUtil.mapCommandMap.put("101,99,2", new IRoomCommand() {
+
+			@Override
+			public boolean roomSpecialCommand(Group g, String[] msg) {
+				if (msg.length < 2) return false;
+				
+				if (msg[0].equals("open") || msg[0].equals("o")){
+					if (msg[1].equals("west") || msg[1].equals("w")){
+						IDoor targetDoor = g.getAtRoom().getExits().get(exit.WEST).getDoor();
+						if (targetDoor.getDoorStatus() == doorStatus.CLOSED){
+							String out = g.getChiName() + "嘗試推開西邊的門，但卻推不動。推測是門的另外一邊\n";
+							out += "被什麼沉重的東西擋住了。\n";
+							g.getAtRoom().informRoom(out);
+							return true;
+						}
+					}
+				}
+				
+				return false;
+			}
+		});
+		
+		EventUtil.mapCommandMap.put("101,94,2", new IRoomCommand() {
+
+			@Override
+			public boolean roomSpecialCommand(Group g, String[] msg) {
+				if (msg.length < 2) return false;
+				
+				if (msg[0].equals("open") || msg[0].equals("o")){
+					if (msg[1].equals("west") || msg[1].equals("w")){
+						IDoor targetDoor = g.getAtRoom().getExits().get(exit.WEST).getDoor();
+						if (targetDoor.getDoorStatus() == doorStatus.CLOSED){
+							String out = g.getChiName() + "嘗試推開西邊的門，但卻推不動。推測是門的另外一邊\n";
+							out += "被什麼沉重的東西擋住了。\n";
+							g.getAtRoom().informRoom(out);
+							return true;
+						}
+					}
+				}
+				
+				return false;
+			}
+		});
+		
+		EventUtil.mapCommandMap.put("101,95,2", new IRoomCommand() {
+
+			@Override
+			public boolean roomSpecialCommand(Group g, String[] msg) {
+				if (msg.length < 2) return false;
+				
+				if (msg[0].equals("open") || msg[0].equals("o")){
+					if (msg[1].equals("east") || msg[1].equals("e")){
+						IDoor targetDoor = g.getAtRoom().getExits().get(exit.EAST).getDoor();
+						if (targetDoor.getDoorStatus() == doorStatus.CLOSED){
+							String out = g.getChiName() + "嘗試推開東邊的門，但卻推不動。推測是門的另外一邊\n";
+							out += "被什麼沉重的東西擋住了。\n";
+							g.getAtRoom().informRoom(out);
+							return true;
+						}
+					}
+				}
+				
+				return false;
+			}
+		});
+		
+		EventUtil.mapCommandMap.put("101,99,1", new IRoomCommand() {
+
+			@Override
+			public boolean roomSpecialCommand(Group g, String[] msg) {
+				if (msg.length < 2) return false;
+				
+				if (msg[0].equals("open") || msg[0].equals("o")){
+					if (msg[1].equals("west") || msg[1].equals("w")){
+						IDoor targetDoor = g.getAtRoom().getExits().get(exit.WEST).getDoor();
+						if (targetDoor.getDoorStatus() == doorStatus.CLOSED){
+							String out = g.getChiName() + "嘗試推開西邊的門，但卻推不動。推測是門的另外一邊\n";
+							out += "被什麼沉重的東西擋住了。\n";
+							g.getAtRoom().informRoom(out);
+							return true;
+						}
+					}
+				}
+				
+				return false;
+			}
+			
+		});
+		
+		EventUtil.mapCommandMap.put("101,96,1", new IRoomCommand() {
+
+			@Override
+			public boolean roomSpecialCommand(Group g, String[] msg) {
+				if (msg.length < 2) return false;
+				
+				if (msg[0].equals("open") || msg[0].equals("o")){
+					if (msg[1].equals("east") || msg[1].equals("e")){
+						IDoor targetDoor = g.getAtRoom().getExits().get(exit.EAST).getDoor();
+						if (targetDoor.getDoorStatus() == doorStatus.CLOSED){
+							String out = g.getChiName() + "嘗試推開東邊的門，但卻推不動。推測是門的另外一邊\n";
+							out += "被什麼沉重的東西擋住了。\n";
+							g.getAtRoom().informRoom(out);
+							return true;
+						}
+					}
+				}
+				
+				return false;
+			}
+			
+		});
+		
+		EventUtil.mapCommandMap.put("101,95,1", new IRoomCommand() {
+
+			@Override
+			public boolean roomSpecialCommand(Group g, String[] msg) {
+				if (msg.length < 2) return false;
+				
+				if (msg[0].equals("open") || msg[0].equals("o")){
+					if (msg[1].equals("east") || msg[1].equals("e")){
+						IDoor targetDoor = g.getAtRoom().getExits().get(exit.EAST).getDoor();
+						if (targetDoor.getDoorStatus() == doorStatus.CLOSED){
+							String out = g.getChiName() + "嘗試推開東邊的門，但卻推不動。推測是門的另外一邊\n";
+							out += "被什麼沉重的東西擋住了。\n";
+							g.getAtRoom().informRoom(out);
+							return true;
+						}
+					}
+				}
+				
 				return false;
 			}
 			

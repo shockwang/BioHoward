@@ -2,10 +2,12 @@ package test.module.event;
 
 import static org.junit.Assert.assertTrue;
 import module.character.CharList;
+import module.character.Group;
 import module.character.GroupList;
 import module.character.PlayerGroup;
 import module.character.api.ICharacter;
 import module.character.constants.CStatus.status;
+import module.character.instance.chapter0.DormKeeper;
 import module.client.ClientUser;
 import module.command.CommandServer;
 import module.event.map.instance.chapter0.YiDormitoryEvent;
@@ -15,6 +17,7 @@ import module.item.api.IEquipment.EquipType;
 import module.item.api.IItem;
 import module.item.container.instance.chapter0.Refrigerator;
 import module.item.instance.chapter0.FireExtinguisher;
+import module.item.instance.chapter0.ManagerKey;
 import module.map.api.IRoom;
 import module.mission.chapter0.MainMission;
 import module.server.PlayerServer;
@@ -92,11 +95,19 @@ public class EventTest {
 		pg.setAtRoom(start);
 		pg.setInitialRoom(start);
 		start.getGroupList().gList.add(pg);
+		pg.getInventory().addItem(new ManagerKey());
 		
 		// set container test
 		IRoom livingRoom = MapUtil.roomMap.get("101,91,2");
 		IItem refrigerator = new Refrigerator(livingRoom);
 		livingRoom.getItemList().addItem(refrigerator);
+		
+		// set dorm keeper
+		IRoom dormRoom = MapUtil.roomMap.get("100,91,1");
+		Group ggg = new Group(new DormKeeper());
+		ggg.getInventory().addItem(new ManagerKey());
+		ggg.setAtRoom(dormRoom);
+		dormRoom.getGroupList().gList.add(ggg);
 		
 		// set a place to put fire extinguisher
 		IRoom r1 = MapUtil.roomMap.get("101,99,1");

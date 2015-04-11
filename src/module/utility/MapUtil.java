@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
+import module.character.Group;
 import module.map.BaseDoor;
 import module.map.BaseRoom;
 import module.map.Neighbor;
@@ -15,6 +16,7 @@ import module.map.api.IDoor;
 import module.map.api.IRoom;
 import module.map.constants.CDoorAttribute;
 import module.map.constants.CExit.exit;
+import module.server.PlayerServer;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -166,5 +168,11 @@ public class MapUtil {
 		y = Integer.parseInt(temp[1]);
 		z = Integer.parseInt(temp[2]);
 		return new Position(x, y, z);
+	}
+	
+	public static void initializeGroupAtMap(Group g, IRoom r){
+		r.getGroupList().gList.add(g);
+		g.setAtRoom(r);
+		PlayerServer.getSystemTime().addGroup(g);
 	}
 }

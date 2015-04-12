@@ -33,11 +33,11 @@ public class ClientGUI {
 		
 		status = new JTextArea();
 		status.setEditable(false);
-		status.setFont(new Font("monospaced", Font.PLAIN, 14));
+		status.setFont(new Font("monospaced", Font.PLAIN, 16));
 		
 		screen = new JTextArea();
 		screen.setEditable(false);
-		screen.setFont(new Font("monospaced", Font.PLAIN, 14));
+		screen.setFont(new Font("monospaced", Font.PLAIN, 16));
 		JScrollPane scroll = new JScrollPane(screen);
 		screen.getDocument().addDocumentListener(new LimitLinesDocumentListener(200));
 		

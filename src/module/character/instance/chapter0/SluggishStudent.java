@@ -11,6 +11,7 @@ public class SluggishStudent extends AbstractCharacter{
 		buf.append("隨處可見的一般大學生。受到不知名的影響，現在目光呆滯，面無表情。\n");
 		buf.append("他動也不動的蹲在地上，嘴巴微開，對你的到來一點反應也沒有。");
 		this.setDesc(buf.toString());
+		this.setHostile(false);
 	}
 	
 	public SluggishStudent(String chiName, String engName) {

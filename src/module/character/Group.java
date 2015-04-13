@@ -194,7 +194,9 @@ public class Group implements Updatable {
 	public void updateTime() {
 		// TODO Auto-generated method stub
 		// must not implement time waste instructions in this method!
-		if (getGroupDown() && isRespawn) { // waiting for respawn
+		if (getGroupDown()) { // waiting for respawn
+			if (!isRespawn) return; // not going to respawn, don't need to update counter
+			
 			int current = respawnTime.getCurrent();
 			System.out.println("respawn count: " + current);
 			current++;

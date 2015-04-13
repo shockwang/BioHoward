@@ -8,6 +8,7 @@ import module.character.PlayerGroup;
 import module.character.api.ICharacter;
 import module.character.constants.CStatus.status;
 import module.character.instance.chapter0.DormKeeper;
+import module.character.instance.chapter0.SluggishStudent;
 import module.client.ClientUser;
 import module.command.CommandServer;
 import module.event.map.instance.chapter0.YiDormitoryEvent;
@@ -96,6 +97,8 @@ public class EventTest {
 		pg.setInitialRoom(start);
 		start.getGroupList().gList.add(pg);
 		pg.getInventory().addItem(new ManagerKey());
+		pg.getInventory().addItem(new FireExtinguisher());
+		MapUtil.initializeGroupAtMap(new Group(new SluggishStudent()), start);
 		
 		// set container test
 		IRoom livingRoom = MapUtil.roomMap.get("101,91,2");
@@ -107,6 +110,7 @@ public class EventTest {
 		Group ggg = new Group(new DormKeeper());
 		ggg.getInventory().addItem(new ManagerKey());
 		ggg.setAtRoom(dormRoom);
+		ggg.setIsRespawn(false);
 		dormRoom.getGroupList().gList.add(ggg);
 		
 		// set a place to put fire extinguisher

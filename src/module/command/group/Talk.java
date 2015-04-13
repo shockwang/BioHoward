@@ -40,6 +40,8 @@ public class Talk implements ICommand {
 				if (target != null) {
 					if (target.getMyGroup().getTalking())
 						CommandServer.informGroup(g, "你選擇的對象正在和別人講話，等一下吧。\n");
+					else if (target.getMyGroup().getInEvent())
+						CommandServer.informGroup(g, "你選擇的對象正在劇情事件中，等一下吧。\n");
 					else if (target.getMyGroup().getInBattle())
 						CommandServer.informGroup(g, "你選擇的對象正在戰鬥中，沒空理你。\n");
 					else {

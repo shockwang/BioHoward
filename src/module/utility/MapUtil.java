@@ -173,6 +173,7 @@ public class MapUtil {
 	public static void initializeGroupAtMap(Group g, IRoom r){
 		r.getGroupList().gList.add(g);
 		g.setAtRoom(r);
+		g.setInitialRoom(r);
 		PlayerServer.getSystemTime().addGroup(g);
 	}
 }

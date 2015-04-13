@@ -3,7 +3,9 @@ package module.character.constants;
 import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 
+import module.character.PlayerGroup;
 import module.character.api.ICharacter;
+import module.command.CommandServer;
 
 public class CSpecialStatus {
 	public static enum specialStatus {
@@ -69,5 +71,15 @@ public class CSpecialStatus {
 		ch.getSpecialStatusMap().remove(ss);
 		ch.getMyGroup().getAtRoom().informRoom(String.format("%s狀態從%s身上消失了。\n", 
 				ss.chineseName, ch.getChiName()));
+	}
+	
+	// set specialstatus and update
+	public static void setSpecialStatus(ICharacter c, specialStatus ss, int time){
+		c.setSpecialStatus(ss, time);
+		if (c.getMyGroup() instanceof PlayerGroup){
+			PlayerGroup pg = (PlayerGroup) c.getMyGroup();
+			String out = "status:" + pg.showGroupStatus();
+			CommandServer.informGroup(pg, out);
+		}
 	}
 }

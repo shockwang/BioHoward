@@ -1,39 +1,28 @@
 package test.module.event;
 
 import static org.junit.Assert.assertTrue;
-import module.character.CharList;
-import module.character.Group;
-import module.character.GroupList;
 import module.character.PlayerGroup;
-import module.character.api.ICharacter;
-import module.character.constants.CStatus.status;
-import module.character.instance.chapter0.DormKeeper;
-import module.character.instance.chapter0.SluggishStudent;
+import module.character.instance.main.Enf;
 import module.client.ClientUser;
 import module.command.CommandServer;
 import module.event.map.instance.chapter0.YiDormitoryEvent;
 import module.event.map.instance.chapter0.YiDormitoryRoomCommand;
 import module.item.BaseEquipment;
-import module.item.api.IEquipment.EquipType;
-import module.item.api.IItem;
-import module.item.container.instance.chapter0.Refrigerator;
-import module.item.instance.chapter0.FireExtinguisher;
-import module.item.instance.chapter0.ManagerKey;
+import module.item.instance.chapter0.Key306;
+import module.item.instance.chapter0.PhysicsBook;
 import module.map.api.IRoom;
 import module.mission.chapter0.MainMission;
 import module.server.PlayerServer;
+import module.utility.EventUtil;
 import module.utility.MapUtil;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import test.module.battle.BattleTaskTest;
-
 public class EventTest {
 	private PlayerServer singletonServer;
 	private ClientUser oneUser;
 	private PlayerGroup pg = null;
-	private BattleTaskTest btt;
 	
 	@Before
 	public void initialize(){
@@ -51,71 +40,44 @@ public class EventTest {
 			e.printStackTrace();
 		}
 		
-		btt = new BattleTaskTest();
-		
-		pg = new PlayerGroup(btt.new CharForTest("霍華", "enf"){
-			@Override
-			public boolean battleAction(GroupList gList){
-				return false;
-			}
-		});
-		for (CharList cList : pg.list){
-			for (ICharacter c : cList.charList){
-				c.setMyGroup(pg);
-				c.setHostile(false);
-			}
-		}
+		pg = new PlayerGroup(new Enf());
 		
 		PlayerServer.pList.get(0).setGroup(pg);
 		pg.setOutToClient(PlayerServer.pList.get(0).getOutToClient());
 		pg.setInFromClient(PlayerServer.pList.get(0).getInFromClient());
 		
 		// map initialize
-		MapUtil.parseMapFromJSON("map/chapter0/YiDormitory.map");
-		MapUtil.parseDoorFromJSON("map/chapter0/YiDormitory.door");
+		MapUtil.parseMapFromJSON("resources/map/chapter0/YiDormitory.map");
+		MapUtil.parseDoorFromJSON("resources/map/chapter0/YiDormitory.door");
 		YiDormitoryEvent.initialize();
 		YiDormitoryRoomCommand.initialize();
+		
+		// npc initialize
+		MapUtil.parseNpcFromJSON("resources/map/chapter0/YiDormitory.npc");
+		
+		// item initialize
+		MapUtil.parseItemFromJSON("resources/map/chapter0/YiDormitory.item");
+		
+		// event message initialize
+		EventUtil.parseEventFromJSON("resources/event/chapter0/YiDormitory.event");
 	}
 	
 	@Test
 	public void startSearchingTest(){
-		BaseEquipment testEquip = new BaseEquipment("普物課本", "physics book", EquipType.WEAPON);
-		testEquip.setDescription("又厚又重。");
-		testEquip.setPrice(100);
-		testEquip.getStatus().put(status.WEAPON_ATTACK, 10);
+		BaseEquipment testEquip = new PhysicsBook();
 		pg.getInventory().addItem(testEquip);
-		pg.getInventory().addItem(btt.new ItemForTest("義齋306號房的鑰匙", "key 306", "就是鑰匙"));
+		pg.getInventory().addItem(new Key306());
 		
 		// set player group mission
 		MainMission mm = new MainMission();
-		mm.setState(MainMission.State.START_SEARCHING);
+		mm.setState(MainMission.State.AFTER_BREAK_MANAGE_DOOR);
 		PlayerServer.getMissionMap().put(MainMission.class.toString(), mm);
 		
 		// set player group start position
-		IRoom start = MapUtil.roomMap.get("102,100,3");
+		IRoom start = MapUtil.roomMap.get("101,91,1");
 		pg.setAtRoom(start);
 		pg.setInitialRoom(start);
 		start.getGroupList().gList.add(pg);
-		pg.getInventory().addItem(new ManagerKey());
-		pg.getInventory().addItem(new FireExtinguisher());
-		MapUtil.initializeGroupAtMap(new Group(new SluggishStudent()), start);
-		
-		// set container test
-		IRoom livingRoom = MapUtil.roomMap.get("101,91,2");
-		IItem refrigerator = new Refrigerator(livingRoom);
-		livingRoom.getItemList().addItem(refrigerator);
-		
-		// set dorm keeper
-		IRoom dormRoom = MapUtil.roomMap.get("100,91,1");
-		Group ggg = new Group(new DormKeeper());
-		ggg.getInventory().addItem(new ManagerKey());
-		ggg.setAtRoom(dormRoom);
-		ggg.setIsRespawn(false);
-		dormRoom.getGroupList().gList.add(ggg);
-		
-		// set a place to put fire extinguisher
-		IRoom r1 = MapUtil.roomMap.get("101,99,1");
-		r1.getItemList().addItem(new FireExtinguisher());
 		
 		// set player group to system time
 		PlayerServer.getSystemTime().addGroup(pg);

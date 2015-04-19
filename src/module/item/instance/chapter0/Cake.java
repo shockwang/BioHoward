@@ -7,6 +7,7 @@ import module.item.useable.AbstractUsableItem;
 import module.utility.BattleUtil;
 
 public class Cake extends AbstractUsableItem {
+	int recover = 30;
 
 	public Cake() {
 		this("85度C蛋糕", "cake");
@@ -25,8 +26,8 @@ public class Cake extends AbstractUsableItem {
 		if (super.onUse(src)) {
 			StringBuffer buf = new StringBuffer();
 			buf.append(String.format("%s一口吃下%s，", src.getChiName(), this.getChiName()));
-			if (BattleUtil.characterAttributeChange(src, attribute.HP, 20))
-				buf.append("回復了20點體力。\n");
+			if (BattleUtil.characterAttributeChange(src, attribute.HP, this.recover))
+				buf.append("回復了" + recover + "點體力。\n");
 			else buf.append("但什麼事都沒有發生。\n");
 			
 			g.getAtRoom().informRoom(buf.toString());
@@ -46,8 +47,8 @@ public class Cake extends AbstractUsableItem {
 				StringBuffer buf = new StringBuffer();
 				buf.append(String.format("%s讓%s吃下了%s，", src.getChiName(), 
 						target.getChiName(), this.getChiName()));
-				if (BattleUtil.characterAttributeChange(target, attribute.HP, 20))
-					buf.append("使他回復了20點體力。\n");
+				if (BattleUtil.characterAttributeChange(target, attribute.HP, recover))
+					buf.append("使他回復了" + recover + "點體力。\n");
 				else buf.append("但什麼事都沒有發生。\n");
 				
 				g.getAtRoom().informRoom(buf.toString());
@@ -60,7 +61,7 @@ public class Cake extends AbstractUsableItem {
 
 	@Override
 	public String useEffect() {
-		return "回復20點體力。";
+		return "回復" + recover + "點體力。";
 	}
 
 }

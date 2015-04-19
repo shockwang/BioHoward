@@ -3,6 +3,7 @@ package module.character.instance.chapter0;
 import module.battle.BattleTask;
 import module.character.AbstractCharacter;
 import module.character.PlayerGroup;
+import module.character.constants.CStatus.status;
 
 public class MadStudent extends AbstractCharacter{
 	
@@ -13,6 +14,7 @@ public class MadStudent extends AbstractCharacter{
 		buf.append("全是灰塵，顯然不停地在尋找可以攻擊的目標。你看到他充滿惡意的向\n");
 		buf.append("你撲過來，只好集中注意準備應戰。");
 		this.setDesc(buf.toString());
+		this.setStatus(status.STRENGTH, 35);
 		this.setHostile(true);
 	}
 	

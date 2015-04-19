@@ -6,9 +6,15 @@ import module.character.api.ICharacter;
 
 public class CStatus {
 	public static enum status{
+		// those are owned by characters
+		STRENGTH("力量"),
+		CONSTITUTION("體格"),
+		SPEED("敏捷"),
+				
+		// those are provided by equipments
 		WEAPON_ATTACK("物理傷害"),
 		SPELL_ATTACK("意志傷害"),
-		SPEED("敏捷");
+		ARMOR("護甲");
 		
 		private String chineseName;
 		status (String name){

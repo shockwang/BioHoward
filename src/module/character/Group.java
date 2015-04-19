@@ -241,6 +241,7 @@ public class Group implements Updatable {
 		for (CharList cList : this.list) {
 			for (ICharacter c : cList.charList) {
 				CAttribute.fullRecover(c);
+				c.getSpecialStatusMap().clear();
 			}
 		}
 	}

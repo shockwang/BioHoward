@@ -2,9 +2,9 @@ package module.battle;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 
 import module.character.CharList;
@@ -301,6 +301,16 @@ public class BattleTask extends TimerTask {
 					if (g instanceof PlayerGroup) {
 						// TODO: implement player group dead action
 						CommandServer.informGroup(g, "你的隊伍全滅了...\n");
+						removeBattleGroup(g);
+						g.getAtRoom().getGroupList().gList.remove(g);
+						CommandServer.informGroup(g, "因為是教學任務，就直接傳送你回起始位置吧。\n");
+						CommandServer.informGroup(g, "可以慢慢熟悉怎麼樣活下來喔!\n");
+						g.recoverGroup();
+						g.setAtRoom(g.getInitialRoom());
+						g.getAtRoom().getGroupList().gList.add(g);
+						String out = "status:" + ((PlayerGroup) g).showGroupStatus();
+						CommandServer.informGroup(g, out);
+						return true;
 					} else {
 						ItemUtil.createLootingItem(g);
 						// group inventory drop to the ground

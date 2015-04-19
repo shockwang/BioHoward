@@ -8,7 +8,8 @@ public interface IWeapon extends IEquipment{
 		AMPLIFIER,
 		GUITAR,
 		BOOK,
-		JOYSTICK
+		JOYSTICK,
+		OTHER
 	}
 	
 	// weapon type
@@ -16,4 +17,6 @@ public interface IWeapon extends IEquipment{
 	WeaponType getWeaponType();
 	
 	void onAttack(ICharacter src, ICharacter target);
+	
+	double getHitRatio();
 }

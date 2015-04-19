@@ -1,5 +1,6 @@
 package module.character.constants;
 
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -81,5 +82,14 @@ public class CSpecialStatus {
 			String out = "status:" + pg.showGroupStatus();
 			CommandServer.informGroup(pg, out);
 		}
+	}
+	
+	public static double judgeHitRatioEffected(double hitRatio
+			, Map<specialStatus, Integer> specialStatusMap){
+		double result = hitRatio;
+		
+		if (specialStatusMap.get(specialStatus.BLIND) != null) result *= 0.3;
+		
+		return result;
 	}
 }

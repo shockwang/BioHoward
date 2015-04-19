@@ -46,7 +46,7 @@ public class GlobalTime extends TimerTask{
 	
 	public void startTimer(){
 		timer = new Timer();
-		timer.schedule(this, 0, 3000);
+		timer.schedule(this, 0, 2000);
 	}
 	
 	public String getTime(){
@@ -105,7 +105,7 @@ public class GlobalTime extends TimerTask{
 			
 			// update item timer to check if expired
 			for (IItem obj : groundItemList){
-				obj.updateTTL(3);
+				obj.updateTTL(2);
 				if (obj.isExpired()){
 					synchronized(obj.getAtRoom()){
 						obj.getAtRoom().informRoom(obj.getChiName() + "逐漸被風沙掩埋了，你再也找不到它的蹤影。\n");

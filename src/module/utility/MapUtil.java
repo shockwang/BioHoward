@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.Map.Entry;
 
 import module.character.Group;
+import module.character.api.ICharacter;
+import module.item.api.IItem;
 import module.map.BaseDoor;
 import module.map.BaseRoom;
 import module.map.Neighbor;
@@ -156,6 +158,109 @@ public class MapUtil {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public static void parseNpcFromJSON(String filename){
+		try {
+			JSONObject obj = (JSONObject) parser.parse(new FileReader(filename));
+			JSONArray groupList = (JSONArray) obj.get("npc");
+			for (Object ooo : groupList){
+				JSONObject groupObj = (JSONObject) ooo;
+				
+				boolean newGroup = true;
+				Group groupToConfig = null;
+				JSONArray charList = (JSONArray) groupObj.get("character");
+				for (Object oos : charList){
+					Class<?> c = Class.forName((String) oos);
+					ICharacter charToAdd = (ICharacter) c.newInstance();
+					if (newGroup){
+						groupToConfig = new Group(charToAdd);
+						newGroup = false;
+					} else
+						groupToConfig.addChar(charToAdd);
+				}
+				
+				// config initial position
+				String position = (String) groupObj.get("position");
+				IRoom location = roomMap.get(position);
+				initializeGroupAtMap(groupToConfig, location);
+				
+				// check if respawn
+				if (groupObj.get("respawn") != null){
+					boolean isRespawn = (Boolean) groupObj.get("respawn");
+					groupToConfig.setIsRespawn(isRespawn);
+				}
+				
+				//check if inventory exists
+				JSONArray inventoryList = (JSONArray) groupObj.get("inventory");
+				if (inventoryList != null){
+					for (Object ovo : inventoryList){
+						Class<?> zz = Class.forName((String) ovo);
+						IItem itemToAdd = (IItem) zz.newInstance();
+						groupToConfig.getInventory().addItem(itemToAdd);
+					}
+				}
+				
+				// add group to SystemTime
+				PlayerServer.getSystemTime().addGroup(groupToConfig);
+			}
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClassNotFoundException e){
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InstantiationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public static void parseItemFromJSON(String filename){
+		try {
+			JSONObject obj = (JSONObject) parser.parse(new FileReader(filename));
+			JSONArray itemList = (JSONArray) obj.get("item");
+			
+			for (Object ooo : itemList){
+				JSONObject itemObj = (JSONObject) ooo;
+				Class<?> zz = Class.forName((String) itemObj.get("name"));
+				IItem itemToAdd = (IItem) zz.newInstance();
+				
+				// set item location
+				IRoom roomToSet = roomMap.get((String) itemObj.get("position"));
+				roomToSet.getItemList().addItem(itemToAdd);
+				itemToAdd.setAtRoom(roomToSet);
+				
+				// not set time-out for first time item on the ground
+			}
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InstantiationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

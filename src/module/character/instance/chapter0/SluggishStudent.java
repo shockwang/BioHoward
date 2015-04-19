@@ -2,6 +2,7 @@ package module.character.instance.chapter0;
 
 import module.character.AbstractCharacter;
 import module.character.PlayerGroup;
+import module.character.constants.CStatus.status;
 
 public class SluggishStudent extends AbstractCharacter{
 
@@ -12,6 +13,7 @@ public class SluggishStudent extends AbstractCharacter{
 		buf.append("他動也不動的蹲在地上，嘴巴微開，對你的到來一點反應也沒有。");
 		this.setDesc(buf.toString());
 		this.setHostile(false);
+		this.setStatus(status.STRENGTH, 25);
 	}
 	
 	public SluggishStudent(String chiName, String engName) {

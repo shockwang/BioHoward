@@ -16,6 +16,8 @@ public class NpcActionUtil {
 	public static void randomMove(Group g){
 		String[] select = CExit.getAccessibleExitsRoom(g.getAtRoom());
 		
+		if (select == null) return;
+		
 		int ddd = PlayerServer.getRandom().nextInt(select.length);
 		String[] output = {select[ddd]};
 		CommandServer.readCommand(g, output);

@@ -21,6 +21,8 @@ public abstract class AbstractCharacter implements ICharacter {
 	protected ConcurrentHashMap<IEquipment.EquipType, IEquipment> equipMap = null;
 	private int level = 1;
 	private boolean hostile = true;
+	protected int timeCount = 0;
+	protected int updateCount = 0;
 
 	private String chiName = null;
 	private String engName = null;
@@ -31,10 +33,13 @@ public abstract class AbstractCharacter implements ICharacter {
 		this.chiName = chiName;
 		this.engName = engName;
 		attributeMap = new ConcurrentHashMap<attribute, IntPair>();
-		addAttribute(attribute.HP, 100);
+		addAttribute(attribute.HP, 60);
 		specialStatusMap = new ConcurrentHashMap<specialStatus, Integer>();
 		statusMap = new ConcurrentHashMap<status, Integer>();
+		// default character body attribute
 		statusMap.put(status.SPEED, 4000);
+		statusMap.put(status.STRENGTH, 25);
+		statusMap.put(status.CONSTITUTION, 5);
 		equipMap = new ConcurrentHashMap<IEquipment.EquipType, IEquipment>();
 	}
 
@@ -171,22 +176,44 @@ public abstract class AbstractCharacter implements ICharacter {
 	@Override
 	public void normalAction() {
 		// TODO: define the normal behavior
-		//NpcActionUtil.randomMove(myGroup);
-		int ddd = PlayerServer.getRandom().nextInt(50);
-		if (ddd < 25) NpcActionUtil.randomGet(this);
-		//ddd = PlayerServer.getRandom().nextInt(50);
-		//if (ddd < 25) NpcActionUtil.randomDrop(this);
-		if (ddd < 10) NpcActionUtil.attackRandomPlayerGroup(this);
+		this.timeCount++;
+		if (timeCount % 3 == 0){
+			if (PlayerServer.getRandom().nextBoolean())
+				NpcActionUtil.randomGet(this);
+		}
+		
+		if ((timeCount + 1) % 3 == 0){
+			if (PlayerServer.getRandom().nextBoolean())
+				NpcActionUtil.randomDrop(this);
+		}
+		
+		if (timeCount == 10) {
+			int ddd = PlayerServer.getRandom().nextInt(10);
+			if (ddd < 7) NpcActionUtil.randomMove(this.getMyGroup());
+			timeCount = 0;
+		}
+		
+		// auto attack player group
+		if (this.getHostile()){
+			int ddd = PlayerServer.getRandom().nextInt(10);
+			if (ddd < 7) NpcActionUtil.attackRandomPlayerGroup(this);
+		}
 	}
 
 	@Override
 	public void updateTime() {
-		// TODO: define the recover method
-		IntPair pair = this.attributeMap.get(attribute.HP);
-		int value = pair.getCurrent() + (int) (pair.getMax() * 0.02);
-		if (value > pair.getMax())
-			value = pair.getMax();
-		pair.setCurrent(value);
+		if (this.updateCount < 5) {
+			this.updateCount++;
+		} else {
+			this.updateCount = 0;
+			
+			// TODO: define the recover method
+			IntPair pair = this.attributeMap.get(attribute.HP);
+			int value = pair.getCurrent() + (int) (pair.getMax() * 0.02);
+			if (value > pair.getMax())
+				value = pair.getMax();
+			pair.setCurrent(value);
+		}
 		
 		// TODO: define special status recover mechanism
 		if (this.specialStatusMap.size() > 0){

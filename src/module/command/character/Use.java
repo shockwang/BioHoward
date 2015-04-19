@@ -2,6 +2,7 @@ package module.command.character;
 
 import module.character.Group;
 import module.character.GroupList;
+import module.character.PlayerGroup;
 import module.character.api.ICharacter;
 import module.command.CommandServer;
 import module.command.api.ICommand;
@@ -37,18 +38,32 @@ public class Use implements ICommand{
 			if (obj instanceof IUseable){
 				IUseable objToUse = (IUseable) obj;
 				if (command.length == 3){
-					if (objToUse.onUse(c)) return true;
+					if (objToUse.onUse(c)) {
+						String out = "status:" + ((PlayerGroup) g).showGroupStatus();
+						CommandServer.informGroup(g, out);
+						return true;
+					}
 				} else {
 					String ttt = Parse.mergeString(command, 3, ' ');
 					ICharacter target = g.getAtRoom().getGroupList()
 							.findCharExceptGroup(g, ttt);
 					if (target != null){
-						return objToUse.onUse(c, target);
+						boolean result = objToUse.onUse(c, target);
+						if (result) {
+							String out = "status:" + ((PlayerGroup) g).showGroupStatus();
+							CommandServer.informGroup(g, out);
+						}
+						return result;
 					} else if (g.getInBattle()){
 						GroupList enemyList = g.getBattleTask().getEnemyGroups(c);
 						target = enemyList.findAliveChar(command[2]);
 						if (target != null){
-							return objToUse.onUse(c, target);
+							boolean result = objToUse.onUse(c, target);
+							if (result) {
+								String out = "status:" + ((PlayerGroup) g).showGroupStatus();
+								CommandServer.informGroup(g, out);
+							}
+							return result;
 						}
 					}
 					CommandServer.informGroup(g, "你想使用物品的對象不在這裡。\n");

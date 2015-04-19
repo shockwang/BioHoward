@@ -3,9 +3,7 @@ package module.command.character;
 import module.battle.BattleTask;
 import module.character.Group;
 import module.character.GroupList;
-import module.character.PlayerGroup;
 import module.character.api.ICharacter;
-import module.character.constants.CAttribute.attribute;
 import module.command.CommandServer;
 import module.command.api.ICommand;
 import module.utility.BattleUtil;
@@ -53,7 +51,8 @@ public class Attack implements ICommand {
 								g.getBattleTask().addBattleGroup(
 										enemyList.gList.get(0),
 										target.getMyGroup());
-								attackMechanism(c, target);
+								//attackMechanism(c, target);
+								BattleUtil.attackMechanism(c, target);
 								return true;
 							}
 						}
@@ -81,7 +80,8 @@ public class Attack implements ICommand {
 								}
 								// attack mechanism
 								new BattleTask(g, target.getMyGroup());
-								attackMechanism(c, target);
+								//attackMechanism(c, target);
+								BattleUtil.attackMechanism(c, target);
 								return false;
 							} else {
 								target.getMyGroup()
@@ -96,7 +96,8 @@ public class Attack implements ICommand {
 
 			if (target != null) {
 				// attack mechanism
-				attackMechanism(c, target);
+				//attackMechanism(c, target);
+				BattleUtil.attackMechanism(c, target);
 				return true;
 			} else {
 				CommandServer.informGroup(g, "你要攻擊的對象不在這裡.\n");
@@ -109,29 +110,5 @@ public class Attack implements ICommand {
 	public String getHelp() {
 		// TODO Auto-generated method stub
 		return null;
-	}
-
-	private void attackMechanism(ICharacter src, ICharacter target) {
-		String out = String.format("%s向%s揮出一拳, ", src.getChiName(),
-				target.getChiName());
-
-		if (target.getAttributeMap().get(attribute.HP) != null) {
-			out += String.format("對他造成%d點傷害!\n", 10);
-			src.getMyGroup().getAtRoom().informRoom(out);
-			int current = target.getAttributeMap().get(attribute.HP)
-					.getCurrent();
-			target.getAttributeMap().get(attribute.HP).setCurrent(current - 10);
-			if (target.isDown()) {
-				BattleUtil.deadMechanism(target);
-			}
-		} else {
-			out += String.format("但對%s看似絲毫不起作用!\n", src.getChiName(),
-					target.getChiName(), target.getChiName());
-			src.getMyGroup().getAtRoom().informRoom(out);
-		}
-		if (target.getMyGroup() instanceof PlayerGroup) {
-			target.getMyGroup().getBattleTask()
-					.updatePlayerStatus((PlayerGroup) target.getMyGroup());
-		}
 	}
 }

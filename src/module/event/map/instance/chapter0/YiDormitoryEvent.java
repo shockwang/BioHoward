@@ -505,5 +505,28 @@ public class YiDormitoryEvent {
 			}
 			
 		});
+		
+		EventUtil.mapEventMap.put("100,91,1", new AbstractEvent() {
+			@Override
+			public boolean isTriggered(Group g){
+				if (super.isTriggered(g)){
+					MainMission mm = (MainMission) PlayerServer.getMissionMap()
+							.get(MainMission.class.toString());
+					if (mm.getState() == MainMission.State.AFTER_BREAK_MANAGE_DOOR)
+						return true;
+				}
+				return false;
+			}
+			
+			@Override
+			public void doEvent(Group g) {
+				MainMission mm = (MainMission) PlayerServer.getMissionMap()
+						.get(MainMission.class.toString());
+				g.setInEvent(true);
+				EventUtil.executeEventMessage((PlayerGroup) g, "first time see keeper");
+				mm.setState(MainMission.State.AFTER_FLEE_FROM_MANAGER);
+				g.setInEvent(false);
+			}
+		});
 	}
 }

@@ -11,8 +11,8 @@ import module.item.api.IEquipment;
 import module.utility.ItemUtil;
 
 public class BaseEquipment extends AbstractItem implements IEquipment{
-	private ConcurrentHashMap<attribute, Integer> attrMap = null;
-	private ConcurrentHashMap<status, Integer> statMap = null;
+	protected ConcurrentHashMap<attribute, Integer> attrMap = null;
+	protected ConcurrentHashMap<status, Integer> statMap = null;
 	private EquipType type;
 	
 	public BaseEquipment(String chiName, String engName, EquipType type) {
@@ -56,7 +56,7 @@ public class BaseEquipment extends AbstractItem implements IEquipment{
 		c.getMyGroup().getInventory().addItem(this);
 		c.getEquipment().remove(this.type);
 		c.getMyGroup().getAtRoom().informRoom(c.getChiName() + 
-				"卸下了" + this.getChiName() + "\n");
+				"卸下了" + this.getChiName() + "。\n");
 		return true;
 	}
 	

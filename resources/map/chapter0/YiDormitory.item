@@ -1,0 +1,10 @@
+{"item":[
+	{
+		"name":"module.item.instance.chapter0.FireExtinguisher",
+		"position":"101,99,1"
+	},
+	{
+		"name":"module.item.container.instance.chapter0.Refrigerator",
+		"position":"101,91,2"
+	}
+]}

@@ -5,6 +5,7 @@ import module.character.api.ICharacter;
 import module.command.CommandServer;
 import module.command.api.ICommand;
 import module.server.PlayerServer;
+import module.utility.HelpUtil;
 
 public class MyTime implements ICommand {
 	private String[] name = null;
@@ -23,8 +24,8 @@ public class MyTime implements ICommand {
 
 	@Override
 	public String getHelp() {
-		// TODO Auto-generated method stub
-		return null;
+		String output = HelpUtil.getHelp("resources/help/time.help");
+		return output;
 	}
 
 	@Override

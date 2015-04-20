@@ -39,7 +39,6 @@ public class Inventory implements ICommand {
 	@Override
 	public String getHelp() {
 		String output = HelpUtil.getHelp("resources/help/equipment.help");
-		output += "\n";
 		return output;
 	}
 

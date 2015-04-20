@@ -5,6 +5,7 @@ import module.character.PlayerGroup;
 import module.character.api.ICharacter;
 import module.command.CommandServer;
 import module.command.api.ICommand;
+import module.utility.HelpUtil;
 import module.utility.Parse;
 
 public class Talk implements ICommand {
@@ -67,8 +68,8 @@ public class Talk implements ICommand {
 
 	@Override
 	public String getHelp() {
-		// TODO Auto-generated method stub
-		return null;
+		String output = HelpUtil.getHelp("resources/help/talk.help");
+		return output;
 	}
 
 }

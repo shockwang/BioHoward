@@ -7,6 +7,7 @@ import module.command.CommandServer;
 import module.command.api.ICommand;
 import module.mission.api.IMission;
 import module.server.PlayerServer;
+import module.utility.HelpUtil;
 
 public class Mission implements ICommand {
 	private String[] name;
@@ -40,8 +41,8 @@ public class Mission implements ICommand {
 
 	@Override
 	public String getHelp() {
-		// TODO Auto-generated method stub
-		return null;
+		String output = HelpUtil.getHelp("resources/help/mission.help");
+		return output;
 	}
 
 }

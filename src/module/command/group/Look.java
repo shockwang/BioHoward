@@ -108,7 +108,6 @@ public class Look implements ICommand {
 	@Override
 	public String getHelp() {
 		String output = HelpUtil.getHelp("resources/help/look.help");
-		output += "\n";
 		return output;
 	}
 

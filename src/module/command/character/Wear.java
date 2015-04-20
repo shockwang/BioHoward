@@ -6,6 +6,7 @@ import module.command.CommandServer;
 import module.command.api.ICommand;
 import module.item.api.IEquipment;
 import module.item.api.IItem;
+import module.utility.HelpUtil;
 
 public class Wear implements ICommand {
 	private String[] name;
@@ -58,8 +59,10 @@ public class Wear implements ICommand {
 
 	@Override
 	public String getHelp() {
-		// TODO Auto-generated method stub
-		return null;
+		String output = HelpUtil.getHelp("resources/help/wear.help");
+		output += "\n";
+		output += HelpUtil.getHelp("resources/help/chooseTeammate.help");
+		return output;
 	}
 
 }

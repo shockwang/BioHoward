@@ -7,6 +7,7 @@ import module.character.api.ICharacter;
 import module.command.CommandServer;
 import module.command.api.ICommand;
 import module.item.api.IEquipment;
+import module.utility.HelpUtil;
 import module.utility.Search;
 
 public class Remove implements ICommand {
@@ -53,8 +54,10 @@ public class Remove implements ICommand {
 
 	@Override
 	public String getHelp() {
-		// TODO Auto-generated method stub
-		return null;
+		String output = HelpUtil.getHelp("resources/help/remove.help");
+		output += "\n";
+		output += HelpUtil.getHelp("resources/help/chooseTeammate.help");
+		return output;
 	}
 
 }

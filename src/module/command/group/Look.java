@@ -10,6 +10,7 @@ import module.map.api.IDoor;
 import module.map.constants.CDoorAttribute.doorStatus;
 import module.map.constants.CExit.exit;
 import module.utility.EventUtil;
+import module.utility.HelpUtil;
 import module.utility.ItemUtil;
 import module.utility.MoveUtil;
 
@@ -106,8 +107,9 @@ public class Look implements ICommand {
 
 	@Override
 	public String getHelp() {
-		// TODO Auto-generated method stub
-		return null;
+		String output = HelpUtil.getHelp("resources/help/look.help");
+		output += "\n";
+		return output;
 	}
 
 	@Override

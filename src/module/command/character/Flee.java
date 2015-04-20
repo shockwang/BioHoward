@@ -5,6 +5,8 @@ import module.character.api.ICharacter;
 import module.command.CommandServer;
 import module.command.api.ICommand;
 import module.map.constants.CExit;
+import module.server.PlayerServer;
+import module.utility.HelpUtil;
 import module.utility.NpcActionUtil;
 
 public class Flee implements ICommand {
@@ -31,8 +33,8 @@ public class Flee implements ICommand {
 				return false;
 			} else {
 				// TODO: implement flee mechanism
-				int prob = 60;
-				if (prob > 50) {
+				int prob = PlayerServer.getRandom().nextInt(10);
+				if (prob <= 6) {
 					if (CExit.getAccessibleExitsRoom(g.getAtRoom()) == null) {
 						g.getAtRoom().informRoom(
 								String.format(
@@ -54,8 +56,10 @@ public class Flee implements ICommand {
 
 	@Override
 	public String getHelp() {
-		// TODO Auto-generated method stub
-		return null;
+		String output = HelpUtil.getHelp("resources/help/flee.help");
+		output += "\n";
+		output += HelpUtil.getHelp("resources/help/chooseTeammate.help");
+		return output;
 	}
 
 }

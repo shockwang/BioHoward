@@ -6,6 +6,7 @@ import module.command.CommandServer;
 import module.command.api.ICommand;
 import module.item.api.IItem;
 import module.server.PlayerServer;
+import module.utility.HelpUtil;
 
 public class Drop implements ICommand {
 	private String[] name;
@@ -67,8 +68,11 @@ public class Drop implements ICommand {
 
 	@Override
 	public String getHelp() {
-		// TODO Auto-generated method stub
-		return null;
+		String output = HelpUtil.getHelp("resources/help/drop.help");
+		output += "\n";
+		output += HelpUtil.getHelp("resources/help/chooseTeammate.help");
+		
+		return output;
 	}
 
 	private void dropSingleItem(ICharacter c, Group g, IItem obj) {

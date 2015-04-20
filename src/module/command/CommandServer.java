@@ -179,6 +179,7 @@ public class CommandServer {
 		} else {
 			// inform the NPC group about something
 			// do nothing first
+			// TODO: remove npc see mechanism, maybe add debug information?
 			System.out.print(g.getChiName() + "м▌иг: " + msg);
 		}
 	}

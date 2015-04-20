@@ -4,6 +4,7 @@ import module.character.Group;
 import module.character.api.ICharacter;
 import module.command.CommandServer;
 import module.command.api.ICommand;
+import module.utility.HelpUtil;
 
 public class Inventory implements ICommand {
 	private String[] name;
@@ -37,8 +38,9 @@ public class Inventory implements ICommand {
 
 	@Override
 	public String getHelp() {
-		// TODO Auto-generated method stub
-		return null;
+		String output = HelpUtil.getHelp("resources/help/equipment.help");
+		output += "\n";
+		return output;
 	}
 
 }

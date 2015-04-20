@@ -9,6 +9,7 @@ import module.map.api.IDoor;
 import module.map.constants.CDoorAttribute.doorAttribute;
 import module.map.constants.CDoorAttribute.doorStatus;
 import module.map.constants.CExit.exit;
+import module.utility.HelpUtil;
 import module.utility.ItemUtil;
 import module.utility.MoveUtil;
 
@@ -72,8 +73,11 @@ public class Close implements ICommand{
 
 	@Override
 	public String getHelp() {
-		// TODO Auto-generated method stub
-		return null;
+		String output = HelpUtil.getHelp("resources/help/close.help");
+		output += "\n";
+		output += HelpUtil.getHelp("resources/help/chooseTeammate.help");
+		
+		return output;
 	}
 
 }

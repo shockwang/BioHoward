@@ -8,6 +8,7 @@ import module.command.CommandServer;
 import module.command.api.ICommand;
 import module.item.api.IItem;
 import module.item.api.IUseable;
+import module.utility.HelpUtil;
 import module.utility.Parse;
 
 public class Use implements ICommand{
@@ -77,8 +78,10 @@ public class Use implements ICommand{
 
 	@Override
 	public String getHelp() {
-		// TODO Auto-generated method stub
-		return null;
+		String output = HelpUtil.getHelp("resources/help/use.help");
+		output += "\n";
+		output += HelpUtil.getHelp("resources/help/chooseTeammate.help");
+		return output;
 	}
 
 }

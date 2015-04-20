@@ -4,6 +4,7 @@ import module.character.Group;
 import module.character.api.ICharacter;
 import module.command.CommandServer;
 import module.command.api.ICommand;
+import module.utility.HelpUtil;
 import module.utility.ItemUtil;
 
 public class Equipment implements ICommand {
@@ -35,8 +36,10 @@ public class Equipment implements ICommand {
 
 	@Override
 	public String getHelp() {
-		// TODO Auto-generated method stub
-		return null;
+		String output = HelpUtil.getHelp("resources/help/equipment.help");
+		output += "\n";
+		output += HelpUtil.getHelp("resources/help/chooseTeammate.help");
+		return output;
 	}
 
 }

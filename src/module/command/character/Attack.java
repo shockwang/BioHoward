@@ -7,6 +7,7 @@ import module.character.api.ICharacter;
 import module.command.CommandServer;
 import module.command.api.ICommand;
 import module.utility.BattleUtil;
+import module.utility.HelpUtil;
 import module.utility.Parse;
 
 public class Attack implements ICommand {
@@ -108,7 +109,10 @@ public class Attack implements ICommand {
 
 	@Override
 	public String getHelp() {
-		// TODO Auto-generated method stub
-		return null;
+		String output = HelpUtil.getHelp("resources/help/attack.help");
+		output += "\n";
+		output += HelpUtil.getHelp("resources/help/chooseTeammate.help");
+		
+		return output;
 	}
 }

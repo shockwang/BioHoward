@@ -7,6 +7,7 @@ import module.command.api.ICommand;
 import module.item.api.IContainer;
 import module.item.api.IItem;
 import module.server.PlayerServer;
+import module.utility.HelpUtil;
 import module.utility.ItemUtil;
 import module.utility.Parse;
 
@@ -101,8 +102,10 @@ public class Get implements ICommand {
 
 	@Override
 	public String getHelp() {
-		// TODO Auto-generated method stub
-		return null;
+		String output = HelpUtil.getHelp("resources/help/get.help");
+		output += "\n";
+		output += HelpUtil.getHelp("resources/help/chooseTeammate.help");
+		return output;
 	}
 
 	private boolean pickUpSingleItem(ICharacter c, Group g, IItem obj) {

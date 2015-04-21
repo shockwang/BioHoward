@@ -47,7 +47,9 @@ public class Look implements ICommand {
 			else {
 				// look at the specific object
 				if (command.length == 2) {
-					IItem obj = g.getInventory().findItem(command[1]);
+					IItem obj = ItemUtil.findEquipByName(g, command[1]);
+					if (obj == null)
+						obj = g.getInventory().findItem(command[1]);
 					if (obj != null) {
 						CommandServer.informGroup(g, obj.display());
 						return false;

@@ -23,6 +23,7 @@ public class Group implements Updatable {
 	private BattleTask myBattle = null;
 	private IRoom atRoom = null; // judge this group is at what place
 	private IRoom initialRoom = null; // the place that group should locate at
+	private Class<BattleTask> specialBattleClass = null; // to be not null if there's special battle upon this group
 										// when respawn
 	private IntPair respawnTime = new IntPair(0, 30);
 	private boolean isRespawn = true;  // group will respawn after period of time if true
@@ -296,5 +297,13 @@ public class Group implements Updatable {
 	
 	public boolean getIsRespawn(){
 		return this.isRespawn;
+	}
+	
+	public void setSpecialBattle(Class<BattleTask> zz){
+		this.specialBattleClass = zz;
+	}
+	
+	public Class<BattleTask> getSpecialBattle(){
+		return this.specialBattleClass;
 	}
 }

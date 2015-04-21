@@ -1,10 +1,14 @@
 package module.character.instance.chapter0;
 
 import module.character.AbstractCharacter;
+import module.character.PlayerGroup;
 import module.character.constants.CAttribute.attribute;
 import module.character.constants.CStatus.status;
 import module.item.api.IEquipment.EquipType;
 import module.item.instance.chapter0.Nightstick;
+import module.mission.chapter0.MainMission;
+import module.server.PlayerServer;
+import module.utility.EventUtil;
 
 public class DormKeeper extends AbstractCharacter{
 
@@ -25,11 +29,20 @@ public class DormKeeper extends AbstractCharacter{
 	
 	public DormKeeper(String chiName, String engName) {
 		super(chiName, engName);
-		// TODO Auto-generated constructor stub
 	}
 	
 	@Override
 	public void normalAction() {
 		// do nothing
+	}
+	
+	@Override
+	public void doEventWhenGroupDown(PlayerGroup pg){
+		MainMission mm = (MainMission) PlayerServer.getMissionMap()
+				.get(MainMission.class.toString());
+		pg.setInEvent(true);
+		EventUtil.executeEventMessage(pg, "after_beat_keeper");
+		mm.setState(MainMission.State.AFTER_DEFEAT_MANAGER);
+		pg.setInEvent(false);
 	}
 }

@@ -277,4 +277,10 @@ public abstract class AbstractCharacter implements ICharacter {
 		NpcBattleActionUtil.randomAttack(this, enemyGroup);
 		return true;
 	}
+	
+	@Override
+	public void doEventWhenGroupDown(PlayerGroup pg){
+		// do nothing default
+		return;
+	}
 }

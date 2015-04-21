@@ -7,6 +7,8 @@ import module.character.AbstractCharacter;
 import module.character.PlayerGroup;
 import module.character.constants.CAttribute.attribute;
 import module.character.constants.CConfig.config;
+import module.mission.chapter0.MainMission;
+import module.server.PlayerServer;
 import module.utility.EventUtil;
 
 public class Roommate extends AbstractCharacter{
@@ -17,7 +19,7 @@ public class Roommate extends AbstractCharacter{
 	
 	public Roommate(String chiName, String engName) {
 		super(chiName, engName);
-		// TODO assign attribute here
+		// TODO: modify description
 		this.setDesc("´N¬O«Ç¤Í");
 		this.addAttribute(attribute.HP, 50);
 	}
@@ -61,5 +63,12 @@ public class Roommate extends AbstractCharacter{
 	@Override
 	public void normalAction() {
 		// do nothing
+	}
+	
+	@Override
+	public void doEventWhenGroupDown(PlayerGroup pg){
+		MainMission mm = (MainMission) PlayerServer.getMissionMap().get(MainMission.class.toString());
+		mm.setState(MainMission.State.AFTER_FIRST_BATTLE);
+		EventUtil.doRoomEvent(pg);
 	}
 }

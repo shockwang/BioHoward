@@ -61,10 +61,20 @@ public class EachPlayerServer extends Thread {
 			
 			while (PlayerServer.getServerRun()) {
 				if (playerGroup.getInEvent()) continue;
+				
+				// rollback the message read if group start the event
+				inFromClient.mark(100);
 				input = IOUtil.readLineFromClientSocket(inFromClient);
+				if (playerGroup.getInEvent()){
+					inFromClient.reset();
+					continue;
+				} 
 				temp = input.split(" ");
 				if (temp.length == 0)
 					continue;
+				else if (input.equals(""))
+					continue;
+				
 				if (temp[0].equals("!"))
 					temp = lastInput;
 				

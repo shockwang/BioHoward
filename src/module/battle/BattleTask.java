@@ -26,6 +26,7 @@ public class BattleTask extends TimerTask {
 	protected ArrayList<ICharacter> ready;
 	protected Timer battleTimer;
 	private int updateCounter = 0;
+	protected boolean isBlocked = false;  // used if there's something need to pause the timer
 
 	public BattleTask(Group team1, Group team2) {
 		team1.setInBattle(true);
@@ -93,6 +94,8 @@ public class BattleTask extends TimerTask {
 	}
 
 	public void run() {
+		if (isBlocked) return;
+		
 		synchronized (this) {
 			ready = updateTime();
 			updatePlayerStatus();
@@ -315,6 +318,20 @@ public class BattleTask extends TimerTask {
 						ItemUtil.createLootingItem(g);
 						// group inventory drop to the ground
 						ItemUtil.dropAllItemOnDefeat(g);
+						// do group down event if there's any
+						GroupList oppositeGroups = getEnemyGroups(g);
+						PlayerGroup pg = null;
+						for (Group px : oppositeGroups.gList){
+							if (px instanceof PlayerGroup){
+								pg = (PlayerGroup) px;
+								break;
+							}
+						}
+						if (pg != null){
+							this.isBlocked = true;
+							g.list.get(0).charList.get(0).doEventWhenGroupDown(pg);
+							this.isBlocked = false;
+						}
 					}
 					
 					// a group is down, remove data from this battle

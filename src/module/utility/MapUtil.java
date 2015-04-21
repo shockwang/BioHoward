@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
+import module.battle.BattleTask;
 import module.character.Group;
 import module.character.api.ICharacter;
 import module.item.api.IItem;
@@ -202,6 +203,14 @@ public class MapUtil {
 						IItem itemToAdd = (IItem) zz.newInstance();
 						groupToConfig.getInventory().addItem(itemToAdd);
 					}
+				}
+				
+				// check if special battle event exists
+				String specialBattleClassString = (String) groupObj.get("specialBattleClass");
+				if (specialBattleClassString != null){
+					Class<BattleTask> specialBattleClass = 
+							(Class<BattleTask>) Class.forName(specialBattleClassString);
+					groupToConfig.setSpecialBattle(specialBattleClass);
 				}
 				
 				// add group to SystemTime

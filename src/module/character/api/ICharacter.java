@@ -51,6 +51,7 @@ public interface ICharacter extends Updatable{
 	// battle action, true = done the action, false = not yet
 	boolean battleAction(GroupList enemyGroup);
 	boolean isDown();  // true if the character is not able to fight anymore.
+	void doEventWhenGroupDown(PlayerGroup pg); // do events when the belong group is down
 	
 	// auto attack player group or not
 	void setHostile(boolean value);

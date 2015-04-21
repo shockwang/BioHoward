@@ -2,6 +2,7 @@ package module.event.map.instance.chapter0;
 
 import java.io.BufferedReader;
 
+import module.battle.chapter0.DormKeeperBattle;
 import module.character.Group;
 import module.character.PlayerGroup;
 import module.character.constants.CConfig.config;
@@ -10,6 +11,7 @@ import module.event.AbstractEvent;
 import module.event.map.SkipEventException;
 import module.mission.api.IMission;
 import module.mission.chapter0.ContainerTutorialMission;
+import module.mission.chapter0.FirstTimeSeeKeeperMission;
 import module.mission.chapter0.MainMission;
 import module.mission.chapter0.TwoDoorsMission;
 import module.server.PlayerServer;
@@ -258,8 +260,6 @@ public class YiDormitoryEvent {
 					}
 					mm.setState(MainMission.State.START_SEARCHING);
 					pg.setInEvent(false);
-					String[] msg6 = {"look"};
-					CommandServer.readCommand(pg, msg6);
 				}
 			}
 		});
@@ -510,21 +510,21 @@ public class YiDormitoryEvent {
 			@Override
 			public boolean isTriggered(Group g){
 				if (super.isTriggered(g)){
-					MainMission mm = (MainMission) PlayerServer.getMissionMap()
-							.get(MainMission.class.toString());
-					if (mm.getState() == MainMission.State.AFTER_BREAK_MANAGE_DOOR)
-						return true;
+					FirstTimeSeeKeeperMission ftskm = (FirstTimeSeeKeeperMission) PlayerServer
+							.getMissionMap().get(FirstTimeSeeKeeperMission.class.toString());
+					if (ftskm == null) return true;
 				}
 				return false;
 			}
 			
 			@Override
 			public void doEvent(Group g) {
-				MainMission mm = (MainMission) PlayerServer.getMissionMap()
-						.get(MainMission.class.toString());
 				g.setInEvent(true);
+				PlayerServer.getMissionMap().put(FirstTimeSeeKeeperMission.class.toString(), 
+						new FirstTimeSeeKeeperMission());
 				EventUtil.executeEventMessage((PlayerGroup) g, "first time see keeper");
-				mm.setState(MainMission.State.AFTER_FLEE_FROM_MANAGER);
+				Group gg = g.getAtRoom().getGroupList().findGroup("keeper");
+				new DormKeeperBattle(gg, g);
 				g.setInEvent(false);
 			}
 		});

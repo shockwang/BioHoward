@@ -1,5 +1,6 @@
 package module.utility;
 
+import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 
 import module.character.CharList;
@@ -113,6 +114,17 @@ public class ItemUtil {
 	}
 
 	public static void dropAllItemOnDefeat(Group g) {
+		// add all equipments to inventory
+		for (CharList cList : g.list){
+			for (ICharacter c : cList.charList){
+				for (Entry<EquipType, IEquipment> entry : c.getEquipment().entrySet()){
+					IItem equip = entry.getValue();
+					g.getInventory().addItem(equip);
+				}
+				c.getEquipment().clear();
+			}
+		}
+		
 		if (g.getInventory().itemList.size() == 0)
 			return;
 
@@ -158,6 +170,19 @@ public class ItemUtil {
 		case OPENED: 
 			return "¶}";
 		}
+		return null;
+	}
+	
+	public static IEquipment findEquipByName(Group g, String name){
+		for (CharList cList : g.list){
+			for (ICharacter c : cList.charList){
+				for (Entry<EquipType, IEquipment> entry : c.getEquipment().entrySet()){
+					if (Search.searchName(entry.getValue().getEngName(), name))
+						return entry.getValue();
+				}
+			}
+		}
+		
 		return null;
 	}
 }

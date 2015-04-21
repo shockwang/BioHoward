@@ -91,7 +91,7 @@ public abstract class AbstractItem implements IItem{
 	
 	@Override
 	public boolean isExpired(){
-		if (this.ttl > 60) return true;
+		if (this.ttl > 600) return true;
 		return false;
 	}
 	

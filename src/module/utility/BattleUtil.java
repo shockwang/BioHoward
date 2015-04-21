@@ -1,5 +1,7 @@
 package module.utility;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Map.Entry;
 
 import module.battle.BattleTask;
@@ -80,7 +82,7 @@ public class BattleUtil {
 				gT.getBattleTask().addBattleOppositeGroup(gT, gS);
 			} else {
 				// both src & target group not in battle
-				new BattleTask(gS, gT);
+				startNewBattle(gS, gT);
 			}
 		}
 	}
@@ -177,5 +179,42 @@ public class BattleUtil {
 			}
 		}
 		return defenseSum;
+	}
+	
+	public static void startNewBattle(Group src, Group target){
+		Class<BattleTask> specialTaskClass = null;
+		
+		if (src.getSpecialBattle() != null)
+			specialTaskClass = src.getSpecialBattle();
+		else if (target.getSpecialBattle() != null)
+			specialTaskClass = src.getSpecialBattle();
+		
+		if (specialTaskClass != null){
+			Class[] paramClass = new Class[] {Group.class, Group.class};
+			Object[] paramArray = new Object[] {src, target};
+			try {
+				Constructor c = specialTaskClass.getConstructor(paramClass);
+				c.newInstance(paramArray);
+			} catch (NoSuchMethodException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (SecurityException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (InstantiationException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IllegalArgumentException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (InvocationTargetException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} else
+			new BattleTask(src, target);
 	}
 }

@@ -235,5 +235,11 @@ public class CharacterStub implements ICharacter{
 		// TODO Auto-generated method stub
 		return false;
 	}
+
+	@Override
+	public void doEventWhenGroupDown(PlayerGroup pg) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 }

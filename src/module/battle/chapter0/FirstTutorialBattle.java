@@ -4,19 +4,15 @@ import java.io.BufferedReader;
 
 import module.battle.BattleTask;
 import module.character.Group;
-import module.character.GroupList;
 import module.character.PlayerGroup;
 import module.character.api.ICharacter;
 import module.character.constants.CConfig.config;
 import module.command.CommandServer;
-import module.mission.chapter0.MainMission;
-import module.server.PlayerServer;
 import module.utility.EventUtil;
 import module.utility.IOUtil;
 
 public class FirstTutorialBattle extends BattleTask{
 	private int playerMoveCount;
-	private boolean isBlocked = false;
 	
 	public FirstTutorialBattle(Group team1, Group team2) {
 		super(team1, team2);
@@ -146,44 +142,5 @@ public class FirstTutorialBattle extends BattleTask{
 			g.getAtRoom().informRoom(buf.toString());
 		}
 		return false;
-	}
-	
-	@Override
-	public void checkBattleEnd() {
-		boolean over = false;
-		GroupList aliveGroups = null;
-		
-		if (checkGroupListDown(team1List)) {
-			over = true;
-			aliveGroups = team2List;
-		} else if (checkGroupListDown(team2List)){
-			over = true;
-			aliveGroups = team1List;
-		}
-
-		if (over == true) {
-			// inform room that battle is end
-			aliveGroups.gList.get(0).getAtRoom().informRoom("¾Ô°«µ²§ô!\n");
-			
-			// free the battle resources
-			battleTimer.cancel();
-			for (Group g : team1List.gList) {
-				g.setInBattle(false);
-				g.setBattleTask(null);
-				if (g instanceof PlayerGroup)
-					CommandServer.informGroup(g,
-							"status:" + ((PlayerGroup) g).showGroupStatus());
-			}
-			for (Group g : team2List.gList) {
-				g.setInBattle(false);
-				g.setBattleTask(null);
-				if (g instanceof PlayerGroup)
-					CommandServer.informGroup(g,
-							"status:" + ((PlayerGroup) g).showGroupStatus());
-			}
-			MainMission mm = (MainMission) PlayerServer.getMissionMap().get(MainMission.class.toString());
-			mm.setState(MainMission.State.AFTER_FIRST_BATTLE);
-			EventUtil.doRoomEvent(aliveGroups.gList.get(0));
-		}
 	}
 }

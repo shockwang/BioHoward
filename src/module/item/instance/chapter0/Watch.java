@@ -6,7 +6,7 @@ public class Watch extends BaseEquipment {
 	
 	public Watch(){
 		this("も况", "watch", EquipType.ACCESSORY);
-		String desc = "繬地盽拦も琵ぃハ甶瞷华";
+		String desc = "繬地盽拦も况琵ぃハ甶瞷华";
 		this.setDescription(desc);
 		this.setPrice(199);
 	}

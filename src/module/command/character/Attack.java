@@ -1,6 +1,5 @@
 package module.command.character;
 
-import module.battle.BattleTask;
 import module.character.Group;
 import module.character.GroupList;
 import module.character.api.ICharacter;
@@ -52,7 +51,6 @@ public class Attack implements ICommand {
 								g.getBattleTask().addBattleGroup(
 										enemyList.gList.get(0),
 										target.getMyGroup());
-								//attackMechanism(c, target);
 								BattleUtil.attackMechanism(c, target);
 								return true;
 							}
@@ -80,8 +78,7 @@ public class Attack implements ICommand {
 									return false;
 								}
 								// attack mechanism
-								new BattleTask(g, target.getMyGroup());
-								//attackMechanism(c, target);
+								BattleUtil.startNewBattle(g, target.getMyGroup());
 								BattleUtil.attackMechanism(c, target);
 								return false;
 							} else {
@@ -97,7 +94,6 @@ public class Attack implements ICommand {
 
 			if (target != null) {
 				// attack mechanism
-				//attackMechanism(c, target);
 				BattleUtil.attackMechanism(c, target);
 				return true;
 			} else {

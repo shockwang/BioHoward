@@ -13,7 +13,7 @@ public class FireExtinguisher extends AbstractHarmfulItem {
 	public FireExtinguisher() {
 		this("滅火器", "fire extinguisher");
 		this.setPrice(1000);
-		this.setDescription("每間宿舍必備的滅火器，還蠻重的，平常該不會有人拿來重訓?");
+		this.setDescription("每間宿舍必備的滅火器，還蠻重的，用來砸人肯定很痛。");
 		count = 0;
 	}
 

@@ -2,6 +2,13 @@
 [
 	{
 		"character":[
+			"module.character.instance.chapter0.Roommate"
+		],
+		"position":"102,100,3",
+		"respawn":false,
+	},
+	{
+		"character":[
 			"module.character.instance.chapter0.SluggishStudent"
 		],
 		"position":"101,100,3",
@@ -100,6 +107,13 @@
 	},
 	{
 		"character":[
+			"module.character.instance.chapter0.MadStudent"
+		],
+		"position":"100,100,1",
+		"respawn":false
+	},
+	{
+		"character":[
 			"module.character.instance.chapter0.SluggishStudent"
 		],
 		"position":"100,98,1",
@@ -117,13 +131,6 @@
 			"module.character.instance.chapter0.MadStudent"
 		],
 		"position":"100,94,1",
-		"respawn":false
-	},
-	{
-		"character":[
-			"module.character.instance.chapter0.MadStudent"
-		],
-		"position":"102,100,1",
 		"respawn":false
 	},
 	{
@@ -155,6 +162,7 @@
 		"respawn":false,
 		"inventory":[
 			"module.item.instance.chapter0.ManagerKey"
-		]
+		],
+		"specialBattleClass":"module.battle.chapter0.DormKeeperBattle"
 	}
 ]}

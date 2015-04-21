@@ -217,4 +217,27 @@ public class BattleUtil {
 		} else
 			new BattleTask(src, target);
 	}
+	
+	public static String showStatusInBattle(ICharacter c){
+		if (c.getAttributeMap().containsKey(attribute.HP)){
+			int current, max;
+			current = c.getCurrentAttribute(attribute.HP);
+			max = c.getMaxAttribute(attribute.HP);
+			double rate = (double) current / (double) max;
+			
+			String output = c.getChiName();
+			if (rate > 0.8)
+				output += "精神抖擻，看起來沒受什麼傷。";
+			else if (rate > 0.6)
+				output += "身上受了幾處傷，不過還不礙事。";
+			else if (rate > 0.4)
+				output += "呼吸紊亂，狀態不太好。";
+			else if (rate > 0.2)
+				output += "臉色蒼白，好像隨時都會倒下!";
+			else
+				output += "正在死亡邊緣掙扎，努力尋求一絲活路!";
+			return output;
+		}
+		return null;
+	}
 }

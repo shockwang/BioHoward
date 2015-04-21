@@ -28,6 +28,7 @@ import module.command.group.Mission;
 import module.command.group.Move;
 import module.command.group.MyTime;
 import module.command.group.Talk;
+import module.utility.BattleUtil;
 import module.utility.EnDecoder;
 import module.utility.EventUtil;
 import module.utility.Parse;
@@ -140,6 +141,9 @@ public class CommandServer {
 				if (movedInBattle && g.getInBattle()) {
 					// character has done its action, update the battle
 					// timer
+					
+					// show character condition
+					g.getAtRoom().informRoom(BattleUtil.showStatusInBattle(targetChar) + "\n");
 					synchronized (g.getBattleTask()) {
 						if (g instanceof PlayerGroup) {
 							PlayerGroup pg = (PlayerGroup) g;

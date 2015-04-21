@@ -8,6 +8,7 @@ import module.command.CommandServer;
 import module.event.map.instance.chapter0.YiDormitoryEvent;
 import module.event.map.instance.chapter0.YiDormitoryRoomCommand;
 import module.item.BaseEquipment;
+import module.item.instance.chapter0.HydraulicCut;
 import module.item.instance.chapter0.Key306;
 import module.item.instance.chapter0.PhysicsBook;
 import module.map.api.IRoom;
@@ -67,6 +68,7 @@ public class EventTest {
 		BaseEquipment testEquip = new PhysicsBook();
 		pg.getInventory().addItem(testEquip);
 		pg.getInventory().addItem(new Key306());
+		pg.getInventory().addItem(new HydraulicCut());
 		
 		// set player group mission
 		MainMission mm = new MainMission();

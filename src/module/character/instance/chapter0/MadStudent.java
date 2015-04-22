@@ -1,11 +1,11 @@
 package module.character.instance.chapter0;
 
 import module.battle.BattleTask;
-import module.character.AbstractCharacter;
+import module.character.AbstractHumanCharacter;
 import module.character.PlayerGroup;
 import module.character.constants.CStatus.status;
 
-public class MadStudent extends AbstractCharacter{
+public class MadStudent extends AbstractHumanCharacter{
 	
 	public MadStudent(){
 		this("¨g¼Éªº¾Ç¥Í", "mad student");

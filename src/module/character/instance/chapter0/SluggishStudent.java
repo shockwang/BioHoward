@@ -1,10 +1,10 @@
 package module.character.instance.chapter0;
 
-import module.character.AbstractCharacter;
+import module.character.AbstractHumanCharacter;
 import module.character.PlayerGroup;
 import module.character.constants.CStatus.status;
 
-public class SluggishStudent extends AbstractCharacter{
+public class SluggishStudent extends AbstractHumanCharacter{
 
 	public SluggishStudent(){
 		this("§bº¢ªº¾Ç¥Í", "sluggish student");

@@ -91,11 +91,13 @@ public class BattleUtil {
 		StringBuffer buf = new StringBuffer();
 		IWeapon weapon = (IWeapon) src.getEquipment().get(EquipType.WEAPON);
 		if (weapon != null){
-			buf.append(String.format("%s揮動手中的%s向%s擊去，", 
-					src.getChiName(), weapon.getChiName(), target.getChiName()));
+			buf.append(String.format("%s揮動手中的%s向%s的%s擊去，", 
+					src.getChiName(), weapon.getChiName(), target.getChiName(), 
+					target.getRandomBodyPart()));
 		} else {
-			buf.append(String.format("%s向%s揮出一拳，", 
-					src.getChiName(), target.getChiName()));
+			buf.append(String.format("%s%s%s的%s，", 
+					src.getChiName(), src.getBareHandAttackMessage(), target.getChiName(), 
+					target.getRandomBodyPart()));
 		}
 		
 		// calculate dodge probability
@@ -227,7 +229,7 @@ public class BattleUtil {
 			
 			String output = c.getChiName();
 			if (rate > 0.8)
-				output += "精神抖擻，看起來沒受什麼傷。";
+				output += "看起來沒受什麼傷。";
 			else if (rate > 0.6)
 				output += "身上受了幾處傷，不過還不礙事。";
 			else if (rate > 0.4)

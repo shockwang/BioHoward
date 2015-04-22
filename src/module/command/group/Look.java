@@ -9,6 +9,7 @@ import module.item.api.IItem;
 import module.map.api.IDoor;
 import module.map.constants.CDoorAttribute.doorStatus;
 import module.map.constants.CExit.exit;
+import module.utility.BattleUtil;
 import module.utility.EventUtil;
 import module.utility.HelpUtil;
 import module.utility.ItemUtil;
@@ -91,6 +92,7 @@ public class Look implements ICommand {
 						ICharacter tc = tg.findAliveChar(command[2]);
 						if (tc != null) {
 							String out = tc.getDesc() + "\n";
+							out += BattleUtil.showStatusInBattle(tc) + "\n";
 							out += ItemUtil.showLookEquip(tc);
 							CommandServer.informGroup(g, out);
 						} else

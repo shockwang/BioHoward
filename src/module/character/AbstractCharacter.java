@@ -5,8 +5,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import module.character.api.ICharacter;
 import module.character.api.IntPair;
 import module.character.constants.CAttribute;
-import module.character.constants.CSpecialStatus;
 import module.character.constants.CAttribute.attribute;
+import module.character.constants.CSpecialStatus;
 import module.character.constants.CSpecialStatus.specialStatus;
 import module.character.constants.CStatus.status;
 import module.item.api.IEquipment;
@@ -19,6 +19,7 @@ public abstract class AbstractCharacter implements ICharacter {
 	private ConcurrentHashMap<specialStatus, Integer> specialStatusMap = null;
 	protected ConcurrentHashMap<status, Integer> statusMap = null;
 	protected ConcurrentHashMap<IEquipment.EquipType, IEquipment> equipMap = null;
+	protected String[] bodyPartList = null;
 	private int level = 1;
 	private boolean hostile = true;
 	protected int timeCount = 0;
@@ -282,5 +283,11 @@ public abstract class AbstractCharacter implements ICharacter {
 	public void doEventWhenGroupDown(PlayerGroup pg){
 		// do nothing default
 		return;
+	}
+	
+	@Override
+	public String getRandomBodyPart(){
+		int choose = PlayerServer.getRandom().nextInt(this.bodyPartList.length);
+		return this.bodyPartList[choose];
 	}
 }

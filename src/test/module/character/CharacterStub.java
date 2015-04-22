@@ -241,5 +241,17 @@ public class CharacterStub implements ICharacter{
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public String getRandomBodyPart() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getBareHandAttackMessage() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 }

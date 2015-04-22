@@ -1,6 +1,6 @@
 package module.character.instance.main;
 
-import module.character.AbstractCharacter;
+import module.character.AbstractHumanCharacter;
 import module.character.GroupList;
 import module.character.PlayerGroup;
 import module.character.constants.CAttribute.attribute;
@@ -11,7 +11,7 @@ import module.item.instance.chapter0.BlueShirt;
 import module.item.instance.chapter0.NikeShoes;
 import module.item.instance.chapter0.Watch;
 
-public class Enf extends AbstractCharacter{
+public class Enf extends AbstractHumanCharacter{
 
 	public Enf(){
 		this("ภNตุ", "enf");

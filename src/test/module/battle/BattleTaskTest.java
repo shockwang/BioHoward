@@ -1,11 +1,8 @@
 package test.module.battle;
 
 import static org.junit.Assert.assertTrue;
-
-import java.io.IOException;
-
 import module.battle.BattleTask;
-import module.character.AbstractCharacter;
+import module.character.AbstractHumanCharacter;
 import module.character.CharList;
 import module.character.Group;
 import module.character.GroupList;
@@ -15,15 +12,12 @@ import module.character.constants.CAttribute.attribute;
 import module.character.constants.CStatus.status;
 import module.character.instance.chapter0.Roommate;
 import module.client.ClientUser;
-import module.command.CommandServer;
 import module.event.map.instance.chapter0.YiDormitoryEvent;
 import module.item.AbstractItem;
 import module.item.BaseEquipment;
 import module.item.api.IEquipment.EquipType;
-import module.map.Position;
 import module.map.api.IRoom;
 import module.mission.TestMission;
-import module.mission.TestMission.State;
 import module.mission.api.IMission;
 import module.server.PlayerServer;
 import module.utility.EventUtil;
@@ -33,15 +27,13 @@ import module.utility.NpcBattleActionUtil;
 
 import org.junit.Test;
 
-import test.module.map.MapTest;
-
 public class BattleTaskTest {
 	private BattleTask task;
 	private PlayerServer singletonServer;
 	private ClientUser oneUser;
 	
 	
-	public class CharForTest extends AbstractCharacter{
+	public class CharForTest extends AbstractHumanCharacter{
 		String desc = null;
 		
 		public CharForTest(String chiName, String engName) {

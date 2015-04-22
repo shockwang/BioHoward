@@ -225,7 +225,7 @@ public class BattleTask extends TimerTask {
 
 	protected void updatePlayerStatus() {
 		updateCounter++;
-		if (updateCounter == 30) {
+		if (updateCounter == 20) {
 			updateCounter = 0;
 
 			for (Group g : team1List.gList)

@@ -6,5 +6,21 @@
 	{
 		"name":"module.item.container.instance.chapter0.Refrigerator",
 		"position":"101,91,2"
+	},
+	{
+		"name":"module.item.instance.chapter0.HydraulicCut",
+		"position":"100,101,3"
+	},
+	{
+		"name":"module.item.instance.chapter0.Dumbbell",
+		"position":"102,94,1"
+	},
+	{
+		"name":"module.item.instance.chapter0.TrashCanCap",
+		"position":"101,91,1"
+	},
+	{
+		"name":"module.item.instance.chapter0.Glove",
+		"position":"100,96,1"
 	}
 ]}

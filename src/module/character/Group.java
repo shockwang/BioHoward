@@ -13,6 +13,7 @@ import module.item.ItemList;
 import module.map.api.IRoom;
 import module.time.api.Updatable;
 import module.utility.BattleUtil;
+import module.utility.ItemUtil;
 import module.utility.Parse;
 import module.utility.Search;
 
@@ -172,7 +173,9 @@ public class Group implements Updatable {
 
 	public String displayInfo() {
 		if (this.charNum == 1) {
+			// display the only character in the group
 			String output = this.list.get(0).charList.get(0).getDesc() + "\n";
+			output += ItemUtil.showLookEquip(this.list.get(0).charList.get(0));
 			output += BattleUtil.showStatusInBattle(this.list.get(0).charList.get(0)) + "\n";
 			return output;
 		}

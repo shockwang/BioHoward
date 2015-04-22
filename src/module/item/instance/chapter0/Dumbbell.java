@@ -10,7 +10,7 @@ public class Dumbbell extends AbstractWeapon {
 		this("啞鈴", "dumbbell");
 		this.setDescription("健身常用的啞鈴，重量估計有5公斤，拿起來十分沉重。");
 		this.statMap.put(status.WEAPON_ATTACK, 12);
-		this.hitRatio = 0.5;
+		this.hitRatio = 0.6;
 		this.setPrice(499);
 	}
 	

@@ -237,5 +237,51 @@ public class YiDormitoryRoomCommand {
 			}
 			
 		});
+		
+		EventUtil.mapCommandMap.put("101,98,3", new IRoomCommand() {
+
+			@Override
+			public boolean roomSpecialCommand(Group g, String[] msg) {
+				if (msg.length < 2) return false;
+				
+				if (msg[0].equals("open") || msg[0].equals("o")){
+					if (msg[1].equals("east") || msg[1].equals("e")){
+						IDoor targetDoor = g.getAtRoom().getExits().get(exit.EAST).getDoor();
+						if (targetDoor.getDoorStatus() == doorStatus.CLOSED){
+							String out = g.getChiName() + "嘗試推開東邊的門，但卻推不動。推測是門的另外一邊\n";
+							out += "被什麼沉重的東西擋住了。\n";
+							g.getAtRoom().informRoom(out);
+							return true;
+						}
+					}
+				}
+				
+				return false;
+			}
+			
+		});
+		
+		EventUtil.mapCommandMap.put("101,96,3", new IRoomCommand() {
+
+			@Override
+			public boolean roomSpecialCommand(Group g, String[] msg) {
+				if (msg.length < 2) return false;
+				
+				if (msg[0].equals("open") || msg[0].equals("o")){
+					if (msg[1].equals("east") || msg[1].equals("e")){
+						IDoor targetDoor = g.getAtRoom().getExits().get(exit.EAST).getDoor();
+						if (targetDoor.getDoorStatus() == doorStatus.CLOSED){
+							String out = g.getChiName() + "嘗試推開東邊的門，但卻推不動。推測是門的另外一邊\n";
+							out += "被什麼沉重的東西擋住了。\n";
+							g.getAtRoom().informRoom(out);
+							return true;
+						}
+					}
+				}
+				
+				return false;
+			}
+			
+		});
 	}
 }

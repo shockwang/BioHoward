@@ -44,7 +44,7 @@
 			"connect2":{"direction":"east","connectTo":"101,99,3"}
 		},
 		"doorAttribute":"lockable",
-		"doorStatus":"locked"
+		"doorStatus":"opened"
 		"keyName":"manager key"
 	},
 	{
@@ -80,7 +80,7 @@
 			"connect2":{"direction":"east","connectTo":"101,96,3"}
 		},
 		"doorAttribute":"lockable",
-		"doorStatus":"locked"
+		"doorStatus":"opened"
 		"keyName":"manager key"
 	},
 	{
@@ -92,7 +92,7 @@
 			"connect2":{"direction":"east","connectTo":"101,95,3"}
 		},
 		"doorAttribute":"lockable",
-		"doorStatus":"locked"
+		"doorStatus":"opened"
 		"keyName":"manager key"
 	},
 	{
@@ -164,7 +164,7 @@
 			"connect2":{"direction":"east","connectTo":"102,99,3"}
 		},
 		"doorAttribute":"lockable",
-		"doorStatus":"locked"
+		"doorStatus":"opened"
 		"keyName":"manager key"
 	},
 	{
@@ -224,7 +224,7 @@
 			"connect2":{"direction":"east","connectTo":"102,94,3"}
 		},
 		"doorAttribute":"lockable",
-		"doorStatus":"locked"
+		"doorStatus":"opened"
 		"keyName":"manager key"
 	},
 	{

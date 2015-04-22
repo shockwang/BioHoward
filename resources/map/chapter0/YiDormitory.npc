@@ -18,6 +18,97 @@
 		"character":[
 			"module.character.instance.chapter0.MadStudent"
 		],
+		"position":"101,103,3",
+		"respawn":false
+	},
+	{
+		"character":[
+			"module.character.instance.chapter0.MadStudent"
+		],
+		"position":"101,103,3",
+		"respawn":false
+	},
+	{
+		"character":[
+			"module.character.instance.chapter0.MadStudent"
+		],
+		"position":"101,101,3",
+		"respawn":false
+	},
+	{
+		"character":[
+			"module.character.instance.chapter0.SluggishStudent"
+		],
+		"position":"101,97,3",
+		"respawn":false
+	},
+	{
+		"character":[
+			"module.character.instance.chapter0.SluggishStudent"
+		],
+		"position":"101,93,3",
+		"respawn":false
+	},
+	{
+		"character":[
+			"module.character.instance.chapter0.MadStudent"
+		],
+		"position":"100,99,3",
+		"respawn":false
+	},
+	{
+		"character":[
+			"module.character.instance.chapter0.MadStudent"
+		],
+		"position":"100,95,3",
+		"respawn":false
+	},
+	{
+		"character":[
+			"module.character.instance.chapter0.MadStudent"
+		],
+		"position":"100,94,3",
+		"respawn":false
+	},
+	{
+		"character":[
+			"module.character.instance.chapter0.SluggishStudent"
+		],
+		"position":"102,97,3",
+		"respawn":false
+	},
+	{
+		"character":[
+			"module.character.instance.chapter0.SluggishStudent"
+		],
+		"position":"102,97,3",
+		"respawn":false
+	},
+	{
+		"character":[
+			"module.character.instance.chapter0.SluggishStudent"
+		],
+		"position":"102,97,3",
+		"respawn":false
+	},
+	{
+		"character":[
+			"module.character.instance.chapter0.SluggishStudent"
+		],
+		"position":"102,97,3",
+		"respawn":false
+	},
+	{
+		"character":[
+			"module.character.instance.chapter0.MadStudent2"
+		],
+		"position":"102,93,3",
+		"respawn":false
+	},
+	{
+		"character":[
+			"module.character.instance.chapter0.MadStudent"
+		],
 		"position":"103,103,2",
 		"respawn":false
 	},
@@ -135,7 +226,7 @@
 	},
 	{
 		"character":[
-			"module.character.instance.chapter0.MadStudent"
+			"module.character.instance.chapter0.MadStudent3"
 		],
 		"position":"102,100,1",
 		"respawn":false

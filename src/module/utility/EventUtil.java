@@ -94,7 +94,7 @@ public class EventUtil {
 			int i = 0;
 			buf.append((String) oneTimeDesc.get(0));
 			for (i = 1; i < oneTimeDesc.size(); i++)
-				buf.append("\n" + oneTimeDesc.get(i));
+				buf.append("\n" + (String) oneTimeDesc.get(i));
 			try {
 				informCheckReset(pg, buf, in);
 			} catch (SkipEventException e) {

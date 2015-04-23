@@ -3,6 +3,7 @@ package module.event.map.instance.chapter0;
 import java.io.BufferedReader;
 
 import module.battle.chapter0.DormKeeperBattle;
+import module.battle.chapter0.ShadowBattle;
 import module.character.Group;
 import module.character.PlayerGroup;
 import module.character.constants.CConfig.config;
@@ -15,6 +16,7 @@ import module.mission.chapter0.FirstTimeSeeKeeperMission;
 import module.mission.chapter0.MainMission;
 import module.mission.chapter0.TwoDoorsMission;
 import module.server.PlayerServer;
+import module.utility.BattleUtil;
 import module.utility.EventUtil;
 import module.utility.IOUtil;
 
@@ -551,6 +553,33 @@ public class YiDormitoryEvent {
 								MainMission.State.AFTER_FOUND_CUTTER);
 				g.setInEvent(false);
 			}
+		});
+		
+		EventUtil.mapEventMap.put("104,110,1", new AbstractEvent() {
+			
+			@Override
+			public boolean isTriggered(Group g){
+				if (super.isTriggered(g)){
+					MainMission mm = (MainMission) PlayerServer.getMissionMap()
+							.get(MainMission.class.toString());
+					if (mm.getState() == MainMission.State.AFTER_EXIT_DORMITORY)
+						return true;
+				}
+				return false;
+			}
+			
+			@Override
+			public void doEvent(Group g) {
+				g.setInEvent(true);
+				EventUtil.executeEventMessage((PlayerGroup) g, "see_shadow");
+				MainMission mm = (MainMission) PlayerServer.getMissionMap()
+						.get(MainMission.class.toString());
+				mm.setState(MainMission.State.FIGHT_WITH_SHADOW);
+				Group enemyG = g.getAtRoom().getGroupList().findGroup("shadow");
+				new ShadowBattle(enemyG, g);
+				g.setInEvent(false);
+			}
+			
 		});
 	}
 }

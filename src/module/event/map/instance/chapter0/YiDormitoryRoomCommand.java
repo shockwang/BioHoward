@@ -1,6 +1,7 @@
 package module.event.map.instance.chapter0;
 
 import module.character.Group;
+import module.character.PlayerGroup;
 import module.command.CommandServer;
 import module.event.api.IRoomCommand;
 import module.map.api.IDoor;
@@ -277,6 +278,41 @@ public class YiDormitoryRoomCommand {
 							return true;
 						}
 					}
+				}
+				
+				return false;
+			}
+			
+		});
+		
+		EventUtil.mapCommandMap.put("104,110,1", new IRoomCommand() {
+
+			@Override
+			public boolean roomSpecialCommand(Group g, String[] msg) {
+				if (!(g instanceof PlayerGroup)) return false;
+				
+				MainMission mm = (MainMission) PlayerServer.getMissionMap().get(
+						MainMission.class.toString());
+				if (mm.getState() == MainMission.State.AFTER_DEFEATED){
+					CommandServer.informGroup(g, g.list.get(0).charList.get(0).getChiName()
+							+ "被打敗了，正在昏迷中。\n");
+					return true;
+				}
+				
+				boolean match = false;
+				
+				if (msg.length > 1 &&
+						(msg[1].equals("flee") ||
+						msg[1].equals("fl")))
+					match = true;
+				else if (msg.length > 0 && (msg[0].equals("flee") ||
+						msg[0].equals("fl"))) 
+					match = true;
+				
+				if (match){
+					CommandServer.informGroup(g, g.list.get(0).charList.get(0).getChiName()
+							+ "的腳被黑影纏住了，動彈不得!\n");
+					return true;
 				}
 				
 				return false;

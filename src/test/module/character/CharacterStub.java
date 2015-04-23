@@ -253,5 +253,23 @@ public class CharacterStub implements ICharacter{
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public void setSpecialStatusResistance(specialStatus ss) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public boolean removeSpecialStatusResistance(specialStatus ss) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean resistSpecialStatus(specialStatus ss) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 	
 }

@@ -76,7 +76,15 @@ public class CSpecialStatus {
 	
 	// set specialstatus and update
 	public static void setSpecialStatus(ICharacter c, specialStatus ss, int time){
-		c.setSpecialStatus(ss, time);
+		String output;
+		if (c.resistSpecialStatus(ss)){
+			output = c.getChiName() + "看起來絲毫不受影響。";
+		} else {
+			output = c.getChiName() + ss.chineseName + "了!";
+			c.setSpecialStatus(ss, time);
+		}
+		
+		c.getMyGroup().getAtRoom().informRoom(output + "\n");
 		if (c.getMyGroup() instanceof PlayerGroup){
 			PlayerGroup pg = (PlayerGroup) c.getMyGroup();
 			String out = "status:" + pg.showGroupStatus();

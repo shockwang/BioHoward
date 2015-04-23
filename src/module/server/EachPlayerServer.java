@@ -63,10 +63,10 @@ public class EachPlayerServer extends Thread {
 				if (playerGroup.getInEvent()) continue;
 				
 				// rollback the message read if group start the event
-				inFromClient.mark(100);
 				input = IOUtil.readLineFromClientSocket(inFromClient);
 				if (playerGroup.getInEvent()){
-					inFromClient.reset();
+					// TODO: find a bettery way to solve readLine block problem =.=|||
+					CommandServer.informGroup(playerGroup, "<ENTER>\n");
 					continue;
 				} 
 				temp = input.split(" ");

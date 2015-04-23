@@ -51,13 +51,13 @@ public class FireExtinguisher extends AbstractHarmfulItem {
 				 * g.getAtRoom().informRoom(buf.toString());
 				 */
 				g.getAtRoom().informRoom(
-						String.format("%s舉起%s對著自己的臉狂噴，他有病嗎?\n滿臉的泡沫使%s暫時失明了!\n",
+						String.format("%s舉起%s對著自己的臉狂噴，他有病嗎?\n",
 								src.getChiName(), this.getChiName(), src.getChiName()));
 				CSpecialStatus.setSpecialStatus(src, specialStatus.BLIND, 10);
 			}
 			else {
 				g.getAtRoom().informRoom(
-						String.format("%s舉起%s對著%s的臉上噴去，滿臉的泡沫使%s暫時失明了!\n",
+						String.format("%s舉起%s對著%s的臉上噴去，使他的臉上蓋滿了白白的泡沫!\n",
 								src.getChiName(), this.getChiName(),
 								target.getChiName(), target.getChiName()));
 				CSpecialStatus.setSpecialStatus(target, specialStatus.BLIND, 10);

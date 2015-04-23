@@ -48,6 +48,11 @@ public interface ICharacter extends Updatable{
 	void setSpecialStatus(CSpecialStatus.specialStatus ss, int time);
 	int getSpecialStatus(CSpecialStatus.specialStatus ss);
 	
+	// resistance of special status
+	void setSpecialStatusResistance(CSpecialStatus.specialStatus ss);
+	boolean removeSpecialStatusResistance(CSpecialStatus.specialStatus ss);
+	boolean resistSpecialStatus(CSpecialStatus.specialStatus ss);
+	
 	// battle action, true = done the action, false = not yet
 	boolean battleAction(GroupList enemyGroup);
 	boolean isDown();  // true if the character is not able to fight anymore.

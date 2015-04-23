@@ -346,7 +346,7 @@ public class BattleTask extends TimerTask {
 		return allDown;
 	}
 
-	private void removeGroupFromTimeMap(Group g) {
+	protected void removeGroupFromTimeMap(Group g) {
 		for (CharList cList : g.list) {
 			for (ICharacter c : cList.charList) {
 				this.timeMap.remove(c);

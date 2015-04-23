@@ -17,6 +17,8 @@ public class MainMission implements IMission{
 		AFTER_DEFEAT_MANAGER("拿到宿舍鑰匙，去各個房間尋找可用的工具。", 8),
 		AFTER_FOUND_CUTTER("找到油壓剪了，去一樓房間找一個可破壞的鐵窗，剪斷後逃出去。", 9),
 		AFTER_EXIT_DORMITORY("好不容易脫離宿舍了，往人煙稀少的方向前進才能避免危險。", 10),
+		FIGHT_WITH_SHADOW("居然在這裡遇上了可怕的敵人，盡全力將它擊敗吧!", 11),
+		AFTER_DEFEATED("霍華被打敗了，不省人事中。", 12),
 		DONE("結束!", 100);
 		
 		public String name;

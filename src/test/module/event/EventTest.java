@@ -74,18 +74,14 @@ public class EventTest {
 		
 		// set player group mission
 		MainMission mm = new MainMission();
-		mm.setState(MainMission.State.AFTER_BREAK_MANAGE_DOOR);
+		mm.setState(MainMission.State.AFTER_EXIT_DORMITORY);
 		PlayerServer.getMissionMap().put(MainMission.class.toString(), mm);
 		
 		// set player group start position
-		IRoom start = MapUtil.roomMap.get("101,91,1");
+		IRoom start = MapUtil.roomMap.get("104,109,1");
 		pg.setAtRoom(start);
 		pg.setInitialRoom(start);
 		start.getGroupList().gList.add(pg);
-		
-		// ding ding test
-		MapUtil.initializeGroupAtMap(new Group(new DingDing()), start);
-		
 		
 		// set player group to system time
 		PlayerServer.getSystemTime().addGroup(pg);

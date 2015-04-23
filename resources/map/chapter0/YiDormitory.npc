@@ -255,5 +255,33 @@
 			"module.item.instance.chapter0.ManagerKey"
 		],
 		"specialBattleClass":"module.battle.chapter0.DormKeeperBattle"
+	},
+	{
+		"character":[
+			"module.character.instance.chapter0.DingDing"
+		],
+		"position":"103,102,1",
+		"respawn":false
+	},
+	{
+		"character":[
+			"module.character.instance.chapter0.MadStudent"
+		],
+		"position":"104,105,1",
+		"respawn":false
+	},
+	{
+		"character":[
+			"module.character.instance.chapter0.MadStudent"
+		],
+		"position":"104,107,1",
+		"respawn":false
+	},
+	{
+		"character":[
+			"module.character.instance.chapter0.DarkShadow"
+		],
+		"position":"104,110,1",
+		"respawn":false
 	}
 ]}

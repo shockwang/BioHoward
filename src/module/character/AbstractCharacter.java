@@ -1,5 +1,6 @@
 package module.character;
 
+import java.util.HashSet;
 import java.util.concurrent.ConcurrentHashMap;
 
 import module.character.api.ICharacter;
@@ -19,6 +20,7 @@ public abstract class AbstractCharacter implements ICharacter {
 	private ConcurrentHashMap<specialStatus, Integer> specialStatusMap = null;
 	protected ConcurrentHashMap<status, Integer> statusMap = null;
 	protected ConcurrentHashMap<IEquipment.EquipType, IEquipment> equipMap = null;
+	protected HashSet<specialStatus> resistSpecialStatusSet = null;
 	protected String[] bodyPartList = null;
 	private int level = 1;
 	private boolean hostile = true;
@@ -37,6 +39,7 @@ public abstract class AbstractCharacter implements ICharacter {
 		addAttribute(attribute.HP, 60);
 		specialStatusMap = new ConcurrentHashMap<specialStatus, Integer>();
 		statusMap = new ConcurrentHashMap<status, Integer>();
+		resistSpecialStatusSet = new HashSet<specialStatus>();
 		// default character body attribute
 		statusMap.put(status.SPEED, 4000);
 		statusMap.put(status.STRENGTH, 25);
@@ -289,5 +292,20 @@ public abstract class AbstractCharacter implements ICharacter {
 	public String getRandomBodyPart(){
 		int choose = PlayerServer.getRandom().nextInt(this.bodyPartList.length);
 		return this.bodyPartList[choose];
+	}
+	
+	@Override
+	public void setSpecialStatusResistance(CSpecialStatus.specialStatus ss){
+		this.resistSpecialStatusSet.add(ss);
+	}
+	
+	@Override
+	public boolean removeSpecialStatusResistance(CSpecialStatus.specialStatus ss){
+		return this.removeSpecialStatusResistance(ss);
+	}
+	
+	@Override
+	public boolean resistSpecialStatus(CSpecialStatus.specialStatus ss){
+		return this.resistSpecialStatusSet.contains(ss);
 	}
 }

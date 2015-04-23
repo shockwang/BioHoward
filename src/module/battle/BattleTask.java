@@ -238,10 +238,7 @@ public class BattleTask extends TimerTask {
 	public void resetBattleTime(ICharacter c) {
 		synchronized (timeMap) {
 			IntPair target = timeMap.get(c);
-			int current, max;
-			current = target.getCurrent();
-			max = target.getMax();
-			target.setCurrent(max - current);
+			target.setCurrent(0);
 		}
 	}
 

@@ -107,6 +107,10 @@ public class BattleUtil {
 		
 		double speedDelta = (double) (src.getStatus(status.SPEED) - target.getStatus(status.SPEED))
 				/ (double) target.getStatus(status.SPEED);
+		
+		// judge the dodge ratio
+		speedDelta = CSpecialStatus.judgeDodgeRatioEffected(speedDelta, target.getSpecialStatusMap());
+		
 		double dodgeRatio = 1 - hitRatio + speedDelta;
 		if (dodgeRatio > 0.95) dodgeRatio = 0.95;
 		if (dodgeRatio < 0) dodgeRatio = 0;

@@ -528,5 +528,29 @@ public class YiDormitoryEvent {
 				g.setInEvent(false);
 			}
 		});
+		
+		EventUtil.mapEventMap.put("100,101,3", new AbstractEvent() {
+			
+			@Override
+			public boolean isTriggered(Group g){
+				if (super.isTriggered(g)){
+					MainMission mm = (MainMission) PlayerServer.getMissionMap()
+							.get(MainMission.class.toString());
+					if (mm.getState() == MainMission.State.AFTER_DEFEAT_MANAGER)
+						return true;
+				}
+				return false;
+			}
+
+			@Override
+			public void doEvent(Group g) {
+				g.setInEvent(true);
+				EventUtil.executeEventMessage((PlayerGroup) g, "find_hydrualic_cut");
+				((MainMission) PlayerServer.getMissionMap()
+						.get(MainMission.class.toString())).setState(
+								MainMission.State.AFTER_FOUND_CUTTER);
+				g.setInEvent(false);
+			}
+		});
 	}
 }

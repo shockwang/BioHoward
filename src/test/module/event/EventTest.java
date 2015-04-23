@@ -1,7 +1,9 @@
 package test.module.event;
 
 import static org.junit.Assert.assertTrue;
+import module.character.Group;
 import module.character.PlayerGroup;
+import module.character.instance.chapter0.DingDing;
 import module.character.instance.main.Enf;
 import module.client.ClientUser;
 import module.command.CommandServer;
@@ -80,6 +82,10 @@ public class EventTest {
 		pg.setAtRoom(start);
 		pg.setInitialRoom(start);
 		start.getGroupList().gList.add(pg);
+		
+		// ding ding test
+		MapUtil.initializeGroupAtMap(new Group(new DingDing()), start);
+		
 		
 		// set player group to system time
 		PlayerServer.getSystemTime().addGroup(pg);

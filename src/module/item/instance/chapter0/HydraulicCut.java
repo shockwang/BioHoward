@@ -32,7 +32,7 @@ public class HydraulicCut extends AbstractHarmfulItem{
 	@Override
 	protected boolean useAction(ICharacter src, ICharacter target) {
 		CommandServer.informGroup(src.getMyGroup(), 
-				"油壓剪動作超慢的耶，還是別指望可以用這個來傷人吧!\n");
+				"這個道具不適合拿來攻擊別人喔。\n");
 		return false;
 	}
 

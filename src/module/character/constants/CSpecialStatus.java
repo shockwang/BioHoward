@@ -92,4 +92,13 @@ public class CSpecialStatus {
 		
 		return result;
 	}
+	
+	public static double judgeDodgeRatioEffected(double dodgeRatio
+			, Map<specialStatus, Integer> specialStatusMap){
+		double result = dodgeRatio;
+		
+		if (specialStatusMap.get(specialStatus.BLIND) != null) result *= 0.3;
+		
+		return result;
+	}
 }

@@ -48,10 +48,10 @@ public class Attack implements ICommand {
 									return false;
 								}
 								// add the group to enemyList
-								BattleUtil.attackMechanism(c, target);
 								g.getBattleTask().addBattleGroup(
 										enemyList.gList.get(0),
 										target.getMyGroup());
+								BattleUtil.attackMechanism(c, target);
 								return true;
 							}
 						}
@@ -78,9 +78,9 @@ public class Attack implements ICommand {
 									return false;
 								}
 								// attack mechanism
-								BattleUtil.attackMechanism(c, target);
 								BattleUtil.startNewBattle(g, target.getMyGroup());
-								return false;
+								BattleUtil.attackMechanism(c, target);
+								return true;
 							} else {
 								target.getMyGroup()
 										.getBattleTask()

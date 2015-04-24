@@ -121,7 +121,7 @@ public class BattleTask extends TimerTask {
 						}
 					}
 				}
-				c.battleAction(getEnemyGroups(c));
+				else c.battleAction(getEnemyGroups(c));
 			}
 		} catch (NullPointerException e) {
 			return; // no one is ready, return

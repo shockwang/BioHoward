@@ -7,12 +7,14 @@ import java.util.HashMap;
 import module.character.api.ICharacter;
 import module.character.constants.CConfig.config;
 import module.command.CommandServer;
+import module.server.EachPlayerServer;
 import module.utility.EnDecoder;
 
 public class PlayerGroup extends Group {
 	private HashMap<config, Boolean> configData;
 	private DataOutputStream outToClient = null;
 	private BufferedReader inFromClient = null;
+	public EachPlayerServer thisServer = null;
 
 	public PlayerGroup(ICharacter obj) {
 		super(obj);

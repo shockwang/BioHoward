@@ -88,6 +88,21 @@ public class EventUtil {
 		BufferedReader in = pg.getInFromClient();
 		StringBuffer buf = new StringBuffer();
 		
+		if (Thread.currentThread() != pg.thisServer) {
+			// if the thread is not the main one, wait for main one to notify it
+			// this is to prevent event inconsistent shown to client user
+			synchronized (in) {
+				try {
+					CommandServer.informGroup(pg, "<ENTER>\n");
+					in.wait();
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		
+		
 		JSONArray descArray = eventMessageMap.get(eventName);
 		for (Object obj : descArray){
 			JSONArray oneTimeDesc = (JSONArray) obj;

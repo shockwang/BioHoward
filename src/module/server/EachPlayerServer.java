@@ -15,6 +15,8 @@ public class EachPlayerServer extends Thread {
 	private BufferedReader inFromClient = null;
 	private DataOutputStream outToClient = null;
 	private PlayerGroup playerGroup = null;
+	
+	public Thread thisThread = null;
 
 	public EachPlayerServer(Socket connectionSocket) {
 		this.connectionSocket = connectionSocket;
@@ -53,6 +55,8 @@ public class EachPlayerServer extends Thread {
 				e.printStackTrace();
 			}
 			
+			thisThread = Thread.currentThread();
+			playerGroup.thisServer = this;
 			CommandServer.informGroup(playerGroup, "status:" + playerGroup.showGroupStatus());
 			//CommandServer.readCommand(playerGroup, "look".split(" "));
 			
@@ -65,8 +69,10 @@ public class EachPlayerServer extends Thread {
 				// rollback the message read if group start the event
 				input = IOUtil.readLineFromClientSocket(inFromClient);
 				if (playerGroup.getInEvent()){
-					// TODO: find a bettery way to solve readLine block problem =.=|||
-					CommandServer.informGroup(playerGroup, "<ENTER>\n");
+					// notify another thread wait on inFromClient if any
+					synchronized (inFromClient){
+						inFromClient.notify();
+					}
 					continue;
 				} 
 				temp = input.split(" ");

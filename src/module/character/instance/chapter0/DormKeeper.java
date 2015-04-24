@@ -1,6 +1,6 @@
 package module.character.instance.chapter0;
 
-import module.character.AbstractHumanCharacter;
+import module.character.BaseHumanCharacter;
 import module.character.PlayerGroup;
 import module.character.constants.CAttribute.attribute;
 import module.character.constants.CStatus.status;
@@ -10,7 +10,7 @@ import module.mission.chapter0.MainMission;
 import module.server.PlayerServer;
 import module.utility.EventUtil;
 
-public class DormKeeper extends AbstractHumanCharacter{
+public class DormKeeper extends BaseHumanCharacter{
 
 	public DormKeeper(){
 		this("ÂN¶ý", "dorm keeper");

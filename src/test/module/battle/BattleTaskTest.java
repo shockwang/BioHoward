@@ -2,7 +2,7 @@ package test.module.battle;
 
 import static org.junit.Assert.assertTrue;
 import module.battle.BattleTask;
-import module.character.AbstractHumanCharacter;
+import module.character.BaseHumanCharacter;
 import module.character.CharList;
 import module.character.Group;
 import module.character.GroupList;
@@ -33,7 +33,7 @@ public class BattleTaskTest {
 	private ClientUser oneUser;
 	
 	
-	public class CharForTest extends AbstractHumanCharacter{
+	public class CharForTest extends BaseHumanCharacter{
 		String desc = null;
 		
 		public CharForTest(String chiName, String engName) {

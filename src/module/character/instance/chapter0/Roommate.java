@@ -3,7 +3,7 @@ package module.character.instance.chapter0;
 import java.io.BufferedReader;
 
 import module.battle.chapter0.FirstTutorialBattle;
-import module.character.AbstractHumanCharacter;
+import module.character.BaseHumanCharacter;
 import module.character.PlayerGroup;
 import module.character.constants.CAttribute.attribute;
 import module.character.constants.CConfig.config;
@@ -11,7 +11,7 @@ import module.mission.chapter0.MainMission;
 import module.server.PlayerServer;
 import module.utility.EventUtil;
 
-public class Roommate extends AbstractHumanCharacter{
+public class Roommate extends BaseHumanCharacter{
 	
 	public Roommate(){
 		this("«Ç¤Í", "enf's roommate");

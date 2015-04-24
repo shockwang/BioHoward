@@ -121,19 +121,11 @@ public class BattleUtil {
 				int damage = attackDamage(src, target);
 				if (damage > 0){
 					buf.append(String.format("對他造成%d點傷害!\n", damage));
-					src.getMyGroup().getAtRoom().informRoom(buf.toString());
+					
 					int current = target.getAttributeMap().get(attribute.HP)
 							.getCurrent();
 					target.getAttributeMap().get(attribute.HP).setCurrent(current - damage);
-					if (target.isDown()) {
-						BattleUtil.deadMechanism(target);
-					}
 					
-					if (target.getMyGroup() instanceof PlayerGroup) {
-						target.getMyGroup().getBattleTask()
-								.updatePlayerStatus((PlayerGroup) target.getMyGroup());
-					}
-					return;
 				} else {
 					// no damage
 					buf.append("但這種威力讓他絲毫不放在眼裡。\n");
@@ -142,6 +134,25 @@ public class BattleUtil {
 				// no hp
 				buf.append("但看起來對他絲毫不起作用。\n");
 			}
+			src.getMyGroup().getAtRoom().informRoom(buf.toString());
+			
+			// weapon effect
+			if (weapon != null){
+				weapon.onAttack(src, target);
+				if (target.isDown()) {
+					BattleUtil.deadMechanism(target);
+				}
+			}
+			
+			if (target.isDown()) {
+				BattleUtil.deadMechanism(target);
+			}
+			
+			if (target.getMyGroup() instanceof PlayerGroup) {
+				target.getMyGroup().getBattleTask()
+						.updatePlayerStatus((PlayerGroup) target.getMyGroup());
+			}
+			return;
 		} else {
 			// dodged
 			buf.append("\n但" + target.getChiName() + "很快的把身子往旁邊一閃，躲過了攻擊!\n");

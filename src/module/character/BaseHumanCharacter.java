@@ -1,8 +1,8 @@
 package module.character;
 
-public class AbstractHumanCharacter extends AbstractCharacter{
+public class BaseHumanCharacter extends AbstractCharacter{
 
-	public AbstractHumanCharacter(String chiName, String engName) {
+	public BaseHumanCharacter(String chiName, String engName) {
 		super(chiName, engName);
 		this.bodyPartList = new String[] {
 				"頭部", "左肩", "右肩", "胸部", "腹部", "臉上", "後腦杓",

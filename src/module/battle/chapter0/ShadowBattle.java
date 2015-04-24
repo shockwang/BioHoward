@@ -6,11 +6,14 @@ import module.character.Group;
 import module.character.GroupList;
 import module.character.PlayerGroup;
 import module.character.api.ICharacter;
+import module.character.instance.main.Dawdw;
+import module.character.instance.main.Tao;
 import module.command.CommandServer;
 import module.mission.chapter0.MainMission;
 import module.server.PlayerServer;
 import module.utility.EventUtil;
 import module.utility.ItemUtil;
+import module.utility.MapUtil;
 
 public class ShadowBattle extends BattleTask{
 	private PlayerGroup ggg;
@@ -83,6 +86,10 @@ public class ShadowBattle extends BattleTask{
 		((MainMission) PlayerServer.getMissionMap().get(
 				MainMission.class.toString())).setState(MainMission.State.AFTER_DEFEATED);
 		EventUtil.executeEventMessage(ggg, "after_defeated_by_shadow");
-		ggg.setInEvent(false);
+		Group taoG = new Group(new Tao());
+		taoG.addChar(new Dawdw());
+		MapUtil.initializeGroupAtMap(taoG, ggg.getAtRoom());
+		String[] msg = {"at", "shadow"};
+		CommandServer.readCommand(taoG, msg);
 	}
 }

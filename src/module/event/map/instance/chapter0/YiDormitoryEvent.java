@@ -16,7 +16,6 @@ import module.mission.chapter0.FirstTimeSeeKeeperMission;
 import module.mission.chapter0.MainMission;
 import module.mission.chapter0.TwoDoorsMission;
 import module.server.PlayerServer;
-import module.utility.BattleUtil;
 import module.utility.EventUtil;
 import module.utility.IOUtil;
 

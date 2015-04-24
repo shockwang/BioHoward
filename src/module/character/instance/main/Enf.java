@@ -1,6 +1,6 @@
 package module.character.instance.main;
 
-import module.character.AbstractHumanCharacter;
+import module.character.BaseHumanCharacter;
 import module.character.GroupList;
 import module.character.PlayerGroup;
 import module.character.constants.CAttribute.attribute;
@@ -11,7 +11,7 @@ import module.item.instance.chapter0.BlueShirt;
 import module.item.instance.chapter0.NikeShoes;
 import module.item.instance.chapter0.Watch;
 
-public class Enf extends AbstractHumanCharacter{
+public class Enf extends BaseHumanCharacter{
 
 	public Enf(){
 		this("ภNตุ", "enf");
@@ -20,7 +20,7 @@ public class Enf extends AbstractHumanCharacter{
 		this.setStatus(status.CONSTITUTION, 5);
 		this.setStatus(status.STRENGTH, 29);
 		this.setStatus(status.SPEED, 3500);
-		this.addAttribute(attribute.HP, 99);
+		this.addAttribute(attribute.HP, 9);
 		this.setHostile(false);
 		
 		// add equipment

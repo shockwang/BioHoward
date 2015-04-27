@@ -19,6 +19,7 @@ for linux: 開啟command line, change directory進入該目錄, 輸入"java -jar
 # 使用者介面
 傳統的mud由於只需要操控一位角色, 因此狀態列直接使用command line的風格即可呈現, 但若是考慮多位角色同時顯示的情況下, command line就顯得不太夠了. 因此我用java最基本的GUI功能實作了一個window, 如下圖.
 
+![default](https://cloud.githubusercontent.com/assets/8130848/7352367/a7f0dd8c-ed3d-11e4-8770-5f870f872887.png)
 
 # 戰鬥方式
 戰鬥方式採取時間條模式, 並考慮到玩家打字速度可能是個瓶頸, 可以選擇即時戰鬥/非即時戰鬥兩種模式.

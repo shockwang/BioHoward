@@ -44,28 +44,16 @@ public class YiDormitoryEvent {
 					g.setInEvent(true);
 					mm = new MainMission();
 					PlayerServer.getMissionMap().put(MainMission.class.toString(), mm);
-					try {
-						BufferedReader in = pg.getInFromClient();
-						StringBuffer buf = new StringBuffer();
-						buf.append("開頭劇情敘述 ...");
-						EventUtil.informCheckReset(g, buf, in);
-						
-					} catch (SkipEventException e){
-						CommandServer.informGroup(pg, "跳過劇情。\n");
-					}
 					mm.setState(MainMission.State.AFTER_OPENING);
 					
 					try {
 						BufferedReader in = pg.getInFromClient();
 						StringBuffer buf = new StringBuffer();
-						buf.append("霍華：嗚呃...好奇怪的夢。");
-						EventUtil.informCheckReset(pg, buf, in);
+						EventUtil.executeEventMessage(pg, "after_wake_up");
+						
 						buf.append("霍華心想：張開眼睛看看房間吧.\n");
 						if (pg.getConfigData().get(config.TUTORIAL_ON)){
-							buf.append("說明：\"look\"指令能用來觀察你現在所處的房間狀態，包括在場的其他角色或者\n");
-							buf.append("掉落在該場景的地上物品都能夠看到。亦可簡寫為\"l\"。詳細說明可輸入\n");
-							buf.append("\"help look\"來查詢。");
-							EventUtil.informCheckReset(pg, buf, in);
+							EventUtil.executeEventMessage(pg, "look_tutorial");
 							buf.append("請輸入\"look\"或\"l\"來觀察你現在所處的房間狀態。");
 							g.getAtRoom().informRoom(buf.toString() + "\n");
 							buf.setLength(0);
@@ -82,14 +70,9 @@ public class YiDormitoryEvent {
 						EventUtil.informCheckReset(pg, buf, in);
 						
 						// talk to roommate
-						buf.append("霍華看到室友一動不動的，下去叫他。");
-						EventUtil.informCheckReset(pg, buf, in);
+						EventUtil.executeEventMessage(pg, "after_see_room");
 						if (pg.getConfigData().get(config.TUTORIAL_ON)){
-							buf.append("說明：在非戰鬥中能夠使用\"talk\"指令來和同一房間內的角色交談，格式為：\n");
-							buf.append("\"<talk> <角色名稱>\"或是\"<talk> <隊伍名稱> <角色名稱>\"\n");
-							buf.append("室友目前並非存在多人隊伍內，因此使用\"talk roommate\"來與他交談。\n");
-							buf.append("可輸入\"help talk\"來取得對此指令的詳細說明。");
-							EventUtil.informCheckReset(pg, buf, in);
+							EventUtil.executeEventMessage(pg, "talk_tutorial");
 							g.getAtRoom().informRoom("請輸入\"talk roommate\"來與室友交談。\n");
 							String input = IOUtil.readLineFromClientSocket(in);
 							while (!input.equals("talk roommate")){
@@ -109,17 +92,9 @@ public class YiDormitoryEvent {
 					BufferedReader in = pg.getInFromClient();
 					StringBuffer buf = new StringBuffer();
 					try {
-						buf.append("霍華：呼~終於幹掉了，但這學校是怎麼回事?");
-						EventUtil.informCheckReset(pg, buf, in);
-						buf.append("霍華看地上有鑰匙，準備撿起來。");
-						EventUtil.informCheckReset(pg, buf, in);
+						EventUtil.executeEventMessage(pg, "after_beat_roommate");
 						if (pg.getConfigData().get(config.TUTORIAL_ON)){
-							buf.append("說明：\"get\"指令可以讓你撿起掉落在地上的東西，指令格式為：\n");
-							buf.append("\"<我方角色名稱> <get> <物品名稱>\"。與此相對的，\"drop\"指令\n");
-							buf.append("可以讓你丟下身上的物品，指令格式為\"<我方角色名稱> <drop> <物品名稱>\"。\n");
-							buf.append("若不指定我方角色，則自動選擇隊伍中的第一人進行動作。另外，在戰鬥中get/drop\n");
-							buf.append("皆花費一回合的行動。詳細說明可輸入\"help get\"以及\"help drop\"來查詢。");
-							EventUtil.informCheckReset(pg, buf, in);
+							EventUtil.executeEventMessage(pg, "get_tutorial");
 							g.getAtRoom().informRoom("請輸入\"get key\"來撿起宿舍鑰匙。\n");
 							String input = IOUtil.readLineFromClientSocket(in);
 							while (!input.equals("get key")){
@@ -129,8 +104,8 @@ public class YiDormitoryEvent {
 						}
 						String[] msg = {"get", "key"};
 						CommandServer.readCommand(pg, msg);
-						buf.append("霍華：打開門出去看看好了。");
-						EventUtil.informCheckReset(pg, buf, in);
+						EventUtil.executeEventMessage(pg, "after_get_key");
+						
 						if (pg.getConfigData().get(config.TUTORIAL_ON)){
 							buf.append("說明：\"unlock\"指令可以讓你解開鎖住的門，前提是你身上帶著合適\n");
 							buf.append("的鑰匙。相對的，\"lock\"指令則是可以讓你鎖住一扇門。指令格式為\n");
@@ -151,7 +126,7 @@ public class YiDormitoryEvent {
 						}
 						String[] msg2 = {"unlock", "w"};
 						CommandServer.readCommand(pg, msg2);
-						buf.append("霍華：打開門出去看看吧。");
+						buf.append("霍華：\"打開門出去看看吧。\"");
 						EventUtil.informCheckReset(pg, buf, in);
 						if (pg.getConfigData().get(config.TUTORIAL_ON)){
 							buf.append("說明：\"open\"指令可以讓你打開一扇關著的門，前提是它沒有上鎖。\n");
@@ -186,7 +161,7 @@ public class YiDormitoryEvent {
 						}
 						String[] msg4 = {"look", "w"};
 						CommandServer.readCommand(pg, msg4);
-						buf.append("霍華：喔喔喔好像有點危險，先把門關上休息一下吧。");
+						buf.append("霍華：\"外面也可以看到奇怪的人，我還是先把門關上休息一下。\"");
 						EventUtil.informCheckReset(pg, buf, in);
 						g.getAtRoom().informRoom("請輸入\"close w\"來關上宿舍房間的門。\n");
 						String input = IOUtil.readLineFromClientSocket(in);
@@ -203,7 +178,10 @@ public class YiDormitoryEvent {
 							buf.append("指令來得知遊戲中的時間。");
 							EventUtil.informCheckReset(pg, buf, in);
 						}
-						buf.append("霍華；好~的~休息夠了之後就出發探索吧!");
+						buf.append("霍華發現宿舍的燈突然不亮了，所有電器用品也都開不起來。顯然不\n");
+						buf.append("只是宿舍發生問題，或許整個新竹都出狀況了。\"看來不能一直待在\n");
+						buf.append("這裡...\" 霍華默想著，\"稍作休息之後就出發去探索吧，首先要\n");
+						buf.append("想辦法安全離開這個宿舍。\"");
 						EventUtil.informCheckReset(pg, buf, in);
 						if (pg.getConfigData().get(config.TUTORIAL_ON)){
 							buf.append("說明：\"mission\"或\"m\"指令能夠讓你查看自己目前身上有哪些任務\n");
@@ -293,10 +271,16 @@ public class YiDormitoryEvent {
 				BufferedReader in = pg.getInFromClient();
 				StringBuffer buf = new StringBuffer();
 				try {
-					buf.append("這裡被雜物堆滿了，要出去顯然不可能。");
+					buf.append("霍華來到宿舍的玄關，看見西邊有一道自動門。然而，不但由於斷電\n");
+					buf.append("的緣故，導致自動門無法開啟，門的開啟方向也早已被硬物撐住，整\n");
+					buf.append("個卡死了。");
+					EventUtil.informCheckReset(pg, buf, in);
+					buf.append("霍華看著在外面徘徊的學生，心中暗想：\"我能理解為什麼要把門堵\n");
+					buf.append("起來了...如果從這裡把玻璃打破，外面那群傢伙絕對馬上包圍過來，\n");
+					buf.append("想從這裡出去顯然太危險。\"");
 					EventUtil.informCheckReset(pg, buf, in);
 					if (tdm.north == false){
-						buf.append("去北邊的門看看有沒有機會。");
+						buf.append("霍華：\"去北邊的門看看有沒有機會。\"");
 						g.getAtRoom().informRoom(buf.toString() + "\n");
 					}
 				} catch (SkipEventException e){
@@ -305,8 +289,7 @@ public class YiDormitoryEvent {
 				tdm.south = true;
 				if (tdm.south && tdm.north){
 					tdm.setState(TwoDoorsMission.State.DONE);
-					buf.append("去宿舍管理中心看看吧!");
-					g.getAtRoom().informRoom(buf.toString() + "\n");
+					EventUtil.executeEventMessage(pg, "after_two_door");
 					MainMission mm = (MainMission) PlayerServer.getMissionMap().get(
 							MainMission.class.toString());
 					mm.setState(MainMission.State.FOUND_DOORS_BLOCKED);
@@ -344,10 +327,11 @@ public class YiDormitoryEvent {
 				BufferedReader in = pg.getInFromClient();
 				StringBuffer buf = new StringBuffer();
 				try {
-					buf.append("這裡自動門壞了，打不開。");
+					buf.append("\"哇賽...\" 霍華瞪著西邊門的方向猛看。\"不但門扭曲變形，\n");
+					buf.append("堆積的雜物也多到不像話，這我可沒辦法弄開啊...\"");
 					EventUtil.informCheckReset(pg, buf, in);
 					if (tdm.south == false){
-						buf.append("去南邊的門看看有沒有機會。");
+						buf.append("霍華：\"去南邊的門看看有沒有機會。\"");
 						g.getAtRoom().informRoom(buf.toString() + "\n");
 					}
 				} catch (SkipEventException e){
@@ -356,8 +340,7 @@ public class YiDormitoryEvent {
 				tdm.north = true;
 				if (tdm.south && tdm.north){
 					tdm.setState(TwoDoorsMission.State.DONE);
-					buf.append("去宿舍管理中心看看吧!");
-					g.getAtRoom().informRoom(buf.toString() + "\n");
+					EventUtil.executeEventMessage(pg, "after_two_door");
 					MainMission mm = (MainMission) PlayerServer.getMissionMap().get(
 							MainMission.class.toString());
 					mm.setState(MainMission.State.FOUND_DOORS_BLOCKED);
@@ -474,8 +457,8 @@ public class YiDormitoryEvent {
 						String[] msg3 = {"get", "juice", "refrigerator"};
 						CommandServer.readCommand(pg, msg3);
 						buf.append("說明：你可以輸入\"use\"指令來使用某些可使用的物品，指令格式為\n");
-						buf.append("\"<use> <物品名稱>\"或\"<use> <物品名稱> <目標名稱>\"。物品的使用\n");
-						buf.append("效果能夠輸入\"<look> <物品名稱>\"來觀看到。");
+						buf.append("\"<use> <物品名稱>\"或\"<use> <物品名稱> <目標名稱>\"。\n");
+						buf.append("物品的使用效果能夠輸入\"<look> <物品名稱>\"來觀看到。");
 						EventUtil.informCheckReset(pg, buf, in);
 						g.getAtRoom().informRoom("請輸入\"use juice\"來喝果汁：\n");
 						input = IOUtil.readLineFromClientSocket(in);
@@ -485,19 +468,7 @@ public class YiDormitoryEvent {
 						}
 						String[] msg4 = {"use", "juice"};
 						CommandServer.readCommand(pg, msg4);
-						buf.append("說明：使用物品時，若不指定使用對象，則參照各個物品的屬性來判斷，沒有\n");
-						buf.append("一定的行為。若指定使用對象，則一定會作用在該對象身上，即便該對象是敵\n");
-						buf.append("人。指定對象的使用指令格式為\"<use> <物品名稱> <對象名稱>\"。若對\n");
-						buf.append("象為我方隊伍內的角色，則需輸入\"<team> <角色名稱>\"。");
-						EventUtil.informCheckReset(pg, buf, in);
-						buf.append("舉例來說，果汁在不指定使用者的情況下會直接被該角色使用，但你同樣可以\n");
-						buf.append("輸入\"use juice team enf\"來指定霍華喝這杯果汁。基本上，回復類的\n");
-						buf.append("物品都能夠不指定使用者而直接回復該角色的狀態。相對的，會造成傷害的物品\n");
-						buf.append("則不會在不指定使用者的情況下直接傷害使用者。另外，在戰鬥中使用物品會\n");
-						buf.append("消耗角色一回合的時間。");
-						EventUtil.informCheckReset(pg, buf, in);
-						buf.append("說明到此結束，冰箱中還有一塊蛋糕，你可以考慮一起帶上它!");
-						g.getAtRoom().informRoom(buf.toString() + "\n");
+						EventUtil.executeEventMessage(pg, "use_item_tutorial");
 					} catch (SkipEventException e){
 						CommandServer.informGroup(pg, "跳過劇情。\n");
 					}

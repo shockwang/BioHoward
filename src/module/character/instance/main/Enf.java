@@ -20,7 +20,7 @@ public class Enf extends BaseHumanCharacter{
 		this.setStatus(status.CONSTITUTION, 5);
 		this.setStatus(status.STRENGTH, 29);
 		this.setStatus(status.SPEED, 3500);
-		this.addAttribute(attribute.HP, 9);
+		this.addAttribute(attribute.HP, 99);
 		this.setHostile(false);
 		
 		// add equipment

@@ -11,7 +11,7 @@ public class PhysicsBook extends AbstractWeapon{
 		String desc = "資工系大一必修的普物課本，比字典還厚，比磚頭還重。每次上課都\n";
 		desc += "帶著這個簡直是在重訓嘛。";
 		this.setDescription(desc);
-		this.statMap.put(status.WEAPON_ATTACK, 100);
+		this.statMap.put(status.WEAPON_ATTACK, 5);
 		this.setPrice(1300);
 	}
 	

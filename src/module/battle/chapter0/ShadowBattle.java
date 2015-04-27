@@ -11,6 +11,7 @@ import module.character.instance.main.Tao;
 import module.command.CommandServer;
 import module.mission.chapter0.MainMission;
 import module.server.PlayerServer;
+import module.utility.BattleUtil;
 import module.utility.EventUtil;
 import module.utility.ItemUtil;
 import module.utility.MapUtil;
@@ -89,7 +90,11 @@ public class ShadowBattle extends BattleTask{
 		Group taoG = new Group(new Tao());
 		taoG.addChar(new Dawdw());
 		MapUtil.initializeGroupAtMap(taoG, ggg.getAtRoom());
-		String[] msg = {"at", "shadow"};
-		CommandServer.readCommand(taoG, msg);
+		
+		Group shadowG = ggg.getAtRoom().getGroupList().findGroup("shadow");
+		BattleUtil.attackMechanism(taoG.findAliveChar("tao"), shadowG.findAliveChar("shadow"));
+		new ShadowTaoBattle(taoG, shadowG);
+		ggg.setInEvent(false);
+		ggg.setTalking(true);
 	}
 }

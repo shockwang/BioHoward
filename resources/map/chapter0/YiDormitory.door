@@ -1,7 +1,7 @@
 { "door":[
 	{
 		"description":[
-			"301¸¹©Ğªù"
+			"301è™Ÿæˆ¿é–€"
 		],
 		"positionDoor":{
 			"connect1":{"direction":"west","connectTo":"100,102,3"},
@@ -13,7 +13,7 @@
 	},
 	{
 		"description":[
-			"303¸¹©Ğªù"
+			"303è™Ÿæˆ¿é–€"
 		],
 		"positionDoor":{
 			"connect1":{"direction":"west","connectTo":"100,101,3"},
@@ -25,7 +25,7 @@
 	},
 	{
 		"description":[
-			"305¸¹©Ğªù"
+			"305è™Ÿæˆ¿é–€"
 		],
 		"positionDoor":{
 			"connect1":{"direction":"west","connectTo":"100,100,3"},
@@ -37,7 +37,7 @@
 	},
 	{
 		"description":[
-			"307¸¹©Ğªù"
+			"307è™Ÿæˆ¿é–€"
 		],
 		"positionDoor":{
 			"connect1":{"direction":"west","connectTo":"100,99,3"},
@@ -49,7 +49,7 @@
 	},
 	{
 		"description":[
-			"309¸¹©Ğªù"
+			"309è™Ÿæˆ¿é–€"
 		],
 		"positionDoor":{
 			"connect1":{"direction":"west","connectTo":"100,98,3"},
@@ -61,7 +61,7 @@
 	},
 	{
 		"description":[
-			"311¸¹©Ğªù"
+			"311è™Ÿæˆ¿é–€"
 		],
 		"positionDoor":{
 			"connect1":{"direction":"west","connectTo":"100,97,3"},
@@ -73,7 +73,7 @@
 	},
 	{
 		"description":[
-			"313¸¹©Ğªù"
+			"313è™Ÿæˆ¿é–€"
 		],
 		"positionDoor":{
 			"connect1":{"direction":"west","connectTo":"100,96,3"},
@@ -85,7 +85,7 @@
 	},
 	{
 		"description":[
-			"315¸¹©Ğªù"
+			"315è™Ÿæˆ¿é–€"
 		],
 		"positionDoor":{
 			"connect1":{"direction":"west","connectTo":"100,95,3"},
@@ -97,7 +97,7 @@
 	},
 	{
 		"description":[
-			"317¸¹©Ğªù"
+			"317è™Ÿæˆ¿é–€"
 		],
 		"positionDoor":{
 			"connect1":{"direction":"west","connectTo":"100,94,3"},
@@ -109,7 +109,7 @@
 	},
 	{
 		"description":[
-			"319¸¹©Ğªù"
+			"319è™Ÿæˆ¿é–€"
 		],
 		"positionDoor":{
 			"connect1":{"direction":"west","connectTo":"100,93,3"},
@@ -121,7 +121,7 @@
 	},
 	{
 		"description":[
-			"302¸¹©Ğªù"
+			"302è™Ÿæˆ¿é–€"
 		],
 		"positionDoor":{
 			"connect1":{"direction":"west","connectTo":"101,102,3"},
@@ -133,7 +133,7 @@
 	},
 	{
 		"description":[
-			"304¸¹©Ğªù"
+			"304è™Ÿæˆ¿é–€"
 		],
 		"positionDoor":{
 			"connect1":{"direction":"west","connectTo":"101,101,3"},
@@ -145,7 +145,7 @@
 	},
 	{
 		"description":[
-			"306¸¹©Ğªù"
+			"306è™Ÿæˆ¿é–€"
 		],
 		"positionDoor":{
 			"connect1":{"direction":"west","connectTo":"101,100,3"},
@@ -157,7 +157,7 @@
 	},
 	{
 		"description":[
-			"308¸¹©Ğªù"
+			"308è™Ÿæˆ¿é–€"
 		],
 		"positionDoor":{
 			"connect1":{"direction":"west","connectTo":"101,99,3"},
@@ -169,7 +169,7 @@
 	},
 	{
 		"description":[
-			"310¸¹©Ğªù"
+			"310è™Ÿæˆ¿é–€"
 		],
 		"positionDoor":{
 			"connect1":{"direction":"west","connectTo":"101,98,3"},
@@ -181,7 +181,7 @@
 	},
 	{
 		"description":[
-			"312¸¹©Ğªù"
+			"312è™Ÿæˆ¿é–€"
 		],
 		"positionDoor":{
 			"connect1":{"direction":"west","connectTo":"101,97,3"},
@@ -193,7 +193,7 @@
 	},
 	{
 		"description":[
-			"314¸¹©Ğªù"
+			"314è™Ÿæˆ¿é–€"
 		],
 		"positionDoor":{
 			"connect1":{"direction":"west","connectTo":"101,96,3"},
@@ -205,7 +205,7 @@
 	},
 	{
 		"description":[
-			"316¸¹©Ğªù"
+			"316è™Ÿæˆ¿é–€"
 		],
 		"positionDoor":{
 			"connect1":{"direction":"west","connectTo":"101,95,3"},
@@ -217,7 +217,7 @@
 	},
 	{
 		"description":[
-			"318¸¹©Ğªù"
+			"318è™Ÿæˆ¿é–€"
 		],
 		"positionDoor":{
 			"connect1":{"direction":"west","connectTo":"101,94,3"},
@@ -229,7 +229,7 @@
 	},
 	{
 		"description":[
-			"320¸¹©Ğªù"
+			"320è™Ÿæˆ¿é–€"
 		],
 		"positionDoor":{
 			"connect1":{"direction":"west","connectTo":"101,93,3"},
@@ -241,7 +241,7 @@
 	},
 	{
 		"description":[
-			"201¸¹©Ğªù"
+			"201è™Ÿæˆ¿é–€"
 		],
 		"positionDoor":{
 			"connect1":{"direction":"west","connectTo":"100,102,2"},
@@ -253,7 +253,7 @@
 	},
 	{
 		"description":[
-			"203¸¹©Ğªù"
+			"203è™Ÿæˆ¿é–€"
 		],
 		"positionDoor":{
 			"connect1":{"direction":"west","connectTo":"100,101,2"},
@@ -265,7 +265,7 @@
 	},
 	{
 		"description":[
-			"205¸¹©Ğªù"
+			"205è™Ÿæˆ¿é–€"
 		],
 		"positionDoor":{
 			"connect1":{"direction":"west","connectTo":"100,100,2"},
@@ -277,7 +277,7 @@
 	},
 	{
 		"description":[
-			"207¸¹©Ğªù"
+			"207è™Ÿæˆ¿é–€"
 		],
 		"positionDoor":{
 			"connect1":{"direction":"west","connectTo":"100,99,2"},
@@ -289,7 +289,7 @@
 	},
 	{
 		"description":[
-			"209¸¹©Ğªù"
+			"209è™Ÿæˆ¿é–€"
 		],
 		"positionDoor":{
 			"connect1":{"direction":"west","connectTo":"100,98,2"},
@@ -301,7 +301,7 @@
 	},
 	{
 		"description":[
-			"211¸¹©Ğªù"
+			"211è™Ÿæˆ¿é–€"
 		],
 		"positionDoor":{
 			"connect1":{"direction":"west","connectTo":"100,97,2"},
@@ -313,7 +313,7 @@
 	},
 	{
 		"description":[
-			"213¸¹©Ğªù"
+			"213è™Ÿæˆ¿é–€"
 		],
 		"positionDoor":{
 			"connect1":{"direction":"west","connectTo":"100,96,2"},
@@ -325,7 +325,7 @@
 	},
 	{
 		"description":[
-			"215¸¹©Ğªù"
+			"215è™Ÿæˆ¿é–€"
 		],
 		"positionDoor":{
 			"connect1":{"direction":"west","connectTo":"100,95,2"},
@@ -337,7 +337,7 @@
 	},
 	{
 		"description":[
-			"217¸¹©Ğªù"
+			"217è™Ÿæˆ¿é–€"
 		],
 		"positionDoor":{
 			"connect1":{"direction":"west","connectTo":"100,94,2"},
@@ -349,7 +349,7 @@
 	},
 	{
 		"description":[
-			"219¸¹©Ğªù"
+			"219è™Ÿæˆ¿é–€"
 		],
 		"positionDoor":{
 			"connect1":{"direction":"west","connectTo":"100,93,2"},
@@ -361,7 +361,7 @@
 	},
 	{
 		"description":[
-			"202¸¹©Ğªù"
+			"202è™Ÿæˆ¿é–€"
 		],
 		"positionDoor":{
 			"connect1":{"direction":"west","connectTo":"101,102,2"},
@@ -373,7 +373,7 @@
 	},
 	{
 		"description":[
-			"204¸¹©Ğªù"
+			"204è™Ÿæˆ¿é–€"
 		],
 		"positionDoor":{
 			"connect1":{"direction":"west","connectTo":"101,101,2"},
@@ -385,7 +385,7 @@
 	},
 	{
 		"description":[
-			"206¸¹©Ğªù"
+			"206è™Ÿæˆ¿é–€"
 		],
 		"positionDoor":{
 			"connect1":{"direction":"west","connectTo":"101,100,2"},
@@ -397,7 +397,7 @@
 	},
 	{
 		"description":[
-			"208¸¹©Ğªù"
+			"208è™Ÿæˆ¿é–€"
 		],
 		"positionDoor":{
 			"connect1":{"direction":"west","connectTo":"101,99,2"},
@@ -409,7 +409,7 @@
 	},
 	{
 		"description":[
-			"210¸¹©Ğªù"
+			"210è™Ÿæˆ¿é–€"
 		],
 		"positionDoor":{
 			"connect1":{"direction":"west","connectTo":"101,98,2"},
@@ -421,7 +421,7 @@
 	},
 	{
 		"description":[
-			"212¸¹©Ğªù"
+			"212è™Ÿæˆ¿é–€"
 		],
 		"positionDoor":{
 			"connect1":{"direction":"west","connectTo":"101,97,2"},
@@ -433,7 +433,7 @@
 	},
 	{
 		"description":[
-			"214¸¹©Ğªù"
+			"214è™Ÿæˆ¿é–€"
 		],
 		"positionDoor":{
 			"connect1":{"direction":"west","connectTo":"101,96,2"},
@@ -445,7 +445,7 @@
 	},
 	{
 		"description":[
-			"216¸¹©Ğªù"
+			"216è™Ÿæˆ¿é–€"
 		],
 		"positionDoor":{
 			"connect1":{"direction":"west","connectTo":"101,95,2"},
@@ -457,7 +457,7 @@
 	},
 	{
 		"description":[
-			"218¸¹©Ğªù"
+			"218è™Ÿæˆ¿é–€"
 		],
 		"positionDoor":{
 			"connect1":{"direction":"west","connectTo":"101,94,2"},
@@ -469,7 +469,7 @@
 	},
 	{
 		"description":[
-			"220¸¹©Ğªù"
+			"220è™Ÿæˆ¿é–€"
 		],
 		"positionDoor":{
 			"connect1":{"direction":"west","connectTo":"101,93,2"},
@@ -481,7 +481,7 @@
 	},
 	{
 		"description":[
-			"101¸¹©Ğªù"
+			"101è™Ÿæˆ¿é–€"
 		],
 		"positionDoor":{
 			"connect1":{"direction":"west","connectTo":"100,102,1"},
@@ -493,7 +493,7 @@
 	},
 	{
 		"description":[
-			"103¸¹©Ğªù"
+			"103è™Ÿæˆ¿é–€"
 		],
 		"positionDoor":{
 			"connect1":{"direction":"west","connectTo":"100,101,1"},
@@ -505,7 +505,7 @@
 	},
 	{
 		"description":[
-			"105¸¹©Ğªù"
+			"105è™Ÿæˆ¿é–€"
 		],
 		"positionDoor":{
 			"connect1":{"direction":"west","connectTo":"100,100,1"},
@@ -517,7 +517,7 @@
 	},
 	{
 		"description":[
-			"107¸¹©Ğªù"
+			"107è™Ÿæˆ¿é–€"
 		],
 		"positionDoor":{
 			"connect1":{"direction":"west","connectTo":"100,99,1"},
@@ -529,7 +529,7 @@
 	},
 	{
 		"description":[
-			"109¸¹©Ğªù"
+			"109è™Ÿæˆ¿é–€"
 		],
 		"positionDoor":{
 			"connect1":{"direction":"west","connectTo":"100,98,1"},
@@ -541,7 +541,7 @@
 	},
 	{
 		"description":[
-			"111¸¹©Ğªù"
+			"111è™Ÿæˆ¿é–€"
 		],
 		"positionDoor":{
 			"connect1":{"direction":"west","connectTo":"100,97,1"},
@@ -553,7 +553,7 @@
 	},
 	{
 		"description":[
-			"113¸¹©Ğªù"
+			"113è™Ÿæˆ¿é–€"
 		],
 		"positionDoor":{
 			"connect1":{"direction":"west","connectTo":"100,96,1"},
@@ -565,7 +565,7 @@
 	},
 	{
 		"description":[
-			"115¸¹©Ğªù"
+			"115è™Ÿæˆ¿é–€"
 		],
 		"positionDoor":{
 			"connect1":{"direction":"west","connectTo":"100,95,1"},
@@ -577,7 +577,7 @@
 	},
 	{
 		"description":[
-			"117¸¹©Ğªù"
+			"117è™Ÿæˆ¿é–€"
 		],
 		"positionDoor":{
 			"connect1":{"direction":"west","connectTo":"100,94,1"},
@@ -589,7 +589,7 @@
 	},
 	{
 		"description":[
-			"119¸¹©Ğªù"
+			"119è™Ÿæˆ¿é–€"
 		],
 		"positionDoor":{
 			"connect1":{"direction":"west","connectTo":"100,93,1"},
@@ -601,7 +601,7 @@
 	},
 	{
 		"description":[
-			"102¸¹©Ğªù"
+			"102è™Ÿæˆ¿é–€"
 		],
 		"positionDoor":{
 			"connect1":{"direction":"west","connectTo":"101,102,1"},
@@ -613,7 +613,7 @@
 	},
 	{
 		"description":[
-			"104¸¹©Ğªù"
+			"104è™Ÿæˆ¿é–€"
 		],
 		"positionDoor":{
 			"connect1":{"direction":"west","connectTo":"101,101,1"},
@@ -625,7 +625,7 @@
 	},
 	{
 		"description":[
-			"106¸¹©Ğªù"
+			"106è™Ÿæˆ¿é–€"
 		],
 		"positionDoor":{
 			"connect1":{"direction":"west","connectTo":"101,100,1"},
@@ -637,7 +637,7 @@
 	},
 	{
 		"description":[
-			"108¸¹©Ğªù"
+			"108è™Ÿæˆ¿é–€"
 		],
 		"positionDoor":{
 			"connect1":{"direction":"west","connectTo":"101,99,1"},
@@ -649,7 +649,7 @@
 	},
 	{
 		"description":[
-			"110¸¹©Ğªù"
+			"110è™Ÿæˆ¿é–€"
 		],
 		"positionDoor":{
 			"connect1":{"direction":"west","connectTo":"101,98,1"},
@@ -661,7 +661,7 @@
 	},
 	{
 		"description":[
-			"112¸¹©Ğªù"
+			"112è™Ÿæˆ¿é–€"
 		],
 		"positionDoor":{
 			"connect1":{"direction":"west","connectTo":"101,97,1"},
@@ -673,7 +673,7 @@
 	},
 	{
 		"description":[
-			"114¸¹©Ğªù"
+			"114è™Ÿæˆ¿é–€"
 		],
 		"positionDoor":{
 			"connect1":{"direction":"west","connectTo":"101,96,1"},
@@ -685,7 +685,7 @@
 	},
 	{
 		"description":[
-			"116¸¹©Ğªù"
+			"116è™Ÿæˆ¿é–€"
 		],
 		"positionDoor":{
 			"connect1":{"direction":"west","connectTo":"101,95,1"},
@@ -697,7 +697,7 @@
 	},
 	{
 		"description":[
-			"118¸¹©Ğªù"
+			"118è™Ÿæˆ¿é–€"
 		],
 		"positionDoor":{
 			"connect1":{"direction":"west","connectTo":"101,94,1"},
@@ -709,7 +709,7 @@
 	},
 	{
 		"description":[
-			"120¸¹©Ğªù"
+			"120è™Ÿæˆ¿é–€"
 		],
 		"positionDoor":{
 			"connect1":{"direction":"west","connectTo":"101,93,1"},
@@ -721,8 +721,9 @@
 	},
 	{
 		"description":[
-			"±JªÙºŞ²z¤¤¤ßªº¤jªù¡Cªù¬OÂêµÛªº¡A¦ıªù¤W¦³¤@¤ù·¥Á¡ªº¬Á¼ş¡A©Î³\§A¥i¥H¥Î¤°»ò°íµwªº",
-			"ª««~±N¥L¯{¸H(crash)¡A¦A±qªù¤Wªº¶}¤fª¦¹L¥h(climb)¡C"
+			"å®¿èˆç®¡ç†ä¸­å¿ƒçš„å¤§é–€ã€‚é–€æ˜¯é–è‘—çš„ï¼Œä½†é–€ä¸Šæœ‰ä¸€ç‰‡æ¥µè–„çš„ç»ç’ƒï¼Œæˆ–è¨±",
+			"ä½ å¯ä»¥ç”¨ä»€éº¼å …ç¡¬çš„ç‰©å“å°‡ä»–ç ¸ç¢(crash)ï¼Œå†å¾é–€ä¸Šçš„é–‹å£çˆ¬é",
+			"å»(climb)ã€‚"
 		],
 		"positionDoor":{
 			"connect1":{"direction":"north","connectTo":"101,92,1"},
@@ -734,8 +735,9 @@
 	},
 	{
 		"description":[
-			"±JªÙ¥_°¼ªº¤jªù¡A¤w¸g¦b²V¶Ã¤¤¤£ª¾³Q½Ö¯{Ãa¤F¡A¨Ã°ï¤W¤F³\¦hÂøª«¡C·Q¥²¬O±JªÙ¤ºªº¤H",
-			"¬°¤FÁ×§K±JªÙ¥~ªºµo¨gªÌ«I¤J¦Ó¬°¡C¦ı¥i±¤ªº¬O³Ì«á¥L­Ì¦Û¤v¤]µLªk­Æ§K©ó²§ÅÜ¡C"
+			"å®¿èˆåŒ—å´çš„å¤§é–€ï¼Œå·²ç¶“åœ¨æ··äº‚ä¸­ä¸çŸ¥è¢«èª°ç ¸å£äº†ï¼Œä¸¦å †ä¸Šäº†è¨±å¤šé›œç‰©",
+			"ã€‚æƒ³å¿…æ˜¯å®¿èˆå…§çš„äººç‚ºäº†é¿å…å®¿èˆå¤–çš„ç™¼ç‹‚è€…ä¾µå…¥è€Œç‚ºã€‚ä½†å¯æƒœçš„æ˜¯",
+			"æœ€å¾Œä»–å€‘è‡ªå·±ä¹Ÿç„¡æ³•å€–å…æ–¼ç•°è®Šã€‚"
 		],
 		"positionDoor":{
 			"connect1":{"direction":"west","connectTo":"99,103,1"},
@@ -746,8 +748,9 @@
 	},
 	{
 		"description":[
-			"±JªÙ«n°¼ªº¤jªù¡C¥Ñ©ó¤£ª¾¦W­ì¦]ªºÂ_¹q¡A«p­«ªº¦Û°Êªù¤w¸g²@µL¤ÏÀ³¡C±q³z©úªº«p¬Á¼ş",
-			"¥i¥H¬İ¨ì¥~­±¦P¼Ë»E¶°µÛ©_©Çªº¤H¡A³Ì¦n¤£­n±q³o¸Ì¥X¥h¡A¥H§K³Q³ò§ğ¡C"
+			"å®¿èˆå—å´çš„å¤§é–€ã€‚ç”±æ–¼ä¸çŸ¥ååŸå› çš„æ–·é›»ï¼Œåšé‡çš„è‡ªå‹•é–€å·²ç¶“æ¯«ç„¡å",
+			"æ‡‰ã€‚å¾é€æ˜çš„åšç»ç’ƒå¯ä»¥çœ‹åˆ°å¤–é¢åŒæ¨£èšé›†è‘—å¥‡æ€ªçš„äººï¼Œæœ€å¥½ä¸è¦å¾",
+			"é€™è£¡å‡ºå»ï¼Œä»¥å…è¢«åœæ”»ã€‚"
 		],
 		"positionDoor":{
 			"connect1":{"direction":"west","connectTo":"99,92,1"},

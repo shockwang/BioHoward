@@ -27,6 +27,7 @@ import module.command.group.Look;
 import module.command.group.Mission;
 import module.command.group.Move;
 import module.command.group.MyTime;
+import module.command.group.Quit;
 import module.command.group.Talk;
 import module.utility.BattleUtil;
 import module.utility.EnDecoder;
@@ -65,6 +66,7 @@ public class CommandServer {
 		groupCmdList.add(new Talk());
 		groupCmdList.add(new Inventory());
 		groupCmdList.add(new Mission());
+		groupCmdList.add(new Quit());
 	}
 
 	public static void readCommand(Group g, String[] msg) {
@@ -184,7 +186,7 @@ public class CommandServer {
 			// inform the NPC group about something
 			// do nothing first
 			// TODO: remove npc see mechanism, maybe add debug information?
-			System.out.print(g.getChiName() + "看見: " + msg);
+			//System.out.print(g.getChiName() + "看見: " + msg);
 		}
 	}
 

@@ -1,5 +1,6 @@
 package module.client;
 
+import java.awt.event.WindowEvent;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -88,6 +89,8 @@ public class ClientUser extends Thread {
 		} finally {
 			try {
 				inFromServer.close();
+				gui.getMainFrame().dispatchEvent(new WindowEvent(
+						gui.getMainFrame(), WindowEvent.WINDOW_CLOSING));
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

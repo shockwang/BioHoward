@@ -139,9 +139,6 @@ public class BattleUtil {
 			// weapon effect
 			if (weapon != null){
 				weapon.onAttack(src, target);
-				if (target.isDown()) {
-					BattleUtil.deadMechanism(target);
-				}
 			}
 			
 			if (target.isDown()) {

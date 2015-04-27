@@ -18,8 +18,8 @@ public class DarkShadow extends AbstractCharacter{
 				"中心區塊", "左邊觸手", "右邊觸手"
 		};
 		
-		this.addAttribute(attribute.HP, 250);
-		this.statusMap.put(status.STRENGTH, 40);
+		this.addAttribute(attribute.HP, 300);
+		this.statusMap.put(status.STRENGTH, 48);
 		this.statusMap.put(status.CONSTITUTION, 10);
 		this.statusMap.put(status.SPEED, 4000);
 		this.resistSpecialStatusSet.add(specialStatus.BLIND);

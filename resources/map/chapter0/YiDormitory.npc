@@ -6,6 +6,9 @@
 		],
 		"position":"102,100,3",
 		"respawn":false,
+		"inventory":[
+			"module.item.instance.chapter0.Key306"
+		]
 	},
 	{
 		"character":[

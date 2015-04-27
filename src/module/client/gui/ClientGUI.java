@@ -117,4 +117,5 @@ public class ClientGUI {
 		}
 	}
 	
+	public JFrame getMainFrame() {return frame;}
 }

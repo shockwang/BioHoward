@@ -1,15 +1,12 @@
 package module.utility;
 
 import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.HashMap;
-
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 
 import module.character.Group;
 import module.character.PlayerGroup;
@@ -17,6 +14,11 @@ import module.command.CommandServer;
 import module.event.api.IEvent;
 import module.event.api.IRoomCommand;
 import module.event.map.SkipEventException;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 public class EventUtil {
 	public static HashMap<String, IEvent> mapEventMap = new HashMap<String, IEvent>();
@@ -63,7 +65,9 @@ public class EventUtil {
 	
 	public static void parseEventFromJSON(String filename){
 		try {
-			JSONObject oooo = (JSONObject) parser.parse(new FileReader(filename));
+			//JSONObject oooo = (JSONObject) parser.parse(new FileReader(filename));
+			InputStreamReader isr = new InputStreamReader(new FileInputStream(filename), "UTF-8");
+			JSONObject oooo = (JSONObject) parser.parse(isr);
 			JSONArray eventArray = (JSONArray) oooo.get("event");
 			
 			for (Object obj : eventArray){
@@ -88,21 +92,6 @@ public class EventUtil {
 		BufferedReader in = pg.getInFromClient();
 		StringBuffer buf = new StringBuffer();
 		
-		if (Thread.currentThread() != pg.thisServer) {
-			// if the thread is not the main one, wait for main one to notify it
-			// this is to prevent event inconsistent shown to client user
-			synchronized (in) {
-				try {
-					CommandServer.informGroup(pg, "<ENTER>\n");
-					in.wait();
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-		}
-		
-		
 		JSONArray descArray = eventMessageMap.get(eventName);
 		for (Object obj : descArray){
 			JSONArray oneTimeDesc = (JSONArray) obj;
@@ -117,5 +106,17 @@ public class EventUtil {
 				return;
 			}
 		}
+	}
+	
+	public static void showMessageToClient(DataOutputStream toClient, String eventName){
+		JSONArray descArray = eventMessageMap.get(eventName);
+		
+		StringBuffer buf = new StringBuffer();
+		for (Object obj : descArray) {
+			JSONArray oneTimeDesc = (JSONArray) obj;
+			for (int i = 0; i < oneTimeDesc.size(); i++)
+			buf.append(((String) oneTimeDesc.get(i)) + "\n");
+		}
+		EnDecoder.sendUTF8Packet(toClient, buf.toString());
 	}
 }

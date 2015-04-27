@@ -83,7 +83,7 @@ public class FirstTutorialBattle extends BattleTask{
 			}
 			String[] msg = {"inventory"};
 			CommandServer.readCommand(g, msg);
-			buf.append("霍華見普物課本貌似可用，準備裝備。");
+			buf.append("霍華咬著牙：\"普物課本又厚又重，就拿這個來應戰吧。\"");
 			EventUtil.informReset(g, buf, in);
 			buf.append("說明：你可以使用\"wear\"指令來讓角色穿上某件裝備。指令格式為\n");
 			buf.append("\"<角色英文名字> <wear> <裝備名稱>\"。亦可使用\"remove\"\n");
@@ -104,7 +104,7 @@ public class FirstTutorialBattle extends BattleTask{
 		case 2:
 			g.getAtRoom().informRoom("<ENTER>\n");
 			IOUtil.clearBufferedReader(in);
-			buf.append("霍華：好哩~準備開打!");
+			buf.append("霍華：\"沒辦法了，只能先設法把他打暈，不然連我自己都性命難保!\"");
 			EventUtil.informReset(g, buf, in);
 			buf.append("說明：你可以輸入\"equipment\"或\"eq\"來查看隊伍中角色的裝備\n");
 			buf.append("情況，指令格式為\"<角色英文名字> <equipment>\"。若前面不輸入\n");
@@ -143,4 +143,6 @@ public class FirstTutorialBattle extends BattleTask{
 		}
 		return false;
 	}
+	
+	
 }

@@ -57,7 +57,7 @@ public class EachPlayerServer extends Thread {
 			
 			thisThread = Thread.currentThread();
 			playerGroup.thisServer = this;
-			CommandServer.informGroup(playerGroup, "status:" + playerGroup.showGroupStatus());
+			//CommandServer.informGroup(playerGroup, "status:" + playerGroup.showGroupStatus());
 			//CommandServer.readCommand(playerGroup, "look".split(" "));
 			
 			// keep the last input msg
@@ -69,10 +69,7 @@ public class EachPlayerServer extends Thread {
 				// rollback the message read if group start the event
 				input = IOUtil.readLineFromClientSocket(inFromClient);
 				if (playerGroup.getInEvent()){
-					// notify another thread wait on inFromClient if any
-					synchronized (inFromClient){
-						inFromClient.notify();
-					}
+					CommandServer.informGroup(playerGroup, "<ENTER>\n");
 					continue;
 				} 
 				temp = input.split(" ");

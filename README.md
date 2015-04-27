@@ -9,6 +9,7 @@
 將整包github code下載下來, 解壓縮後執行biohoward.jar這個runnable jar file. 
 
 for windows: 滑鼠左鍵雙擊打開即可.
+
 for linux: 開啟command line, change directory進入該目錄, 輸入"java -jar biohoward.jar"即可執行.
 
 當然有興趣的人也可以將整個project build起來, 找到MainClass.java, 執行它.

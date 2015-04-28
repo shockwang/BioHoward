@@ -78,7 +78,7 @@ public class EventTest {
 		PlayerServer.getMissionMap().put(MainMission.class.toString(), mm);
 		
 		// set player group start position
-		IRoom start = MapUtil.roomMap.get("104,109,1");
+		IRoom start = MapUtil.roomMap.get("102,103,1");
 		pg.setAtRoom(start);
 		pg.setInitialRoom(start);
 		start.getGroupList().gList.add(pg);

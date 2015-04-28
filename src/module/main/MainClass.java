@@ -5,6 +5,7 @@ import static org.junit.Assert.assertTrue;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 
+import module.character.Group;
 import module.character.PlayerGroup;
 import module.character.api.ICharacter;
 import module.character.constants.CConfig.config;
@@ -14,8 +15,10 @@ import module.command.CommandServer;
 import module.event.map.instance.chapter0.YiDormitoryEvent;
 import module.event.map.instance.chapter0.YiDormitoryRoomCommand;
 import module.item.BaseEquipment;
+import module.item.instance.chapter0.Key306;
 import module.item.instance.chapter0.PhysicsBook;
 import module.map.api.IRoom;
+import module.mission.chapter0.MainMission;
 import module.server.PlayerServer;
 import module.utility.EventUtil;
 import module.utility.IOUtil;
@@ -25,6 +28,7 @@ public class MainClass {
 	private static PlayerServer singletonServer;
 	private static ClientUser oneUser;
 	private static PlayerGroup pg = null;
+	private static boolean skipOpening = false;
 
 	public static void main(String[] args) {
 		// do the game initialize here
@@ -43,12 +47,28 @@ public class MainClass {
 		
 		// start game setup
 		startGameSetup();
-
+		
+		if (skipOpening){
+			MainMission mm = new MainMission();
+			mm.setState(MainMission.State.START_SEARCHING);
+			PlayerServer.getMissionMap().put(MainMission.class.toString(), mm);
+			Group roommateG = pg.getAtRoom().getGroupList().findGroup("roommate");
+			pg.getAtRoom().getGroupList().gList.remove(roommateG);
+			roommateG.setAtRoom(null);
+			pg.getAtRoom().getItemList().addItem(new Key306());
+			pg.setInEvent(false);
+		} else {
+			// execute opening
+			EventUtil.executeEventMessage(pg, "opening");
+		}
+		
 		// set player group to system time
 		PlayerServer.getSystemTime().addGroup(pg);
-
-		// execute the starting event
-		EventUtil.doRoomEvent(pg);
+		
+		if (!skipOpening) {
+			// execute the starting event
+			EventUtil.doRoomEvent(pg);
+		}
 	}
 
 	private static void initialize() {
@@ -124,8 +144,20 @@ public class MainClass {
 			pg.setConfigData(config.REALTIMEBATTLE, true);
 		else
 			pg.setConfigData(config.REALTIMEBATTLE, false);
+		
+		output = "是否跳過開頭劇情 (包括基本教學)? <y/n>\n";
+		CommandServer.informGroup(pg, output);
+		input = IOUtil.readLineFromClientSocket(in);
+		while (!input.equals("y") && !input.equals("n")) {
+			CommandServer.informGroup(pg, output + "\n");
+			input = IOUtil.readLineFromClientSocket(in);
+		}
 
-		// execute opening
-		EventUtil.executeEventMessage(pg, "opening");
+		if (input.equals("y"))
+			skipOpening = true;
+		else
+			skipOpening = false;
+
+		
 	}
 }

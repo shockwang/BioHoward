@@ -2,22 +2,29 @@ package module.event.map.instance.chapter0;
 
 import java.io.BufferedReader;
 
+import module.battle.BattleTask;
 import module.battle.chapter0.DormKeeperBattle;
 import module.battle.chapter0.ShadowBattle;
 import module.character.Group;
 import module.character.PlayerGroup;
 import module.character.constants.CConfig.config;
+import module.character.instance.chapter0.DarkShadow;
+import module.character.instance.chapter0.MadStudent;
 import module.command.CommandServer;
 import module.event.AbstractEvent;
 import module.event.map.SkipEventException;
+import module.item.instance.chapter0.Soap;
+import module.map.api.IRoom;
 import module.mission.api.IMission;
 import module.mission.chapter0.ContainerTutorialMission;
 import module.mission.chapter0.FirstTimeSeeKeeperMission;
 import module.mission.chapter0.MainMission;
+import module.mission.chapter0.SoapMission;
 import module.mission.chapter0.TwoDoorsMission;
 import module.server.PlayerServer;
 import module.utility.EventUtil;
 import module.utility.IOUtil;
+import module.utility.MapUtil;
 
 public class YiDormitoryEvent {
 	public static void initialize(){
@@ -163,11 +170,13 @@ public class YiDormitoryEvent {
 						CommandServer.readCommand(pg, msg4);
 						buf.append("霍華：\"外面也可以看到奇怪的人，我還是先把門關上休息一下。\"");
 						EventUtil.informCheckReset(pg, buf, in);
-						g.getAtRoom().informRoom("請輸入\"close w\"來關上宿舍房間的門。\n");
-						String input = IOUtil.readLineFromClientSocket(in);
-						while (!input.equals("close w")){
+						if (pg.getConfigData().get(config.TUTORIAL_ON)) {
 							g.getAtRoom().informRoom("請輸入\"close w\"來關上宿舍房間的門。\n");
-							input = IOUtil.readLineFromClientSocket(in);
+							String input = IOUtil.readLineFromClientSocket(in);
+							while (!input.equals("close w")){
+								g.getAtRoom().informRoom("請輸入\"close w\"來關上宿舍房間的門。\n");
+								input = IOUtil.readLineFromClientSocket(in);
+							}
 						}
 						String[] msg5 = {"close", "w"};
 						CommandServer.readCommand(pg, msg5);
@@ -189,7 +198,7 @@ public class YiDormitoryEvent {
 							buf.append("這會是一個很好用的指令喔!");
 							EventUtil.informCheckReset(pg, buf, in);
 							g.getAtRoom().informRoom("請輸入\"mission\"或\"m\"來查看當前任務。\n");
-							input = IOUtil.readLineFromClientSocket(in);
+							String input = IOUtil.readLineFromClientSocket(in);
 							while (!input.equals("mission") && !input.equals("m")){
 								g.getAtRoom().informRoom("請輸入\"mission\"或\"m\"來查看當前任務。\n");
 								input = IOUtil.readLineFromClientSocket(in);
@@ -545,8 +554,40 @@ public class YiDormitoryEvent {
 				MainMission mm = (MainMission) PlayerServer.getMissionMap()
 						.get(MainMission.class.toString());
 				mm.setState(MainMission.State.FIGHT_WITH_SHADOW);
-				Group enemyG = g.getAtRoom().getGroupList().findGroup("shadow");
+				
+				// create shadow group
+				Group enemyG = new Group(new DarkShadow());
+				enemyG.setIsRespawn(false);
+				MapUtil.initializeGroupAtMap(enemyG, g.getAtRoom());
 				new ShadowBattle(enemyG, g);
+				g.setInEvent(false);
+			}
+			
+		});
+		
+		EventUtil.mapEventMap.put("103,103,1", new AbstractEvent() {
+			
+			@Override
+			public boolean isTriggered(Group g){
+				if (super.isTriggered(g)){
+					if (PlayerServer.getMissionMap().get(SoapMission.class.toString()) == null)
+						return true;
+				}
+				return false;
+			}
+			
+			@Override
+			public void doEvent(Group g) {
+				g.setInEvent(true);
+				PlayerServer.getMissionMap().put(SoapMission.class.toString(), 
+						new SoapMission());
+				IRoom here = g.getAtRoom();
+				here.getItemList().addItem(new Soap());
+				EventUtil.executeEventMessage((PlayerGroup) g, "soap_event");
+				Group enemyG = new Group(new MadStudent());
+				enemyG.setIsRespawn(false);
+				MapUtil.initializeGroupAtMap(enemyG, here);
+				new BattleTask(enemyG, g);
 				g.setInEvent(false);
 			}
 			

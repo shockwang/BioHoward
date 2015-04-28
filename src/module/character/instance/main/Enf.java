@@ -17,7 +17,7 @@ public class Enf extends BaseHumanCharacter{
 		this("霍華", "enf");
 		// TODO: set description
 		this.setDesc("就是霍華。");
-		this.setStatus(status.CONSTITUTION, 5);
+		this.setStatus(status.CONSTITUTION, 6);
 		this.setStatus(status.STRENGTH, 29);
 		this.setStatus(status.SPEED, 3500);
 		this.addAttribute(attribute.HP, 99);

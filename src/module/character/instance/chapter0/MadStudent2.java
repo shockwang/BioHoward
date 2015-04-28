@@ -9,7 +9,7 @@ public class MadStudent2 extends MadStudent{
 	public MadStudent2(){
 		super();
 		this.addAttribute(attribute.HP, 80);
-		this.statusMap.put(status.STRENGTH, 40);
+		this.statusMap.put(status.STRENGTH, 35);
 		
 		this.equipMap.put(EquipType.WEAPON, new BambooSword());
 	}

@@ -10,8 +10,8 @@ public class Dawdw extends BaseHumanCharacter{
 
 	public Dawdw(){
 		this("永康", "dawdw");
-		String desc = "臉上隨時帶著嘲諷表情的男子，講話一直都不太正經。他身材練的很";
-		desc += "結實，身上穿著有些髒汙的襯衫，一副剛從工地裡出來的模樣。你從";
+		String desc = "臉上隨時帶著嘲諷表情的男子，講話一直都不太正經。他身材練的很\n";
+		desc += "結實，身上穿著有些髒汙的襯衫，一副剛從工地裡出來的模樣。你從\n";
 		desc += "他手上拿的大聲公可以看出他是負責監工的。";
 		this.setDesc(desc);
 		

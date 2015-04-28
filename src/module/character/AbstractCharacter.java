@@ -36,7 +36,7 @@ public abstract class AbstractCharacter implements ICharacter {
 		this.chiName = chiName;
 		this.engName = engName;
 		attributeMap = new ConcurrentHashMap<attribute, IntPair>();
-		addAttribute(attribute.HP, 60);
+		addAttribute(attribute.HP, 50);
 		specialStatusMap = new ConcurrentHashMap<specialStatus, Integer>();
 		statusMap = new ConcurrentHashMap<status, Integer>();
 		resistSpecialStatusSet = new HashSet<specialStatus>();
@@ -213,7 +213,7 @@ public abstract class AbstractCharacter implements ICharacter {
 			
 			// TODO: define the recover method
 			IntPair pair = this.attributeMap.get(attribute.HP);
-			int value = pair.getCurrent() + (int) (pair.getMax() * 0.02);
+			int value = pair.getCurrent() + (int) (pair.getMax() * 0.02) + 1;
 			if (value > pair.getMax())
 				value = pair.getMax();
 			pair.setCurrent(value);

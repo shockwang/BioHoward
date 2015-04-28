@@ -1,8 +1,9 @@
 package module.utility;
 
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 
 import org.json.simple.JSONArray;
 import org.json.simple.parser.ParseException;
@@ -10,8 +11,9 @@ import org.json.simple.parser.ParseException;
 public class HelpUtil {
 	public static String getHelp(String filename){
 		try {
-			JSONArray helpMsgArray = (JSONArray) MapUtil.parser.parse(new FileReader(filename));
-			StringBuffer buf= new StringBuffer();
+			InputStreamReader isr = new InputStreamReader(new FileInputStream(filename), "UTF-8");
+			JSONArray helpMsgArray = (JSONArray) MapUtil.parser.parse(isr);
+			StringBuffer buf = new StringBuffer();
 			
 			for (Object ooo : helpMsgArray)
 				buf.append((String) ooo + "\n");

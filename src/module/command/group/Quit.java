@@ -5,6 +5,7 @@ import java.io.IOException;
 import module.character.PlayerGroup;
 import module.character.api.ICharacter;
 import module.command.api.ICommand;
+import module.utility.HelpUtil;
 
 public class Quit implements ICommand{
 	private String[] name;
@@ -36,8 +37,8 @@ public class Quit implements ICommand{
 
 	@Override
 	public String getHelp() {
-		// TODO Auto-generated method stub
-		return null;
+		String output = HelpUtil.getHelp("resources/help/quit.help");
+		return output;
 	}
 
 }

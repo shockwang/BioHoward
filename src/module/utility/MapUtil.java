@@ -34,7 +34,6 @@ public class MapUtil {
 	
 	public static void parseMapFromJSON(String filename){
 		try {
-			//JSONObject jsonObj = (JSONObject) parser.parse(new FileReader(filename));
 			InputStreamReader isr = new InputStreamReader(new FileInputStream(filename), "UTF-8");
 			JSONObject jsonObj = (JSONObject) parser.parse(isr);
 			JSONArray roomArray = (JSONArray) jsonObj.get("room");
@@ -109,7 +108,6 @@ public class MapUtil {
 	
 	public static void parseDoorFromJSON(String filename){
 		try {
-			//JSONObject obj = (JSONObject) parser.parse(new FileReader(filename));
 			InputStreamReader isr = new InputStreamReader(new FileInputStream(filename), "UTF-8");
 			JSONObject obj = (JSONObject) parser.parse(isr);
 			JSONArray doorList = (JSONArray) obj.get("door");
@@ -171,7 +169,6 @@ public class MapUtil {
 	
 	public static void parseNpcFromJSON(String filename){
 		try {
-			//JSONObject obj = (JSONObject) parser.parse(new FileReader(filename));
 			InputStreamReader isr = new InputStreamReader(new FileInputStream(filename), "UTF-8");
 			JSONObject obj = (JSONObject) parser.parse(isr);
 			JSONArray groupList = (JSONArray) obj.get("npc");
@@ -246,7 +243,6 @@ public class MapUtil {
 	
 	public static void parseItemFromJSON(String filename){
 		try {
-			//JSONObject obj = (JSONObject) parser.parse(new FileReader(filename));
 			InputStreamReader isr = new InputStreamReader(new FileInputStream(filename), "UTF-8");
 			JSONObject obj = (JSONObject) parser.parse(isr);
 			JSONArray itemList = (JSONArray) obj.get("item");

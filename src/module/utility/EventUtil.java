@@ -65,7 +65,6 @@ public class EventUtil {
 	
 	public static void parseEventFromJSON(String filename){
 		try {
-			//JSONObject oooo = (JSONObject) parser.parse(new FileReader(filename));
 			InputStreamReader isr = new InputStreamReader(new FileInputStream(filename), "UTF-8");
 			JSONObject oooo = (JSONObject) parser.parse(isr);
 			JSONArray eventArray = (JSONArray) oooo.get("event");

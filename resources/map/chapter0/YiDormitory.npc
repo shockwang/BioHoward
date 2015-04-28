@@ -279,12 +279,5 @@
 		],
 		"position":"104,107,1",
 		"respawn":false
-	},
-	{
-		"character":[
-			"module.character.instance.chapter0.DarkShadow"
-		],
-		"position":"104,110,1",
-		"respawn":false
 	}
 ]}

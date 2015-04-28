@@ -14,7 +14,7 @@ public class MadStudent extends BaseHumanCharacter{
 		buf.append("全是灰塵，顯然不停地在尋找可以攻擊的目標。你看到他充滿惡意的向\n");
 		buf.append("你撲過來，只好集中注意準備應戰。");
 		this.setDesc(buf.toString());
-		this.setStatus(status.STRENGTH, 35);
+		this.setStatus(status.STRENGTH, 28);
 		this.setHostile(true);
 	}
 	

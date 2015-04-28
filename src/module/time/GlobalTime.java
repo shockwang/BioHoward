@@ -21,7 +21,7 @@ public class GlobalTime extends TimerTask{
 		
 		groupList = new GroupList();
 		groundItemList = new ArrayList<IItem>();
-		year = 2008;
+		year = 2007;
 		month = 9;
 		day = 9;
 		hour = 9;

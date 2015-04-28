@@ -28,8 +28,8 @@ public class ClientGUI {
 		isExists = true;
 		
 		frame = new JFrame();
-		frame.setSize(600, 800);
-		frame.setResizable(false);
+		frame.setSize(600, 700);
+		//frame.setResizable(false);
 		
 		status = new JTextArea();
 		status.setEditable(false);
@@ -70,7 +70,7 @@ public class ClientGUI {
 		c0.weighty = 0.0;
 		c0.fill = GridBagConstraints.BOTH;
 		c0.anchor = GridBagConstraints.WEST;
-		c0.ipady = 570;
+		c0.ipady = 470;
 		frame.add(scroll, c0);
 		
 		GridBagConstraints c1 = new GridBagConstraints();

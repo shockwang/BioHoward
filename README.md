@@ -21,6 +21,12 @@ for linux: 開啟command line, change directory進入該目錄, 輸入"java -jar
 
 ![default](https://cloud.githubusercontent.com/assets/8130848/7352367/a7f0dd8c-ed3d-11e4-8770-5f870f872887.png)
 
+遊戲中, 每移動一次所到之處稱為一個"房間" (並非一定是室內, 把它想像為一個場景會更容易理解). 房間會有各自的名稱、敘述、出口等資訊, 並且在觀察時也會顯現出有那些npc與你所在同一位置, 或是那些物品掉落在地上.
+
+下圖是一個當玩家輸入"l"或"look"觀察房間時顯示出來的範例.
+
+![default](https://cloud.githubusercontent.com/assets/8130848/7371768/7d050e46-edf5-11e4-9f39-5757c392be12.png)
+
 # 戰鬥方式
 戰鬥方式採取時間條模式, 並考慮到玩家打字速度可能是個瓶頸, 可以選擇即時戰鬥/非即時戰鬥兩種模式.
 

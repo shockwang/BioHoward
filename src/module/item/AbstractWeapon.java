@@ -34,7 +34,7 @@ public abstract class AbstractWeapon extends BaseEquipment implements IWeapon{
 	public String display(){
 		StringBuffer buf = new StringBuffer();
 		buf.append(super.display());
-		buf.append("命中率：" + this.hitRatio * 100.0 + "%\n");
+		buf.append(String.format("命中率：%2.1f%%\n", this.hitRatio * 100.0));
 		return buf.toString();
 	}
 }

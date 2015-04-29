@@ -19,7 +19,7 @@ public class DormKeeper extends BaseHumanCharacter{
 		buf.append("緊抓著鐵棍，咆嘯著向你衝過來，你恐懼的同時不禁懷疑她為何能有這\n");
 		buf.append("麼大的力氣。");
 		this.setDesc(buf.toString());
-		this.addAttribute(attribute.HP, 150);
+		this.addAttribute(attribute.HP, 170);
 		this.setStatus(status.STRENGTH, 30);
 		this.setHostile(true);
 		

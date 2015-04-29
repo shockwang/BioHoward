@@ -10,6 +10,7 @@ import module.command.CommandServer;
 import module.event.map.instance.chapter0.YiDormitoryEvent;
 import module.event.map.instance.chapter0.YiDormitoryRoomCommand;
 import module.item.BaseEquipment;
+import module.item.instance.chapter0.Dumbbell;
 import module.item.instance.chapter0.HydraulicCut;
 import module.item.instance.chapter0.Key306;
 import module.item.instance.chapter0.PhysicsBook;
@@ -71,14 +72,15 @@ public class EventTest {
 		pg.getInventory().addItem(testEquip);
 		pg.getInventory().addItem(new Key306());
 		pg.getInventory().addItem(new HydraulicCut());
+		pg.getInventory().addItem(new Dumbbell());
 		
 		// set player group mission
 		MainMission mm = new MainMission();
-		mm.setState(MainMission.State.AFTER_EXIT_DORMITORY);
+		mm.setState(MainMission.State.AFTER_BREAK_MANAGE_DOOR);
 		PlayerServer.getMissionMap().put(MainMission.class.toString(), mm);
 		
 		// set player group start position
-		IRoom start = MapUtil.roomMap.get("102,103,1");
+		IRoom start = MapUtil.roomMap.get("101,91,1");
 		pg.setAtRoom(start);
 		pg.setInitialRoom(start);
 		start.getGroupList().gList.add(pg);

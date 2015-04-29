@@ -388,6 +388,15 @@ public class YiDormitoryEvent {
 						String[] msg = {"look", "s"};
 						CommandServer.readCommand(pg, msg);
 						EventUtil.informCheckReset(pg, buf, in);
+						buf.append("說明：當房間敘述或是門上的敘述出現\"用小括弧包起來的英文\"\n");
+						buf.append("時，代表在這個特定的房間可以輸入此特定指令來發揮功效。在其他\n");
+						buf.append("房間輸入則不會有反應。");
+						EventUtil.informCheckReset(pg, buf, in);
+						buf.append("以這個例子來說，你可以在這個地方嘗試輸入\"crash\"與\"climb\"\n");
+						buf.append("來發揮他們的效果。但在其他房間輸入則不會有反應。上述出現的提示\n");
+						buf.append("訊息是輸入\"look s\"查看南方關著的門而得到的敘述，此外在任務\n");
+						buf.append("提示內也有記錄可輸入的指令名稱。");
+						EventUtil.informCheckReset(pg, buf, in);
 						buf.append("霍華：只好去找找看有沒有什麼可用的工具了。\n");
 						g.getAtRoom().informRoom(buf.toString());
 					} catch (SkipEventException e){

@@ -4,8 +4,10 @@ import java.io.IOException;
 
 import module.character.PlayerGroup;
 import module.character.api.ICharacter;
+import module.command.CommandServer;
 import module.command.api.ICommand;
 import module.utility.HelpUtil;
+import module.utility.IOUtil;
 
 public class Quit implements ICommand{
 	private String[] name;
@@ -25,6 +27,13 @@ public class Quit implements ICommand{
 		PlayerGroup pg = (PlayerGroup) c.getMyGroup();
 		
 		// TODO: add exit mechanism in the future
+		String check = "確定要離開遊戲嗎? <y/n>\n";
+		CommandServer.informGroup(pg, check);
+		String answer = IOUtil.readLineFromClientSocket(pg.getInFromClient());
+		if (!answer.equals("y")) {
+			CommandServer.informGroup(pg, "回到遊戲中。\n");
+			return false;
+		}
 		try {
 			pg.getOutToClient().close();
 		} catch (IOException e) {

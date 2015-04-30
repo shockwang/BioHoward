@@ -35,7 +35,7 @@ for linux: 開啟command line, change directory進入該目錄, 輸入"java -jar
 well, 其實這也不是什麼新鮮的東西, 很多RPG都採取這樣的方式進行. 只能說這是在同時想要保有多人隊伍以及即時戰鬥感的需求下折衷的方案了.
 
 # 操作指令
-遊戲中能夠輸入"help"觀看所有可使用的指令, 選定要查詢的指令後輸入"help <指令名稱>"即可得到該指令詳細的介紹. 所以當你不知道接下來可以做什麼的時候, 不妨"help"一下, 慢慢熟悉指令系統.
+遊戲中能夠輸入"help"觀看所有可使用的指令, 選定要查詢的指令後輸入"help <指令名稱>"即可得到該指令詳細的介紹. 所以當你不知道接下來可以做什麼的時候, 不妨"help"一下, 慢慢熟悉指令系統. 這些指令的說明在github的wiki上面也有, 可以直接進wiki查詢: https://github.com/shockwang/BioHoward/wiki
 
 # Mud
 根據wiki頁面: http://zh.wikipedia.org/wiki/MUD

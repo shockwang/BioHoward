@@ -234,7 +234,7 @@ public class YiDormitoryEvent {
 							buf.append("\"<unlock/un> <方位名稱>\"可以讓角色解開某方向的門鎖。\n");
 							buf.append("\"<lock/loc> <方位名稱>\"可以讓角色鎖上某方向的門。\n");
 							buf.append("\"<e/w/s/n/u/d>\"可以讓隊伍往\"東/西/南/北/上/下\"移動。\n");
-							buf.append("\"<time/t>\"可以讓你查看遊戲中的時間。\n");
+							buf.append("\"<time>\"可以讓你查看遊戲中的時間。\n");
 							buf.append("\"<mission/m>\"可以讓你查看目前身上有哪些任務，以及接下來的方向。");
 							EventUtil.informCheckReset(pg, buf, in);
 							buf.append("以上所有的指令皆可輸入\"<help> <指令名稱>\"來查詢詳細的\n");

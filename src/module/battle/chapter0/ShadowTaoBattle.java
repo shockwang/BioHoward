@@ -31,5 +31,7 @@ public class ShadowTaoBattle extends BattleTask{
 			.get(MainMission.class.toString())).setState(MainMission.State.DONE);
 		String[] msg = {"quit"};
 		CommandServer.readCommand(pg, msg);
+		String[] msg2 = {"y"};
+		CommandServer.readCommand(pg, msg2);
 	}
 }

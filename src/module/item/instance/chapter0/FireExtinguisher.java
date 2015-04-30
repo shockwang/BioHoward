@@ -76,9 +76,7 @@ public class FireExtinguisher extends AbstractHarmfulItem {
 			CommandServer.informGroup(g, this.getChiName()
 					+ "的內容物已經耗盡，再也噴不出東西來了。\n");
 		else {
-			g.getAtRoom().informRoom(src.getChiName() + "舉起滅火器亂噴，把泡沫灑的到處都是!\n");
-			count++;
-			return true;
+			g.getAtRoom().informRoom("你想要拿滅火器噴誰呢?\n");
 		}
 		return false;
 	}

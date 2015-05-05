@@ -87,7 +87,7 @@ public class FirstTutorialBattle extends BattleTask{
 			EventUtil.informReset(g, buf, in);
 			buf.append("說明：你可以使用\"wear\"指令來讓角色穿上某件裝備。指令格式為\n");
 			buf.append("\"<角色英文名字> <wear> <裝備名稱>\"。亦可使用\"remove\"\n");
-			buf.append("指令來脫下裝備。格視為\"<角色英文名字> <remove> <裝備名稱>\"。\n");
+			buf.append("指令來脫下裝備。格式為\"<角色英文名字> <remove> <裝備名稱>\"。\n");
 			buf.append("若最前面不加上角色名稱，則自動指定為隊伍中第一個角色進行動作。\n");
 			buf.append("在戰鬥中wear/remove皆消耗角色一回合的時間。詳細說明可輸入\n");
 			buf.append("\"help wear\"以及\"help remove\"來查詢。");

@@ -126,6 +126,10 @@ public class GlobalTime extends TimerTask{
 		} catch (NullPointerException e){
 			// no content, just return
 			e.printStackTrace();
+		} catch (Exception e) {
+			// don't know why, but need to catch
+			System.out.println("error happened when global time update.");
+			e.printStackTrace();
 		}
 	}
 }

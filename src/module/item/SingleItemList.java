@@ -1,5 +1,6 @@
 package module.item;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -8,7 +9,7 @@ import module.item.api.IContainer;
 import module.item.api.IItem;
 import module.utility.ItemUtil;
 
-public class SingleItemList {
+public class SingleItemList implements Serializable{
 	public List<IItem> list;
 	
 	public SingleItemList(IItem obj){

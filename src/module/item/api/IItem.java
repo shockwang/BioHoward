@@ -1,8 +1,10 @@
 package module.item.api;
 
+import java.io.Serializable;
+
 import module.map.api.IRoom;
 
-public interface IItem {
+public interface IItem extends Serializable{
 	// name & description
 	void setChiName(String name);
 	String getChiName();

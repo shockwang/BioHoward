@@ -15,7 +15,12 @@ import module.server.PlayerServer;
 import module.utility.NpcActionUtil;
 import module.utility.NpcBattleActionUtil;
 
-public abstract class AbstractCharacter implements ICharacter {
+public abstract class AbstractCharacter implements ICharacter{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4972134458071665612L;
+	
 	protected ConcurrentHashMap<attribute, IntPair> attributeMap = null;
 	private ConcurrentHashMap<specialStatus, Integer> specialStatusMap = null;
 	protected ConcurrentHashMap<status, Integer> statusMap = null;

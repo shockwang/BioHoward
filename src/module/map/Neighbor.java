@@ -1,9 +1,11 @@
 package module.map;
 
+import java.io.Serializable;
+
 import module.map.api.IDoor;
 import module.map.api.IRoom;
 
-public class Neighbor {
+public class Neighbor implements Serializable{
 	private IRoom room;
 	private IDoor door;
 	

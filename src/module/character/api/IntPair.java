@@ -1,6 +1,13 @@
 package module.character.api;
 
-public class IntPair {
+import java.io.Serializable;
+
+public class IntPair implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2742366528973863621L;
+	
 	private int first;
 	private int second;
 	

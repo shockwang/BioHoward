@@ -1,12 +1,17 @@
 package module.character;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import module.character.api.ICharacter;
 
-public class CharList {
+public class CharList implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6350303926974208673L;
 	public List<ICharacter> charList;
 	
 	public CharList(ICharacter obj){

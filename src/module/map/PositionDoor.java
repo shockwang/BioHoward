@@ -1,9 +1,11 @@
 package module.map;
 
+import java.io.Serializable;
+
 import module.map.constants.CExit.exit;
 
 
-public class PositionDoor {
+public class PositionDoor implements Serializable {
 	public Position pos1;
 	public exit way1;
 	public Position pos2;

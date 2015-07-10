@@ -11,10 +11,16 @@ import module.server.EachPlayerServer;
 import module.utility.EnDecoder;
 
 public class PlayerGroup extends Group {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7836729144223571863L;
+	
 	private HashMap<config, Boolean> configData;
-	private DataOutputStream outToClient = null;
-	private BufferedReader inFromClient = null;
-	public EachPlayerServer thisServer = null;
+	// TODO: build a new connection when loading the file
+	private volatile DataOutputStream outToClient = null;
+	private volatile BufferedReader inFromClient = null;
+	public volatile EachPlayerServer thisServer = null;
 
 	public PlayerGroup(ICharacter obj) {
 		super(obj);

@@ -1,5 +1,6 @@
 package module.character;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -9,7 +10,12 @@ import module.command.api.IndexStringPair;
 import module.utility.Parse;
 import module.utility.Search;
 
-public class GroupList {
+public class GroupList implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4201851626773604174L;
+	
 	public List<Group> gList;
 	
 	public GroupList(){

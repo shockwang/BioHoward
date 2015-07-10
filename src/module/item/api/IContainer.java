@@ -1,10 +1,12 @@
 package module.item.api;
 
+import java.io.Serializable;
+
 import module.character.api.ICharacter;
 import module.item.ItemList;
 import module.map.constants.CDoorAttribute;
 
-public interface IContainer {
+public interface IContainer extends Serializable{
 	enum Type {
 		MOVEABLE,
 		FIXED_POSITION,

@@ -1,5 +1,6 @@
 package module.character.api;
 
+import java.io.Serializable;
 import java.util.concurrent.ConcurrentHashMap;
 
 import module.character.Group;
@@ -11,7 +12,7 @@ import module.character.constants.CStatus;
 import module.item.api.IEquipment;
 import module.time.api.Updatable;
 
-public interface ICharacter extends Updatable{
+public interface ICharacter extends Updatable, Serializable{
 	// setup character English name
 	void setEngName(String name);
 	String getEngName();

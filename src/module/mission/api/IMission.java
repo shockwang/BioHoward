@@ -1,6 +1,8 @@
 package module.mission.api;
 
-public interface IMission {
+import java.io.Serializable;
+
+public interface IMission extends Serializable{
 	// provide a base mission interface
 	String getMissionName();
 	

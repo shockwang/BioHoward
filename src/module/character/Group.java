@@ -1,5 +1,6 @@
 package module.character;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -17,12 +18,18 @@ import module.utility.ItemUtil;
 import module.utility.Parse;
 import module.utility.Search;
 
-public class Group implements Updatable {
+public class Group implements Updatable , Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7712246178826106997L;
+	
 	public List<CharList> list;
 	private String Chiname;
 	private String EngName;
 	private boolean inBattle = false;
-	private BattleTask myBattle = null;
+	// TODO: add BattleTask into save?
+	private volatile BattleTask myBattle = null;
 	private IRoom atRoom = null; // judge this group is at what place
 	private IRoom initialRoom = null; // the place that group should locate at
 	private Class<BattleTask> specialBattleClass = null; // to be not null if there's special battle upon this group

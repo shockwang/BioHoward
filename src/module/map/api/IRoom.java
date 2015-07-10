@@ -1,5 +1,6 @@
 package module.map.api;
 
+import java.io.Serializable;
 import java.util.concurrent.ConcurrentHashMap;
 
 import module.character.Group;
@@ -12,7 +13,7 @@ import module.map.Neighbor;
 import module.map.Position;
 import module.map.constants.CExit;
 
-public interface IRoom {
+public interface IRoom extends Serializable{
 	// interface for map unit in the game
 
 	// position information

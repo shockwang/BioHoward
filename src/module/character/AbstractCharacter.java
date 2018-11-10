@@ -10,7 +10,9 @@ import module.character.constants.CAttribute.attribute;
 import module.character.constants.CSpecialStatus;
 import module.character.constants.CSpecialStatus.specialStatus;
 import module.character.constants.CStatus.status;
+import module.item.ItemList;
 import module.item.api.IEquipment;
+import module.map.api.IRoom;
 import module.server.PlayerServer;
 import module.utility.NpcActionUtil;
 import module.utility.NpcBattleActionUtil;
@@ -29,13 +31,20 @@ public abstract class AbstractCharacter implements ICharacter{
 	protected String[] bodyPartList = null;
 	private int level = 1;
 	private boolean hostile = true;
+	private boolean inBattle = false;
+	private boolean talking = false;
+	private boolean inEvent = false;
+	private boolean isRespawn = false;
 	protected int timeCount = 0;
 	protected int updateCount = 0;
 
 	private String chiName = null;
 	private String engName = null;
 	private String description = null;
-	private Group myGroup = null;
+	
+	private ItemList itemList;
+	private IRoom initialRoom;
+	private IRoom atRoom;
 
 	public AbstractCharacter(String chiName, String engName) {
 		this.chiName = chiName;
@@ -50,6 +59,10 @@ public abstract class AbstractCharacter implements ICharacter{
 		statusMap.put(status.STRENGTH, 25);
 		statusMap.put(status.CONSTITUTION, 5);
 		equipMap = new ConcurrentHashMap<IEquipment.EquipType, IEquipment>();
+		
+		itemList = new ItemList();
+		initialRoom = null;
+		atRoom = null;
 	}
 
 	@Override
@@ -80,11 +93,6 @@ public abstract class AbstractCharacter implements ICharacter{
 	@Override
 	public int getMaxAttribute(attribute atr) {
 		return attributeMap.get(atr).getMax();
-	}
-
-	@Override
-	public Group getMyGroup() {
-		return myGroup;
 	}
 
 	@Override
@@ -135,11 +143,6 @@ public abstract class AbstractCharacter implements ICharacter{
 	@Override
 	public void setMaxAttribute(attribute atr, int value) {
 		attributeMap.get(atr).setMax(value);
-	}
-
-	@Override
-	public void setMyGroup(Group g) {
-		this.myGroup = g;
 	}
 
 	@Override
@@ -198,14 +201,14 @@ public abstract class AbstractCharacter implements ICharacter{
 		
 		if (timeCount == 10) {
 			int ddd = PlayerServer.getRandom().nextInt(10);
-			if (ddd < 7) NpcActionUtil.randomMove(this.getMyGroup());
+			if (ddd < 7) NpcActionUtil.randomMove(this);
 			timeCount = 0;
 		}
 		
 		// auto attack player group
 		if (this.getHostile()){
 			int ddd = PlayerServer.getRandom().nextInt(10);
-			if (ddd < 7) NpcActionUtil.attackRandomPlayerGroup(this);
+			if (ddd < 7) NpcActionUtil.attackRandomPlayer(this);
 		}
 	}
 
@@ -231,9 +234,9 @@ public abstract class AbstractCharacter implements ICharacter{
 	}
 	
 	@Override
-	public void onTalk(PlayerGroup g){
-		g.getAtRoom().informRoom(String.format("%s嘗試要和%s交談，但%s看來不想理他。\n", 
-				g.list.get(0).charList.get(0).getChiName(), this.getChiName(), this.getChiName()));
+	public void onTalk(ICharacter c){
+		c.getAtRoom().informRoom(String.format("%s嘗試要和%s交談，但%s看來不想理他。\n", 
+				c.getChiName(), this.getChiName(), this.getChiName()));
 	}
 	
 	@Override
@@ -282,13 +285,13 @@ public abstract class AbstractCharacter implements ICharacter{
 	}
 
 	@Override
-	public boolean battleAction(GroupList enemyGroup) {
-		NpcBattleActionUtil.randomAttack(this, enemyGroup);
+	public boolean battleAction(CharList enemyList) {
+		//NpcBattleActionUtil.randomAttack(this, enemyList);
 		return true;
 	}
 	
 	@Override
-	public void doEventWhenGroupDown(PlayerGroup pg){
+	public void doEventWhenGroupDown(PlayerCharacter pg){
 		// do nothing default
 		return;
 	}
@@ -312,5 +315,70 @@ public abstract class AbstractCharacter implements ICharacter{
 	@Override
 	public boolean resistSpecialStatus(CSpecialStatus.specialStatus ss){
 		return this.resistSpecialStatusSet.contains(ss);
+	}
+	
+	@Override
+	public ItemList getInventory() {
+		return this.itemList;
+	}
+	
+	@Override
+	public IRoom getAtRoom() {
+		return this.atRoom;
+	}
+	
+	@Override
+	public void setAtRoom(IRoom r) {
+		this.atRoom = r;
+	}
+	
+	@Override
+	public void setInitialRoom(IRoom r) {
+		this.initialRoom = r;
+	}
+	
+	@Override
+	public IRoom getInitialRoom() {
+		return this.initialRoom;
+	}
+	
+	@Override
+	public void setInBattle(boolean value) {
+		this.inBattle = value;
+	}
+	
+	@Override
+	public boolean getInBattle() {
+		return this.inBattle;
+	}
+	
+	@Override
+	public void setTalking(boolean value) {
+		this.talking = value;
+	}
+	
+	@Override
+	public boolean getTalking() {
+		return this.talking;
+	}
+	
+	@Override
+	public void setInEvent(boolean value) {
+		this.inEvent = value;
+	}
+	
+	@Override
+	public boolean getInEvent() {
+		return this.inEvent;
+	}
+	
+	@Override
+	public void setIsRespawn(boolean value) {
+		this.isRespawn = value;
+	}
+	
+	@Override
+	public boolean getIsRespawn() {
+		return this.isRespawn;
 	}
 }

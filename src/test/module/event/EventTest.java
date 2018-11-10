@@ -1,8 +1,8 @@
 package test.module.event;
 
 import static org.junit.Assert.assertTrue;
-import module.character.Group;
-import module.character.PlayerGroup;
+import module.character.ICharacter;
+import module.character.PlayerCharacter;
 import module.character.instance.chapter0.DingDing;
 import module.character.instance.main.Enf;
 import module.client.ClientUser;
@@ -26,7 +26,7 @@ import org.junit.Test;
 public class EventTest {
 	private PlayerServer singletonServer;
 	private ClientUser oneUser;
-	private PlayerGroup pg = null;
+	private PlayerCharacter pg = null;
 	
 	@Before
 	public void initialize(){
@@ -44,9 +44,9 @@ public class EventTest {
 			e.printStackTrace();
 		}
 		
-		pg = new PlayerGroup(new Enf());
+		pg = new PlayerCharacter(new Enf());
 		
-		PlayerServer.pList.get(0).setGroup(pg);
+		PlayerServer.pList.get(0).setPlayer(pg);
 		pg.setOutToClient(PlayerServer.pList.get(0).getOutToClient());
 		pg.setInFromClient(PlayerServer.pList.get(0).getInFromClient());
 		
@@ -86,7 +86,7 @@ public class EventTest {
 		start.getGroupList().gList.add(pg);
 		
 		// set player group to system time
-		PlayerServer.getSystemTime().addGroup(pg);
+		PlayerServer.getSystemTime().addCharacter(pg);
 		
 		String[] msg = {"look"};
 		CommandServer.readCommand(pg, msg);

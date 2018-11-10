@@ -3,13 +3,14 @@ package module.character.api;
 import java.io.Serializable;
 import java.util.concurrent.ConcurrentHashMap;
 
-import module.character.Group;
-import module.character.GroupList;
-import module.character.PlayerGroup;
+import module.character.CharList;
+import module.character.PlayerCharacter;
 import module.character.constants.CAttribute;
 import module.character.constants.CSpecialStatus;
 import module.character.constants.CStatus;
+import module.item.ItemList;
 import module.item.api.IEquipment;
+import module.map.api.IRoom;
 import module.time.api.Updatable;
 
 public interface ICharacter extends Updatable, Serializable{
@@ -55,11 +56,15 @@ public interface ICharacter extends Updatable, Serializable{
 	boolean resistSpecialStatus(CSpecialStatus.specialStatus ss);
 	
 	// battle action, true = done the action, false = not yet
-	boolean battleAction(GroupList enemyGroup);
+	boolean battleAction(CharList enemyList);
 	boolean isDown();  // true if the character is not able to fight anymore.
-	void doEventWhenGroupDown(PlayerGroup pg); // do events when the belong group is down
+	void doEventWhenGroupDown(PlayerCharacter pg); // do events when the belong group is down
 	String getRandomBodyPart();
 	String getBareHandAttackMessage();
+	void setInBattle(boolean value);
+	boolean getInBattle();
+	void setIsRespawn(boolean value);
+	boolean getIsRespawn();
 	
 	// auto attack player group or not
 	void setHostile(boolean value);
@@ -76,16 +81,25 @@ public interface ICharacter extends Updatable, Serializable{
 	// normal action when is not in battle
 	void normalAction();
 	
-	// get my group
-	Group getMyGroup();
-	void setMyGroup(Group g);
+	// other info
+	ItemList getInventory();
+	void setAtRoom(IRoom r);
+	IRoom getAtRoom();
 	
 	// show status
 	String showStatus();
 	
 	// react with others
-	void onTalk(PlayerGroup g);
+	void onTalk(ICharacter c);
+	void setTalking(boolean value);
+	boolean getTalking();
+	void setInEvent(boolean value);
+	boolean getInEvent();
 	
 	// left items when dead
 	void looting();
+	
+	// location
+	void setInitialRoom(IRoom r);
+	IRoom getInitialRoom();
 }

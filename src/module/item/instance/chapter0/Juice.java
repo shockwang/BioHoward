@@ -1,6 +1,5 @@
 package module.item.instance.chapter0;
 
-import module.character.Group;
 import module.character.api.ICharacter;
 import module.character.constants.CAttribute.attribute;
 import module.item.useable.AbstractUsableItem;
@@ -22,8 +21,6 @@ public class Juice extends AbstractUsableItem{
 	
 	@Override
 	public boolean onUse(ICharacter src) {
-		Group g = src.getMyGroup();
-		
 		if (super.onUse(src)){
 			StringBuffer buf = new StringBuffer();
 			buf.append(src.getChiName() + "喝了一口果汁，");
@@ -32,7 +29,7 @@ public class Juice extends AbstractUsableItem{
 			else
 				buf.append("但什麼事都沒發生。\n");
 			
-			g.getAtRoom().informRoom(buf.toString());
+			src.getAtRoom().informRoom(buf.toString());
 			count++;
 			checkEmpty(src);
 			return true;
@@ -42,8 +39,6 @@ public class Juice extends AbstractUsableItem{
 	
 	@Override
 	public boolean onUse(ICharacter src, ICharacter target) {
-		Group g = src.getMyGroup();
-		
 		if (super.onUse(src)){
 			if (src == target) return this.onUse(src);
 			
@@ -54,7 +49,7 @@ public class Juice extends AbstractUsableItem{
 			else
 				buf.append("但什麼事都沒發生。\n");
 			
-			g.getAtRoom().informRoom(buf.toString());
+			src.getAtRoom().informRoom(buf.toString());
 			count++;
 			checkEmpty(src);
 			return true;
@@ -69,9 +64,9 @@ public class Juice extends AbstractUsableItem{
 	
 	private void checkEmpty(ICharacter src){
 		if (count >= 15){
-			src.getMyGroup().getAtRoom().informRoom(String.format("杯子裡的果汁喝完了，%s隨手扔掉了它。\n", 
+			src.getAtRoom().informRoom(String.format("杯子裡的果汁喝完了，%s隨手扔掉了它。\n", 
 					src.getChiName()));
-			src.getMyGroup().getInventory().removeItem(this);
+			src.getInventory().removeItem(this);
 		}
 	}
 }

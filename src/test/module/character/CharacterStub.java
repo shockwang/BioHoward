@@ -2,9 +2,9 @@ package test.module.character;
 
 import java.util.concurrent.ConcurrentHashMap;
 
-import module.character.Group;
+import module.character.ICharacter;
 import module.character.GroupList;
-import module.character.PlayerGroup;
+import module.character.PlayerCharacter;
 import module.character.api.ICharacter;
 import module.character.api.IntPair;
 import module.character.constants.CAttribute.attribute;
@@ -142,13 +142,13 @@ public class CharacterStub implements ICharacter{
 	}
 
 	@Override
-	public Group getMyGroup() {
+	public ICharacter getMyGroup() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void setMyGroup(Group g) {
+	public void setMyGroup(ICharacter g) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -190,7 +190,7 @@ public class CharacterStub implements ICharacter{
 	}
 
 	@Override
-	public void onTalk(PlayerGroup g) {
+	public void onTalk(PlayerCharacter g) {
 		// TODO Auto-generated method stub
 	}
 
@@ -237,7 +237,7 @@ public class CharacterStub implements ICharacter{
 	}
 
 	@Override
-	public void doEventWhenGroupDown(PlayerGroup pg) {
+	public void doEventWhenGroupDown(PlayerCharacter pg) {
 		// TODO Auto-generated method stub
 		
 	}

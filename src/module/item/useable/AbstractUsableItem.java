@@ -15,7 +15,7 @@ public abstract class AbstractUsableItem extends AbstractItem implements IUseabl
 	public boolean onUse(ICharacter src) {
 		if (src.getLevel() >= this.getLevel()) return true;
 		else {
-			CommandServer.informGroup(src.getMyGroup(), String.format("%sパ单ぃì礚猭ㄏノ%s!\n", 
+			CommandServer.informCharacter(src.getMyGroup(), String.format("%sパ单ぃì礚猭ㄏノ%s!\n", 
 					src.getChiName(), this.getChiName()));
 			return false;
 		}
@@ -25,7 +25,7 @@ public abstract class AbstractUsableItem extends AbstractItem implements IUseabl
 	public boolean onUse(ICharacter src, ICharacter target) {
 		if (src.getLevel() >= this.getLevel()) return true;
 		else {
-			CommandServer.informGroup(src.getMyGroup(), String.format("%sパ单ぃì礚猭ㄏノ%s!\n", 
+			CommandServer.informCharacter(src.getMyGroup(), String.format("%sパ单ぃì礚猭ㄏノ%s!\n", 
 					src.getChiName(), this.getChiName()));
 			return false;
 		}

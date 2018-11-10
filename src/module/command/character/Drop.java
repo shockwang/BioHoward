@@ -1,6 +1,5 @@
 package module.command.character;
 
-import module.character.Group;
 import module.character.api.ICharacter;
 import module.command.CommandServer;
 import module.command.api.ICommand;
@@ -24,43 +23,40 @@ public class Drop implements ICommand {
 
 	@Override
 	public boolean action(ICharacter c, String[] command) {
-		Group g = c.getMyGroup();
-
-		synchronized (g.getAtRoom()) {
-			if (command.length == 2) {
-				CommandServer.informGroup(g, "你想讓" + c.getChiName()
-						+ "丟下什麼呢?\n");
+		synchronized (c.getAtRoom()) {
+			if (command.length == 1) {
+				CommandServer.informCharacter(c, "你想丟下什麼呢?\n");
 				return false;
 			}
 
-			if (g.getInBattle()) {
-				if (command[2].equals("all")) {
-					CommandServer.informGroup(g, "你正在戰鬥中，無法一次丟下多個物品。\n");
+			if (c.getInBattle()) {
+				if (command[1].equals("all")) {
+					CommandServer.informCharacter(c, "你正在戰鬥中，無法一次丟下多個物品。\n");
 					return false;
 				}
 
-				IItem obj = g.getInventory().findItem(command[2]);
+				IItem obj = c.getInventory().findItem(command[1]);
 				if (obj != null) {
-					dropSingleItem(c, g, obj);
+					dropSingleItem(c, obj);
 					return true;
 				} else
-					CommandServer.informGroup(g, "你身上沒有想丟的東西。\n");
+					CommandServer.informCharacter(c, "你身上沒有想丟的東西。\n");
 			} else {
 				IItem obj = null;
-				if (command[2].equals("all")) {
-					while (g.getInventory().itemList.size() > 0) {
-						obj = g.getInventory().itemList.get(0).findItem(0);
-						dropSingleItem(c, g, obj);
+				if (command[1].equals("all")) {
+					while (c.getInventory().itemList.size() > 0) {
+						obj = c.getInventory().itemList.get(0).findItem(0);
+						dropSingleItem(c, obj);
 					}
-					CommandServer.informGroup(g, "OK.\n");
+					CommandServer.informCharacter(c, "OK.\n");
 					return false;
 				}
 
-				obj = g.getInventory().findItem(command[2]);
+				obj = c.getInventory().findItem(command[1]);
 				if (obj != null) {
-					dropSingleItem(c, g, obj);
+					dropSingleItem(c, obj);
 				} else
-					CommandServer.informGroup(g, "你身上沒有想丟的東西。\n");
+					CommandServer.informCharacter(c, "你身上沒有想丟的東西。\n");
 			}
 			return false;
 		}
@@ -75,13 +71,18 @@ public class Drop implements ICommand {
 		return output;
 	}
 
-	private void dropSingleItem(ICharacter c, Group g, IItem obj) {
-		g.getInventory().removeItem(obj);
-		g.getAtRoom().getItemList().addItem(obj);
-		g.getAtRoom().informRoom(
+	private void dropSingleItem(ICharacter c, IItem obj) {
+		c.getInventory().removeItem(obj);
+		c.getAtRoom().getItemList().addItem(obj);
+		c.getAtRoom().informRoom(
 				c.getChiName() + "丟下了" + obj.getChiName() + "。\n");
 		obj.setTTL(0);
-		obj.setAtRoom(g.getAtRoom());
+		obj.setAtRoom(c.getAtRoom());
 		PlayerServer.getSystemTime().addItem(obj);
+	}
+
+	@Override
+	public int getEnergyCost() {
+		return 50;
 	}
 }

@@ -4,9 +4,9 @@ import static org.junit.Assert.assertTrue;
 import module.battle.BattleTask;
 import module.character.BaseHumanCharacter;
 import module.character.CharList;
-import module.character.Group;
+import module.character.ICharacter;
 import module.character.GroupList;
-import module.character.PlayerGroup;
+import module.character.PlayerCharacter;
 import module.character.api.ICharacter;
 import module.character.constants.CAttribute.attribute;
 import module.character.constants.CStatus.status;
@@ -92,10 +92,10 @@ public class BattleTaskTest {
 			e.printStackTrace();
 		}
 		
-		Group g1 = new Group(new CharForTest("小明", "min"){
+		ICharacter g1 = new ICharacter(new CharForTest("小明", "min"){
 			
 			@Override
-			public void onTalk(PlayerGroup g) {
+			public void onTalk(PlayerCharacter g) {
 				TestMission testM = null;
 				testM = (TestMission) PlayerServer.getMissionMap().get(TestMission.class.toString());
 				StringBuffer buf = new StringBuffer();
@@ -143,7 +143,7 @@ public class BattleTaskTest {
 		g1.findChar("hua", 0).addAttribute(attribute.HP, 50);
 		g1.findChar("hua").setDesc("就是小華。");
 		
-		Group g2 = new PlayerGroup(new CharForTest("霍華", "enf"){
+		ICharacter g2 = new PlayerCharacter(new CharForTest("霍華", "enf"){
 			@Override
 			public boolean battleAction(GroupList gList){
 				return false;
@@ -156,9 +156,9 @@ public class BattleTaskTest {
 			}
 		}
 		
-		Group g3 = new Group(new CharForTest("小美", "mei"){
+		ICharacter g3 = new ICharacter(new CharForTest("小美", "mei"){
 			@Override
-			public void onTalk(PlayerGroup g){
+			public void onTalk(PlayerCharacter g){
 				String result = null;
 				
 				TestMission testM = (TestMission) PlayerServer.getMissionMap().get(
@@ -180,8 +180,8 @@ public class BattleTaskTest {
 		g3.findChar("mei").setMyGroup(g3);
 		g3.findChar("mei").setDesc("就是小美。");
 		
-		PlayerServer.pList.get(0).setGroup((PlayerGroup) g2);
-		PlayerGroup playerG = (PlayerGroup) g2;
+		PlayerServer.pList.get(0).setPlayer((PlayerCharacter) g2);
+		PlayerCharacter playerG = (PlayerCharacter) g2;
 		playerG.setOutToClient(PlayerServer.pList.get(0).getOutToClient());
 		playerG.setInFromClient(PlayerServer.pList.get(0).getInFromClient());
 		//playerG.getConfigData().put(config.REALTIMEBATTLE, true);
@@ -220,7 +220,7 @@ public class BattleTaskTest {
 		start.getGroupList().gList.add(g2);
 		
 		// add roommate
-		Group ggg = new Group(new Roommate());
+		ICharacter ggg = new ICharacter(new Roommate());
 		for (CharList cList : ggg.list){
 			for (ICharacter c : cList.charList)
 				c.setMyGroup(ggg);
@@ -234,8 +234,8 @@ public class BattleTaskTest {
 		
 		// add for GlobalTime test
 		//PlayerServer.getSystemTime().addGroup(g1);
-		PlayerServer.getSystemTime().addGroup(g2);
-		PlayerServer.getSystemTime().addGroup(ggg);
+		PlayerServer.getSystemTime().addCharacter(g2);
+		PlayerServer.getSystemTime().addCharacter(ggg);
 		//PlayerServer.getSystemTime().addGroup(g3);
 		// add end
 		

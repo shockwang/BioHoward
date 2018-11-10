@@ -1,6 +1,5 @@
 package module.command.character;
 
-import module.character.Group;
 import module.character.api.ICharacter;
 import module.command.CommandServer;
 import module.command.api.ICommand;
@@ -29,41 +28,39 @@ public class Close implements ICommand{
 
 	@Override
 	public boolean action(ICharacter c, String[] command) {
-		Group g = c.getMyGroup();
-		
-		if (command.length == 2){
-			CommandServer.informGroup(g, "你想讓" + c.getChiName() + "關上什麼呢?\n");
+		if (command.length == 1){
+			CommandServer.informCharacter(c, "你想關上什麼呢?\n");
 			return false;
 		}
 		
 		// exit case
-		exit direction = MoveUtil.getWay(command[2]);
+		exit direction = MoveUtil.getWay(command[1]);
 		if (direction != null){
 			try {
-				IDoor targetDoor = g.getAtRoom().getExits().get(direction).getDoor();
+				IDoor targetDoor = c.getAtRoom().getExits().get(direction).getDoor();
 				synchronized (targetDoor){
 					switch (targetDoor.getDoorStatus()){
 					case CLOSED: case LOCKED:
-						CommandServer.informGroup(g, "這個方向的門已經是關著的了。\n");
+						CommandServer.informCharacter(c, "這個方向的門已經是關著的了。\n");
 						break;
 					case OPENED:
 						if (targetDoor.getDoorAttribute() == doorAttribute.BROKEN){
-							CommandServer.informGroup(g, "這個方向的門壞掉了，關不起來。\n");
+							CommandServer.informCharacter(c, "這個方向的門壞掉了，關不起來。\n");
 							return false;
 						}
 						targetDoor.setDoorStatus(doorStatus.CLOSED);
-						g.getAtRoom().informRoom(c.getChiName() + "關上了" + direction.chineseName + "方的門。\n");
-						if (g.getInBattle()) return true;
+						c.getAtRoom().informRoom(c.getChiName() + "關上了" + direction.chineseName + "方的門。\n");
+						if (c.getInBattle()) return true;
 					}
 				}
 			} catch (NullPointerException e){
-				CommandServer.informGroup(g, "這個方向沒有門喔。\n");
+				CommandServer.informCharacter(c, "這個方向沒有門喔。\n");
 			}
 			return false;
 		} 
 		
 		// container case
-		IContainer container = ItemUtil.checkIsContainer(g, g.getAtRoom().getItemList(), command[2]);
+		IContainer container = ItemUtil.checkIsContainer(c, c.getAtRoom().getItemList(), command[1]);
 		if (container != null){
 			if (container.onClose(c)) return true;
 		}
@@ -78,6 +75,11 @@ public class Close implements ICommand{
 		output += HelpUtil.getHelp("resources/help/chooseTeammate.help");
 		
 		return output;
+	}
+
+	@Override
+	public int getEnergyCost() {
+		return 50;
 	}
 
 }

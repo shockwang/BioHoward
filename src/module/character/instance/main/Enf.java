@@ -1,8 +1,8 @@
 package module.character.instance.main;
 
 import module.character.BaseHumanCharacter;
-import module.character.GroupList;
-import module.character.PlayerGroup;
+import module.character.CharList;
+import module.character.api.ICharacter;
 import module.character.constants.CAttribute.attribute;
 import module.character.constants.CStatus.status;
 import module.command.CommandServer;
@@ -34,12 +34,12 @@ public class Enf extends BaseHumanCharacter{
 	}
 
 	@Override
-	public boolean battleAction(GroupList gList){
+	public boolean battleAction(CharList enemyList){
 		return false;
 	}
 	
 	@Override
-	public void onTalk(PlayerGroup g){
-		CommandServer.informGroup(g, "霍華突然開始自言自語，莫非是腦袋出問題了?\n");
+	public void onTalk(ICharacter c){
+		CommandServer.informCharacter(c, "霍華突然開始自言自語，莫非是腦袋出問題了?\n");
 	}
 }

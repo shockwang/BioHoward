@@ -31,7 +31,7 @@ public class Speaker extends AbstractWeapon{
 			msg += target.getChiName() + "受到了" + damage + "點傷害。\n";
 			target.setCurrentAttribute(attribute.HP, 
 					target.getCurrentAttribute(attribute.HP) - damage);
-			src.getMyGroup().getAtRoom().informRoom(msg);
+			src.getAtRoom().informRoom(msg);
 		}
 	}
 

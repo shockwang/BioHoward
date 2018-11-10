@@ -1,17 +1,17 @@
 package module.time;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import module.character.Group;
-import module.character.GroupList;
+import module.character.api.ICharacter;
 import module.item.api.IItem;
 
 public class GlobalTime extends TimerTask{
 	private Timer timer = null;
 	public static boolean isExists = false;
-	private GroupList groupList = null;
+	private List<ICharacter> charList = null;
 	private int year, month, day, hour, minute;
 	private ArrayList<IItem> groundItemList = null;
 	
@@ -19,7 +19,7 @@ public class GlobalTime extends TimerTask{
 		if (isExists) return;
 		isExists = true;
 		
-		groupList = new GroupList();
+		charList = new ArrayList<ICharacter>();
 		groundItemList = new ArrayList<IItem>();
 		year = 2007;
 		month = 9;
@@ -28,12 +28,12 @@ public class GlobalTime extends TimerTask{
 		minute = 9;
 	}
 	
-	public void addGroup(Group g){
-		this.groupList.gList.add(g);
+	public void addCharacter(ICharacter c){
+		this.charList.add(c);
 	}
 	
-	public void removeGroup(Group g){
-		this.groupList.gList.remove(g);
+	public void removeCharacter(ICharacter c){
+		this.charList.remove(c);
 	}
 	
 	public void addItem(IItem obj){
@@ -99,8 +99,8 @@ public class GlobalTime extends TimerTask{
 	
 	private void updateObject(){
 		try {
-			for (Group g : groupList.gList) {
-				if (!g.getInBattle() && !g.getTalking() && !g.getInEvent()) g.updateTime();
+			for (ICharacter c : charList) {
+				if (!c.getInBattle() && !c.getTalking() && !c.getInEvent()) c.updateTime();
 			}
 			
 			// update item timer to check if expired
@@ -123,7 +123,7 @@ public class GlobalTime extends TimerTask{
 				}
 				else i++;
 			}
-		} catch (NullPointerException e){
+		} catch (NullPointerException e) {
 			// no content, just return
 			e.printStackTrace();
 		} catch (Exception e) {

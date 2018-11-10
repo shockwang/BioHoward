@@ -3,7 +3,8 @@ package module.character.instance.chapter0;
 import module.battle.BattleTask;
 import module.battle.chapter0.FirstTutorialBattle;
 import module.character.BaseHumanCharacter;
-import module.character.PlayerGroup;
+import module.character.PlayerCharacter;
+import module.character.api.ICharacter;
 import module.character.constants.CAttribute.attribute;
 import module.character.constants.CConfig.config;
 import module.mission.chapter0.MainMission;
@@ -27,17 +28,17 @@ public class Roommate extends BaseHumanCharacter{
 	}
 	
 	@Override
-	public void onTalk(PlayerGroup g){
-		EventUtil.executeEventMessage(g, "talk_to_roommate");
+	public void onTalk(ICharacter c){
+		EventUtil.executeEventMessage(c, "talk_to_roommate");
 		if (g.getConfigData().get(config.TUTORIAL_ON)){
-			EventUtil.executeEventMessage(g, "battle_tutorial");
+			EventUtil.executeEventMessage(c, "battle_tutorial");
 			// TODO: add modify config method & explanation
 			// buf.append("此項設定的預設值為\"非即時戰鬥\"，你可以透過blabla修改它。");
 			new FirstTutorialBattle(this.getMyGroup(), g);
 		}
 		else {
 			new BattleTask(this.getMyGroup(), g);
-			g.setInEvent(false);
+			c.setInEvent(false);
 		}
 	}
 	
@@ -47,11 +48,11 @@ public class Roommate extends BaseHumanCharacter{
 	}
 	
 	@Override
-	public void doEventWhenGroupDown(PlayerGroup pg){
+	public void doEventWhenGroupDown(PlayerCharacter pc){
 		MainMission mm = (MainMission) PlayerServer.getMissionMap().get(MainMission.class.toString());
 		mm.setState(MainMission.State.AFTER_FIRST_BATTLE);
-		pg.setInBattle(false);
-		pg.setBattleTask(null);
-		EventUtil.doRoomEvent(pg);
+		pc.setInBattle(false);
+		pc.setBattleTask(null);
+		EventUtil.doRoomEvent(pc);
 	}
 }

@@ -1,8 +1,8 @@
 package module.event.api;
 
-import module.character.Group;
+import module.character.api.ICharacter;
 
 public interface IEvent {
-	boolean isTriggered(Group g);
-	void doEvent(Group g);
+	boolean isTriggered(ICharacter c);
+	void doEvent(ICharacter c);
 }

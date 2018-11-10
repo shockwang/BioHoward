@@ -8,8 +8,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.HashMap;
 
-import module.character.Group;
-import module.character.PlayerGroup;
+import module.character.PlayerCharacter;
+import module.character.api.ICharacter;
 import module.command.CommandServer;
 import module.event.api.IEvent;
 import module.event.api.IRoomCommand;
@@ -26,9 +26,9 @@ public class EventUtil {
 	public static HashMap<String, JSONArray> eventMessageMap = new HashMap<String, JSONArray>();
 	private static JSONParser parser = new JSONParser();
 	
-	public static boolean triggerRoomEvent(Group g){
+	public static boolean triggerRoomEvent(ICharacter c){
 		try {
-			if (mapEventMap.get(g.getAtRoom().getPosition().toString()).isTriggered(g))
+			if (mapEventMap.get(c.getAtRoom().getPosition().toString()).isTriggered(c))
 				return true;
 		} catch (Exception e){
 			// do nothing
@@ -36,7 +36,7 @@ public class EventUtil {
 		return false;
 	}
 	
-	public static void doRoomEvent(Group g){
+	public static void doRoomEvent(ICharacter g){
 		mapEventMap.get(g.getAtRoom().getPosition().toString()).doEvent(g);
 	}
 	
@@ -45,21 +45,21 @@ public class EventUtil {
 		return;
 	}
 	
-	public static void informCheckReset(Group g, StringBuffer buf, BufferedReader in) throws SkipEventException{
+	public static void informCheckReset(ICharacter g, StringBuffer buf, BufferedReader in) throws SkipEventException{
 		g.getAtRoom().informRoom(buf.toString() + "<ENTER>\n");
 		checkSkipEvent(IOUtil.readLineFromClientSocket(in));
 		buf.setLength(0);
 	}
 	
-	public static void informReset(Group g, StringBuffer buf, BufferedReader in){
+	public static void informReset(ICharacter g, StringBuffer buf, BufferedReader in){
 		g.getAtRoom().informRoom(buf.toString() + "<ENTER>\n");
 		IOUtil.readLineFromClientSocket(in);
 		buf.setLength(0);
 	}
 	
-	public static boolean doRoomCommand(Group g, String[] msg){
-		IRoomCommand r = mapCommandMap.get(g.getAtRoom().getPosition().toString());
-		if (r != null) return r.roomSpecialCommand(g, msg);
+	public static boolean doRoomCommand(ICharacter c, String[] msg){
+		IRoomCommand r = mapCommandMap.get(c.getAtRoom().getPosition().toString());
+		if (r != null) return r.roomSpecialCommand(c, msg);
 		return false;
 	}
 	
@@ -87,7 +87,7 @@ public class EventUtil {
 		}
 	}
 	
-	public static void executeEventMessage(PlayerGroup pg, String eventName){
+	public static void executeEventMessage(PlayerCharacter pg, String eventName){
 		BufferedReader in = pg.getInFromClient();
 		StringBuffer buf = new StringBuffer();
 		
@@ -101,7 +101,7 @@ public class EventUtil {
 			try {
 				informCheckReset(pg, buf, in);
 			} catch (SkipEventException e) {
-				CommandServer.informGroup(pg, "跳過劇情。\n");
+				CommandServer.informCharacter(pg, "跳過劇情。\n");
 				return;
 			}
 		}

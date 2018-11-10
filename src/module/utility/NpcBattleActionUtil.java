@@ -1,8 +1,6 @@
 package module.utility;
 
 import module.character.CharList;
-import module.character.Group;
-import module.character.GroupList;
 import module.character.api.ICharacter;
 import module.command.CommandServer;
 import module.server.PlayerServer;
@@ -11,7 +9,7 @@ public class NpcBattleActionUtil {
 	public static void randomAttack(ICharacter c, GroupList enemyGroup){
 		// totally random choose
 		int charNum = 0;
-		for (Group gg : enemyGroup.gList){
+		for (ICharacter gg : enemyGroup.gList){
 			for (CharList cList : gg.list){
 				charNum += cList.charList.size();
 			}
@@ -32,7 +30,7 @@ public class NpcBattleActionUtil {
 	
 	public static String[] locateTargetCommand(GroupList targetG, int index){
 		int groupId = 1, charId = 1, count = 0;
-		for (Group gg : targetG.gList){
+		for (ICharacter gg : targetG.gList){
 			for (CharList cList : gg.list){
 				for (ICharacter cc : cList.charList){
 					if (count == index){
@@ -44,7 +42,7 @@ public class NpcBattleActionUtil {
 						} else {
 							// check how many same group name before target group
 							int duplicate = 1, gCount = 1;
-							for (Group ggg : gg.getAtRoom().getGroupList().gList){
+							for (ICharacter ggg : gg.getAtRoom().getGroupList().gList){
 								if (gCount == groupId) break;
 								if (ggg.getEngName().equals(cc.getMyGroup().getEngName()))
 									duplicate++;

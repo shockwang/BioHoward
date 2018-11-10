@@ -2,52 +2,44 @@ package module.command;
 
 import java.util.ArrayList;
 
-import module.character.CharList;
-import module.character.Group;
-import module.character.PlayerGroup;
+import module.character.PlayerCharacter;
 import module.character.api.ICharacter;
-import module.character.constants.CConfig.config;
 import module.command.api.ICommand;
-import module.command.api.IndexStringPair;
 import module.command.character.Attack;
 import module.command.character.Close;
 import module.command.character.Drop;
 import module.command.character.Equipment;
 import module.command.character.Flee;
 import module.command.character.Get;
+import module.command.character.Inventory;
 import module.command.character.Lock;
+import module.command.character.Look;
+import module.command.character.Mission;
+import module.command.character.Move;
+import module.command.character.MyTime;
 import module.command.character.Open;
 import module.command.character.Put;
+import module.command.character.Quit;
 import module.command.character.Remove;
+import module.command.character.Say;
+import module.command.character.Talk;
 import module.command.character.Unlock;
 import module.command.character.Use;
 import module.command.character.Wear;
-import module.command.group.Inventory;
-import module.command.group.Look;
-import module.command.group.Mission;
-import module.command.group.Move;
-import module.command.group.MyTime;
-import module.command.group.Quit;
-import module.command.group.Talk;
-import module.utility.BattleUtil;
 import module.utility.EnDecoder;
 import module.utility.EventUtil;
-import module.utility.Parse;
 
 public class CommandServer {
 	// class for all creatures in the game to interact with the world, all
 	// methods should be static.
-	// TODO: define the class
 	private static ArrayList<ICommand> cmdList;
-	private static ArrayList<ICommand> groupCmdList;
 
 	public static void initialize() {
 		// add all the available commands into the map
 		cmdList = new ArrayList<ICommand>();
-		groupCmdList = new ArrayList<ICommand>();
 
-		cmdList.add(new Attack());
-		cmdList.add(new Flee());
+		//cmdList.add(new Attack());
+		//cmdList.add(new Flee());
 		cmdList.add(new Get());
 		cmdList.add(new Drop());
 		cmdList.add(new Equipment());
@@ -58,33 +50,33 @@ public class CommandServer {
 		cmdList.add(new Lock());
 		cmdList.add(new Unlock());
 		cmdList.add(new Put());
-		cmdList.add(new Use());
+		//cmdList.add(new Use());
 
-		groupCmdList.add(new Move());
-		groupCmdList.add(new Look());
-		groupCmdList.add(new MyTime());
-		groupCmdList.add(new Talk());
-		groupCmdList.add(new Inventory());
-		groupCmdList.add(new Mission());
-		groupCmdList.add(new Quit());
+		cmdList.add(new Move());
+		cmdList.add(new Look());
+		cmdList.add(new MyTime());
+		cmdList.add(new Talk());
+		cmdList.add(new Inventory());
+		cmdList.add(new Mission());
+		cmdList.add(new Quit());
+		
+		cmdList.add(new Say());
 	}
 
-	public static void readCommand(Group g, String[] msg) {
+	public static void readCommand(ICharacter c, String[] msg) {
 		// execute room special command
-		if (EventUtil.doRoomCommand(g, msg)) return;
+		if (EventUtil.doRoomCommand(c, msg)) return;
 
 		if (msg[0].equals("help")) {
 			if (msg.length == 1) {
 				// show the top help page
-				informGroup(g, "Top help page.\n");
-				informGroup(g, showTopHelpPage());
+				informCharacter(c, "Top help page.\n");
+				informCharacter(c, showTopHelpPage());
 				return;
 			}
 			String output = null;
 			try {
 				ICommand target = searchCommand(msg[1], cmdList);
-				if (target == null)
-					target = searchCommand(msg[1], groupCmdList);
 				output = target.getHelp();
 				if (output == null)
 					output = "尚未實作該指令的簡介。\n";
@@ -93,79 +85,29 @@ public class CommandServer {
 			} catch (NullPointerException e) {
 				output = "沒有針對這個指令的介紹.\n";
 			} finally {
-				informGroup(g, output);
+				informCharacter(c, output);
 			}
 			return;
 		}
 
-		// check group command first
+		// check command
 		try {
-			ICommand targetCmd = searchCommand(msg[0], groupCmdList);
-			targetCmd.action(g.list.get(0).charList.get(0), msg);
+			ICommand targetCmd = searchCommand(msg[0], cmdList);
+			boolean act = targetCmd.action(c, msg);
+			if (act && c.getInBattle()) {
+				// TODO: add energy cost
+			}
 			return;
 		} catch (IndexOutOfBoundsException e) {
+			e.printStackTrace();
 			// do nothing
 		} catch (NullPointerException e) {
+			e.printStackTrace();
 			// do nothing
 		}
-
-		// then deal with character command, if no char name assigned,
-		// the first group character will be chosen.
-		ICharacter targetChar = judgePlayerCharacterMove(g, msg);
-		if (targetChar == null) {
-			targetChar = g.list.get(0).charList.get(0);
-			String[] temp = new String[msg.length + 1];
-			temp[0] = targetChar.getEngName();
-			for (int i = 0; i < msg.length; i++)
-				temp[i + 1] = msg[i];
-			msg = temp;
-		}
-		if (targetChar != null) {
-			// character-bonded action, use cmdList
-			if (g.getInBattle()) {
-				// group is in battle
-				int current, max;
-				synchronized (g.getBattleTask().getTimeMap()) {
-					current = g.getBattleTask().getTimeMap().get(targetChar)
-							.getCurrent();
-					max = g.getBattleTask().getTimeMap().get(targetChar)
-							.getMax();
-				}
-				if (current < max) {
-					informGroup(g, "你選擇的對象還沒準備好.\n");
-					return;
-				}
-
-			}
-			try {
-				ICommand targetCmd = searchCommand(msg[1], cmdList);
-				boolean movedInBattle = targetCmd.action(targetChar, msg);
-				if (movedInBattle && g.getInBattle()) {
-					// character has done its action, update the battle
-					// timer
-					
-					// show character condition
-					g.getAtRoom().informRoom(BattleUtil.showStatusInBattle(targetChar) + "\n");
-					synchronized (g.getBattleTask()) {
-						if (g instanceof PlayerGroup) {
-							PlayerGroup pg = (PlayerGroup) g;
-							if (pg.getConfigData().get(config.REALTIMEBATTLE) == false)
-								pg.getBattleTask().notify();
-						}
-						if (g.getBattleTask() != null)
-							g.getBattleTask().resetBattleTime(targetChar);
-					}
-				}
-			} catch (IndexOutOfBoundsException e) {
-				informGroup(g,
-						String.format("你想讓%s做什麼呢?\n", targetChar.getChiName()));
-			} catch (NullPointerException e) {
-				e.printStackTrace();
-				informGroup(g,
-						String.format("你想讓%s做什麼呢?\n", targetChar.getChiName()));
-			}
-			return;
-		}
+		
+		informCharacter(c, String.format("你想做什麼?\n"));
+		return;
 	}
 
 	private static ICommand searchCommand(String msg, ArrayList<ICommand> list) {
@@ -178,56 +120,37 @@ public class CommandServer {
 		return null;
 	}
 
-	public static void informGroup(Group g, String msg) {
-		if (g instanceof PlayerGroup) {
-			PlayerGroup g2 = (PlayerGroup) g;
-			EnDecoder.sendUTF8Packet(g2.getOutToClient(), msg);
+	public static void informCharacter(ICharacter c, String msg) {
+		String replacedMsg = msg.replace(c.getChiName(), "你");
+		if (c instanceof PlayerCharacter) {
+			PlayerCharacter pc = (PlayerCharacter) c;
+			EnDecoder.sendUTF8Packet(pc.getOutToClient(), replacedMsg);
 		} else {
 			// inform the NPC group about something
 			// do nothing first
 			// TODO: remove npc see mechanism, maybe add debug information?
-			//System.out.print(g.getChiName() + "看見: " + msg);
+			System.out.print(c.getEngName() + "看見: " + replacedMsg);
 		}
 	}
-
-	private static ICharacter judgePlayerCharacterMove(Group g, String[] input) {
-		try {
-			int index = Integer.parseInt(input[0]);
-			int count = 1;
-			for (CharList cList : g.list) {
-				for (ICharacter c : cList.charList) {
-					if (count == index)
-						return c;
-					count++;
-				}
-			}
-			return null;
-		} catch (Exception e) {
-			ICharacter target = null;
-			IndexStringPair pair = Parse.parseName(input[0]);
-			target = g.findChar(pair.name, pair.index);
-			return target;
+	
+	public static void informCharacterNoChange(ICharacter c, String msg) {
+		if (c instanceof PlayerCharacter) {
+			PlayerCharacter pc = (PlayerCharacter) c;
+			EnDecoder.sendUTF8Packet(pc.getOutToClient(), msg);
+		} else {
+			// inform the NPC group about something
+			// do nothing first
+			// TODO: remove npc see mechanism, maybe add debug information?
+			System.out.print(c.getEngName() + "看見: " + msg);
 		}
 	}
 
 	private static String showTopHelpPage() {
 		StringBuffer buf = new StringBuffer();
-		buf.append("團體指令：\n");
+		buf.append("指令列表：\n");
 
 		buf.append("north\tsouth\teast\twest\tup\ndown\t");
 		int index = 1;
-		while (index < groupCmdList.size()) {
-			buf.append(groupCmdList.get(index).getName()[0] + "\t");
-			index++;
-			if (index % 5 == 0)
-				buf.append("\n");
-		}
-		if (index % 5 != 0)
-			buf.append("\n");
-
-		buf.append("個人指令：\n");
-
-		index = 0;
 		while (index < cmdList.size()) {
 			buf.append(cmdList.get(index).getName()[0] + "\t");
 			index++;

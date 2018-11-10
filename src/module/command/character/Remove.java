@@ -2,7 +2,6 @@ package module.command.character;
 
 import java.util.Map.Entry;
 
-import module.character.Group;
 import module.character.api.ICharacter;
 import module.command.CommandServer;
 import module.command.api.ICommand;
@@ -26,27 +25,22 @@ public class Remove implements ICommand {
 
 	@Override
 	public boolean action(ICharacter c, String[] command) {
-		Group g = c.getMyGroup();
-
-		synchronized (g.getAtRoom()) {
-			if (command.length == 2) {
-				CommandServer.informGroup(g, "你想讓" + c.getChiName()
-						+ "卸下什麼呢?\n");
+		synchronized (c.getAtRoom()) {
+			if (command.length == 1) {
+				CommandServer.informCharacter(c, "你想卸下什麼呢?\n");
 				return false;
 			}
 
-			for (Entry<IEquipment.EquipType, IEquipment> entry : c
-					.getEquipment().entrySet()) {
-				if (Search
-						.searchName(entry.getValue().getEngName(), command[2])) {
+			for (Entry<IEquipment.EquipType, IEquipment> entry : c.getEquipment().entrySet()) {
+				if (Search.searchName(entry.getValue().getEngName(), command[1])) {
 					entry.getValue().onRemove(c);
-					if (g.getInBattle())
+					if (c.getInBattle())
 						return true;
 					else
 						return false;
 				}
 			}
-			CommandServer.informGroup(g, c.getChiName() + "並沒有穿著這件裝備。\n");
+			CommandServer.informCharacter(c, "你並沒有穿著這件裝備。\n");
 
 			return false;
 		}
@@ -58,6 +52,11 @@ public class Remove implements ICommand {
 		output += "\n";
 		output += HelpUtil.getHelp("resources/help/chooseTeammate.help");
 		return output;
+	}
+
+	@Override
+	public int getEnergyCost() {
+		return 50;
 	}
 
 }

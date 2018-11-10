@@ -1,8 +1,8 @@
-package module.command.group;
+package module.command.character;
 
 import java.io.IOException;
 
-import module.character.PlayerGroup;
+import module.character.PlayerCharacter;
 import module.character.api.ICharacter;
 import module.command.CommandServer;
 import module.command.api.ICommand;
@@ -24,18 +24,18 @@ public class Quit implements ICommand{
 
 	@Override
 	public boolean action(ICharacter c, String[] command) {
-		PlayerGroup pg = (PlayerGroup) c.getMyGroup();
+		PlayerCharacter pc = (PlayerCharacter) c;
 		
 		// TODO: add exit mechanism in the future
 		String check = "確定要離開遊戲嗎? <y/n>\n";
-		CommandServer.informGroup(pg, check);
-		String answer = IOUtil.readLineFromClientSocket(pg.getInFromClient());
+		CommandServer.informCharacter(pc, check);
+		String answer = IOUtil.readLineFromClientSocket(pc.getInFromClient());
 		if (!answer.equals("y")) {
-			CommandServer.informGroup(pg, "回到遊戲中。\n");
+			CommandServer.informCharacter(pc, "回到遊戲中。\n");
 			return false;
 		}
 		try {
-			pg.getOutToClient().close();
+			pc.getOutToClient().close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -48,6 +48,11 @@ public class Quit implements ICommand{
 	public String getHelp() {
 		String output = HelpUtil.getHelp("resources/help/quit.help");
 		return output;
+	}
+
+	@Override
+	public int getEnergyCost() {
+		return 0;
 	}
 
 }

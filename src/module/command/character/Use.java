@@ -1,8 +1,8 @@
 package module.command.character;
 
-import module.character.Group;
+import module.character.ICharacter;
 import module.character.GroupList;
-import module.character.PlayerGroup;
+import module.character.PlayerCharacter;
 import module.character.api.ICharacter;
 import module.command.CommandServer;
 import module.command.api.ICommand;
@@ -27,10 +27,10 @@ public class Use implements ICommand{
 
 	@Override
 	public boolean action(ICharacter c, String[] command) {
-		Group g = c.getMyGroup();
+		ICharacter g = c.getMyGroup();
 		
 		if (command.length == 2){
-			CommandServer.informGroup(g, String.format("你想讓%s使用什麼物品呢?\n", c.getChiName()));
+			CommandServer.informCharacter(g, String.format("你想讓%s使用什麼物品呢?\n", c.getChiName()));
 			return false;
 		} 
 		
@@ -40,8 +40,8 @@ public class Use implements ICommand{
 				IUseable objToUse = (IUseable) obj;
 				if (command.length == 3){
 					if (objToUse.onUse(c)) {
-						String out = "status:" + ((PlayerGroup) g).showGroupStatus();
-						CommandServer.informGroup(g, out);
+						String out = "status:" + ((PlayerCharacter) g).showGroupStatus();
+						CommandServer.informCharacter(g, out);
 						return true;
 					}
 				} else {
@@ -51,8 +51,8 @@ public class Use implements ICommand{
 					if (target != null){
 						boolean result = objToUse.onUse(c, target);
 						if (result) {
-							String out = "status:" + ((PlayerGroup) g).showGroupStatus();
-							CommandServer.informGroup(g, out);
+							String out = "status:" + ((PlayerCharacter) g).showGroupStatus();
+							CommandServer.informCharacter(g, out);
 						}
 						return result;
 					} else if (g.getInBattle()){
@@ -61,18 +61,18 @@ public class Use implements ICommand{
 						if (target != null){
 							boolean result = objToUse.onUse(c, target);
 							if (result) {
-								String out = "status:" + ((PlayerGroup) g).showGroupStatus();
-								CommandServer.informGroup(g, out);
+								String out = "status:" + ((PlayerCharacter) g).showGroupStatus();
+								CommandServer.informCharacter(g, out);
 							}
 							return result;
 						}
 					}
-					CommandServer.informGroup(g, "你想使用物品的對象不在這裡。\n");
+					CommandServer.informCharacter(g, "你想使用物品的對象不在這裡。\n");
 				}
 			} else
-				CommandServer.informGroup(g, "那樣物品不是可以使用的喔!\n");
+				CommandServer.informCharacter(g, "那樣物品不是可以使用的喔!\n");
 		} else
-			CommandServer.informGroup(g, "你身上並沒有那樣物品。\n");
+			CommandServer.informCharacter(g, "你身上並沒有那樣物品。\n");
 		return false;
 	}
 

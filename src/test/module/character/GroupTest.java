@@ -1,19 +1,19 @@
 package test.module.character;
 
-import module.character.Group;
+import module.character.ICharacter;
 import module.character.api.ICharacter;
 
 import org.junit.Before;
 import org.junit.Test;
 
 public class GroupTest {
-	private Group testGroup;
+	private ICharacter testGroup;
 	private ICharacter leader;
 	
 	@Before
 	public void setUp(){
 		leader = new CharacterStubName("³áÃü", "Tao");
-		testGroup = new Group(leader);
+		testGroup = new ICharacter(leader);
 	}
 	
 	@Test

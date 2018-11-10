@@ -3,7 +3,6 @@ package module.item;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import module.character.Group;
 import module.character.api.ICharacter;
 import module.character.constants.CAttribute.attribute;
 import module.character.constants.CStatus.status;
@@ -24,10 +23,8 @@ public class BaseEquipment extends AbstractItem implements IEquipment{
 	
 	@Override
 	public boolean onWear(ICharacter c){
-		Group g = c.getMyGroup();
-		
 		if (c.getLevel() < this.getLevel()){
-			g.getAtRoom().informRoom(String.format(
+			c.getAtRoom().informRoom(String.format(
 					"%s嘗試裝備%d, 但由於等級不足而失敗。\n", c.getChiName(), this.getChiName()));
 			return false;
 		} 
@@ -36,13 +33,13 @@ public class BaseEquipment extends AbstractItem implements IEquipment{
 		IEquipment oldEquip = equipMap.get(this.getEquipType());
 		if (oldEquip != null){
 			if (oldEquip.onRemove(c)) {
-				g.getAtRoom().informRoom(c.getChiName() + ItemUtil.wearMsg(this) + "\n");
-				g.getInventory().removeItem(this);
+				c.getAtRoom().informRoom(c.getChiName() + ItemUtil.wearMsg(this) + "\n");
+				c.getInventory().removeItem(this);
 				equipMap.put(this.getEquipType(), this);
 			} else return false;
 		} else {
-			g.getAtRoom().informRoom(c.getChiName() + ItemUtil.wearMsg(this) + "\n");
-			g.getInventory().removeItem(this);
+			c.getAtRoom().informRoom(c.getChiName() + ItemUtil.wearMsg(this) + "\n");
+			c.getInventory().removeItem(this);
 			equipMap.put(this.getEquipType(), this);
 		}
 		return true;
@@ -53,9 +50,9 @@ public class BaseEquipment extends AbstractItem implements IEquipment{
 		// default remove action
 		// TODO: remove limitation?
 		c.getEquipment().remove(this);
-		c.getMyGroup().getInventory().addItem(this);
+		c.getInventory().addItem(this);
 		c.getEquipment().remove(this.type);
-		c.getMyGroup().getAtRoom().informRoom(c.getChiName() + 
+		c.getAtRoom().informRoom(c.getChiName() + 
 				"卸下了" + this.getChiName() + "。\n");
 		return true;
 	}
@@ -123,5 +120,10 @@ public class BaseEquipment extends AbstractItem implements IEquipment{
 	@Override
 	public void setStatus(ConcurrentHashMap<status, Integer> map) {
 		this.statMap = map;
+	}
+
+	@Override
+	public boolean isStackable() {
+		return false;
 	}
 }

@@ -2,8 +2,8 @@ package module.map;
 
 import java.util.concurrent.ConcurrentHashMap;
 
-import module.character.Group;
-import module.character.GroupList;
+import module.character.CharList;
+import module.character.SingleCharList;
 import module.character.api.ICharacter;
 import module.command.CommandServer;
 import module.command.api.ICommand;
@@ -18,12 +18,12 @@ public class BaseRoom implements IRoom{
 	private String title = null;
 	private String description = null;
 	private ConcurrentHashMap<exit, Neighbor> exitMap = null;
-	private GroupList gList = null;
+	private CharList cList = null;
 	private ItemList itemList = null;
 	
 	public BaseRoom(){
 		exitMap = new ConcurrentHashMap<exit, Neighbor>();
-		gList = new GroupList();
+		cList = new CharList();
 		itemList = new ItemList();
 	}
 	
@@ -65,7 +65,7 @@ public class BaseRoom implements IRoom{
 		outBuffer.append(this.description + "\n");
 		outBuffer.append(CExit.displayRoomExits(this));
 		outBuffer.append(this.itemList.displayInfo());
-		outBuffer.append(this.gList.displayInfo());
+		outBuffer.append(this.cList.displayInfo());
 		return outBuffer.toString();
 	}
 
@@ -95,16 +95,6 @@ public class BaseRoom implements IRoom{
 	}
 
 	@Override
-	public GroupList getGroupList() {
-		return this.gList;
-	}
-
-	@Override
-	public ICharacter searchCharByName(String groupName, String name) {
-		return this.gList.findChar(groupName, name);
-	}
-
-	@Override
 	public IItem searchItemByName(String name) {
 		// TODO Auto-generated method stub
 		return null;
@@ -112,8 +102,10 @@ public class BaseRoom implements IRoom{
 
 	@Override
 	public void informRoom(String message) {
-		for (Group g : this.gList.gList){
-			CommandServer.informGroup(g, message);
+		for (SingleCharList scl : this.cList.charList) {
+			for (ICharacter c : scl.list) {
+				CommandServer.informCharacter(c, message);
+			}
 		}
 	}
 
@@ -123,13 +115,13 @@ public class BaseRoom implements IRoom{
 	}
 
 	@Override
-	public String displayRoomExceptGroup(Group g) {
+	public String displayRoomExceptCharacter(ICharacter c) {
 		StringBuffer outBuffer = new StringBuffer();
 		outBuffer.append(this.title + "\n");
 		outBuffer.append(this.description + "\n");
 		outBuffer.append(CExit.displayRoomExits(this));
 		outBuffer.append(this.itemList.displayInfo());
-		outBuffer.append(this.gList.displayInfoExceptGroup(g));
+		outBuffer.append(this.cList.displayInfoExceptChar(c));
 		return outBuffer.toString();
 	}
 
@@ -144,16 +136,23 @@ public class BaseRoom implements IRoom{
 	}
 
 	@Override
-	public void informRoomExceptGroup(Group g, String message) {
-		for (Group gg : this.gList.gList){
-			if (gg == g) continue;
-			CommandServer.informGroup(gg, message);
-		}
-	}
-
-	@Override
 	public boolean specialCommand(String msg) {
 		// default do nothing
 		return false;
+	}
+
+	@Override
+	public CharList getCharList() {
+		return this.cList;
+	}
+
+	@Override
+	public void informRoomExceptCharacter(ICharacter c, String message) {
+		for (SingleCharList scl : this.cList.charList) {
+			for (ICharacter target : scl.list){
+				if (target == c) continue;
+				CommandServer.informCharacterNoChange(target, message);
+			}
+		}
 	}
 }

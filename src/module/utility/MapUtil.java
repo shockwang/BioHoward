@@ -8,7 +8,6 @@ import java.util.HashMap;
 import java.util.Map.Entry;
 
 import module.battle.BattleTask;
-import module.character.Group;
 import module.character.api.ICharacter;
 import module.item.api.IItem;
 import module.map.BaseDoor;
@@ -175,28 +174,22 @@ public class MapUtil {
 			for (Object ooo : groupList){
 				JSONObject groupObj = (JSONObject) ooo;
 				
-				boolean newGroup = true;
-				Group groupToConfig = null;
 				JSONArray charList = (JSONArray) groupObj.get("character");
-				for (Object oos : charList){
+				ICharacter newChar = null;
+				for (Object oos : charList) {
 					Class<?> c = Class.forName((String) oos);
-					ICharacter charToAdd = (ICharacter) c.newInstance();
-					if (newGroup){
-						groupToConfig = new Group(charToAdd);
-						newGroup = false;
-					} else
-						groupToConfig.addChar(charToAdd);
+					newChar = (ICharacter) c.newInstance();
 				}
 				
 				// config initial position
 				String position = (String) groupObj.get("position");
 				IRoom location = roomMap.get(position);
-				initializeGroupAtMap(groupToConfig, location);
+				initializeCharacterAtMap(newChar, location);
 				
 				// check if respawn
 				if (groupObj.get("respawn") != null){
 					boolean isRespawn = (Boolean) groupObj.get("respawn");
-					groupToConfig.setIsRespawn(isRespawn);
+					newChar.setIsRespawn(isRespawn);
 				}
 				
 				//check if inventory exists
@@ -205,20 +198,21 @@ public class MapUtil {
 					for (Object ovo : inventoryList){
 						Class<?> zz = Class.forName((String) ovo);
 						IItem itemToAdd = (IItem) zz.newInstance();
-						groupToConfig.getInventory().addItem(itemToAdd);
+						newChar.getInventory().addItem(itemToAdd);
 					}
 				}
 				
 				// check if special battle event exists
-				String specialBattleClassString = (String) groupObj.get("specialBattleClass");
+				// TODO: update this one
+				/*String specialBattleClassString = (String) groupObj.get("specialBattleClass");
 				if (specialBattleClassString != null){
 					Class<BattleTask> specialBattleClass = 
 							(Class<BattleTask>) Class.forName(specialBattleClassString);
-					groupToConfig.setSpecialBattle(specialBattleClass);
-				}
+					newChar.setSpecialBattle(specialBattleClass);
+				}*/
 				
 				// add group to SystemTime
-				PlayerServer.getSystemTime().addGroup(groupToConfig);
+				PlayerServer.getSystemTime().addCharacter(newChar);
 			}
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -289,10 +283,10 @@ public class MapUtil {
 		return new Position(x, y, z);
 	}
 	
-	public static void initializeGroupAtMap(Group g, IRoom r){
-		r.getGroupList().gList.add(g);
-		g.setAtRoom(r);
-		g.setInitialRoom(r);
-		PlayerServer.getSystemTime().addGroup(g);
+	public static void initializeCharacterAtMap(ICharacter c, IRoom r){
+		r.getCharList().addChar(c);
+		c.setAtRoom(r);
+		c.setInitialRoom(r);
+		PlayerServer.getSystemTime().addCharacter(c);
 	}
 }

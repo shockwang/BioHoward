@@ -114,4 +114,10 @@ public abstract class AbstractItem implements IItem{
 		buf.append(this.description + "\n");
 		return buf.toString();
 	}
+	
+	@Override
+	public boolean isStackable() {
+		// default not stackable, only food/medicine is stackable
+		return false;
+	}
 }

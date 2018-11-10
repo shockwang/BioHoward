@@ -1,6 +1,5 @@
-package module.command.group;
+package module.command.character;
 
-import module.character.Group;
 import module.character.api.ICharacter;
 import module.command.CommandServer;
 import module.command.api.ICommand;
@@ -17,8 +16,7 @@ public class MyTime implements ICommand {
 	
 	@Override
 	public boolean action(ICharacter c, String[] command) {
-		Group g = c.getMyGroup();
-		CommandServer.informGroup(g, PlayerServer.getSystemTime().getTime() + "\n");
+		CommandServer.informCharacter(c, PlayerServer.getSystemTime().getTime() + "\n");
 		return false;
 	}
 
@@ -31,6 +29,11 @@ public class MyTime implements ICommand {
 	@Override
 	public String[] getName() {
 		return name;
+	}
+
+	@Override
+	public int getEnergyCost() {
+		return 0;
 	}
 
 }

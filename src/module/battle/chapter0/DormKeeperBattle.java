@@ -1,8 +1,8 @@
 package module.battle.chapter0;
 
 import module.battle.BattleTask;
-import module.character.Group;
-import module.character.PlayerGroup;
+import module.character.ICharacter;
+import module.character.PlayerCharacter;
 import module.character.api.ICharacter;
 import module.character.constants.CAttribute.attribute;
 import module.character.constants.CConfig.config;
@@ -12,7 +12,7 @@ import module.utility.EventUtil;
 
 public class DormKeeperBattle extends BattleTask{
 
-	public DormKeeperBattle(Group team1, Group team2) {
+	public DormKeeperBattle(ICharacter team1, ICharacter team2) {
 		super(team1, team2);
 	}
 	
@@ -28,14 +28,14 @@ public class DormKeeperBattle extends BattleTask{
 		updatePlayerStatus(team2List.gList);
 		try {
 			for (ICharacter c : ready) {
-				if (c.getMyGroup() instanceof PlayerGroup) {
+				if (c.getMyGroup() instanceof PlayerCharacter) {
 					// add event code here
 					MainMission mm = (MainMission) PlayerServer
 							.getMissionMap().get(MainMission.class.toString());
 					if (mm.getState() == MainMission.State.AFTER_BREAK_MANAGE_DOOR){
 						if (c.getCurrentAttribute(attribute.HP) < 40){
 							this.isBlocked = true;
-							PlayerGroup pg = (PlayerGroup) c.getMyGroup();
+							PlayerCharacter pg = (PlayerCharacter) c.getMyGroup();
 							pg.setInEvent(true);
 							EventUtil.executeEventMessage(pg, "keeper_attack_hard");
 							if (pg.getConfigData().get(config.TUTORIAL_ON))
@@ -46,7 +46,7 @@ public class DormKeeperBattle extends BattleTask{
 						}
 					}
 					// event code end
-					if (((PlayerGroup) c.getMyGroup()).getConfigData().get(
+					if (((PlayerCharacter) c.getMyGroup()).getConfigData().get(
 							config.REALTIMEBATTLE)) {
 						// real time battle
 

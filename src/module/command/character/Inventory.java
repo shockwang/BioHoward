@@ -1,6 +1,5 @@
-package module.command.group;
+package module.command.character;
 
-import module.character.Group;
 import module.character.api.ICharacter;
 import module.command.CommandServer;
 import module.command.api.ICommand;
@@ -22,16 +21,14 @@ public class Inventory implements ICommand {
 
 	@Override
 	public boolean action(ICharacter c, String[] command) {
-		Group g = c.getMyGroup();
-
-		synchronized (g.getAtRoom()) {
+		synchronized (c.getAtRoom()) {
 			StringBuffer buf = new StringBuffer();
 			buf.append("你身上攜帶著：\n");
-			if (g.getInventory().itemList.size() == 0)
+			if (c.getInventory().itemList.size() == 0)
 				buf.append("空空如也。\n");
 			else
-				buf.append(g.getInventory().displayInfo());
-			CommandServer.informGroup(g, buf.toString());
+				buf.append(c.getInventory().displayInfo());
+			CommandServer.informCharacter(c, buf.toString());
 			return false;
 		}
 	}
@@ -40,6 +37,11 @@ public class Inventory implements ICommand {
 	public String getHelp() {
 		String output = HelpUtil.getHelp("resources/help/equipment.help");
 		return output;
+	}
+
+	@Override
+	public int getEnergyCost() {
+		return 0;
 	}
 
 }

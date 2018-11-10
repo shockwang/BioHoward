@@ -6,4 +6,5 @@ public interface ICommand {
 	String[] getName();
 	boolean action(ICharacter c, String[] command); // true = really moved, false = do nothing
 	String getHelp();
+	int getEnergyCost(); // used when in battle
 }

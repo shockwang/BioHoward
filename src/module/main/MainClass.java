@@ -5,8 +5,7 @@ import static org.junit.Assert.assertTrue;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 
-import module.character.Group;
-import module.character.PlayerGroup;
+import module.character.PlayerCharacter;
 import module.character.api.ICharacter;
 import module.character.constants.CConfig.config;
 import module.character.instance.main.Enf;
@@ -27,7 +26,7 @@ import module.utility.MapUtil;
 public class MainClass {
 	private static PlayerServer singletonServer;
 	private static ClientUser oneUser;
-	private static PlayerGroup pg = null;
+	private static PlayerCharacter pc = null;
 	private static boolean skipOpening = false;
 
 	public static void main(String[] args) {
@@ -37,13 +36,13 @@ public class MainClass {
 		initialize();
 
 		BaseEquipment testEquip = new PhysicsBook();
-		pg.getInventory().addItem(testEquip);
+		pc.getInventory().addItem(testEquip);
 
 		// set player group start position
 		IRoom start = MapUtil.roomMap.get("102,100,3");
-		pg.setAtRoom(start);
-		pg.setInitialRoom(start);
-		start.getGroupList().gList.add(pg);
+		pc.setAtRoom(start);
+		pc.setInitialRoom(start);
+		start.getGroupList().gList.add(pc);
 		
 		// start game setup
 		startGameSetup();
@@ -52,22 +51,22 @@ public class MainClass {
 			MainMission mm = new MainMission();
 			mm.setState(MainMission.State.START_SEARCHING);
 			PlayerServer.getMissionMap().put(MainMission.class.toString(), mm);
-			Group roommateG = pg.getAtRoom().getGroupList().findGroup("roommate");
-			pg.getAtRoom().getGroupList().gList.remove(roommateG);
+			ICharacter roommateG = pc.getAtRoom().getGroupList().findGroup("roommate");
+			pc.getAtRoom().getGroupList().gList.remove(roommateG);
 			roommateG.setAtRoom(null);
-			pg.getAtRoom().getItemList().addItem(new Key306());
-			pg.setInEvent(false);
+			pc.getAtRoom().getItemList().addItem(new Key306());
+			pc.setInEvent(false);
 		} else {
 			// execute opening
-			EventUtil.executeEventMessage(pg, "opening");
+			EventUtil.executeEventMessage(pc, "opening");
 		}
 		
 		// set player group to system time
-		PlayerServer.getSystemTime().addGroup(pg);
+		PlayerServer.getSystemTime().addCharacter(pc);
 		
 		if (!skipOpening) {
 			// execute the starting event
-			EventUtil.doRoomEvent(pg);
+			EventUtil.doRoomEvent(pc);
 		}
 	}
 
@@ -87,11 +86,11 @@ public class MainClass {
 		}
 
 		ICharacter enf = new Enf();
-		pg = new PlayerGroup(enf);
+		pc = new PlayerCharacter(enf);
 
-		PlayerServer.pList.get(0).setGroup(pg);
-		pg.setOutToClient(PlayerServer.pList.get(0).getOutToClient());
-		pg.setInFromClient(PlayerServer.pList.get(0).getInFromClient());
+		PlayerServer.pList.get(0).setPlayer(pc);
+		pc.setOutToClient(PlayerServer.pList.get(0).getOutToClient());
+		pc.setInFromClient(PlayerServer.pList.get(0).getInFromClient());
 
 		// map initialize
 		MapUtil.parseMapFromJSON("resources/map/chapter0/YiDormitory.map");
@@ -116,40 +115,40 @@ public class MainClass {
 				.getOutToClient();
 		BufferedReader in = PlayerServer.pList.get(0).getInFromClient();
 
-		pg.setInEvent(true);
+		pc.setInEvent(true);
 		EventUtil.showMessageToClient(outToClient, "starting_game");
 		IOUtil.readLineFromClientSocket(in);
 
 		String output = "是否開啟教學模式? <y/n> (建議不熟悉操作方式的玩家選y)";
-		CommandServer.informGroup(pg, output + "\n");
+		CommandServer.informCharacter(pc, output + "\n");
 		String input = IOUtil.readLineFromClientSocket(in);
 		while (!input.equals("y") && !input.equals("n")) {
-			CommandServer.informGroup(pg, output + "\n");
+			CommandServer.informCharacter(pc, output + "\n");
 			input = IOUtil.readLineFromClientSocket(in);
 		}
 		if (input.equals("y"))
-			pg.setConfigData(config.TUTORIAL_ON, true);
+			pc.setConfigData(config.TUTORIAL_ON, true);
 		else
-			pg.setConfigData(config.TUTORIAL_ON, false);
+			pc.setConfigData(config.TUTORIAL_ON, false);
 
 		output = "是否開啟即時戰鬥? <y/n> (建議不熟悉操作方式的玩家選n)\n";
-		CommandServer.informGroup(pg, output);
+		CommandServer.informCharacter(pc, output);
 		input = IOUtil.readLineFromClientSocket(in);
 		while (!input.equals("y") && !input.equals("n")) {
-			CommandServer.informGroup(pg, output + "\n");
+			CommandServer.informCharacter(pc, output + "\n");
 			input = IOUtil.readLineFromClientSocket(in);
 		}
 
 		if (input.equals("y"))
-			pg.setConfigData(config.REALTIMEBATTLE, true);
+			pc.setConfigData(config.REALTIMEBATTLE, true);
 		else
-			pg.setConfigData(config.REALTIMEBATTLE, false);
+			pc.setConfigData(config.REALTIMEBATTLE, false);
 		
 		output = "是否跳過開頭劇情 (包括基本教學)? <y/n>\n";
-		CommandServer.informGroup(pg, output);
+		CommandServer.informCharacter(pc, output);
 		input = IOUtil.readLineFromClientSocket(in);
 		while (!input.equals("y") && !input.equals("n")) {
-			CommandServer.informGroup(pg, output + "\n");
+			CommandServer.informCharacter(pc, output + "\n");
 			input = IOUtil.readLineFromClientSocket(in);
 		}
 

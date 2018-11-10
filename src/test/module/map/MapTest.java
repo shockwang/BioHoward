@@ -1,9 +1,21 @@
 package test.module.map;
 
+import static org.junit.Assert.assertTrue;
+
 import java.util.concurrent.ConcurrentHashMap;
 
+import module.character.PlayerCharacter;
+import module.character.api.ICharacter;
+import module.character.constants.CAttribute.attribute;
+import module.character.constants.CStatus.status;
+import module.character.instance.main.Dawdw;
+import module.character.instance.main.Enf;
+import module.client.ClientUser;
 import module.item.BaseEquipment;
 import module.item.api.IEquipment.EquipType;
+import module.item.instance.chapter0.BlueShirt;
+import module.item.instance.chapter0.NikeShoes;
+import module.item.instance.chapter0.Watch;
 import module.map.BaseDoor;
 import module.map.BaseRoom;
 import module.map.Neighbor;
@@ -12,6 +24,7 @@ import module.map.PositionDoor;
 import module.map.api.IRoom;
 import module.map.constants.CDoorAttribute.doorAttribute;
 import module.map.constants.CExit.exit;
+import module.server.PlayerServer;
 import module.utility.MapUtil;
 
 import org.junit.Test;
@@ -20,9 +33,9 @@ public class MapTest {
 	private IRoom start = null;
 	
 	
-	public IRoom getStart(){return start;}
+	public IRoom getStart() {return start;}
 	
-	public void initialize(){
+	public void initialize() {
 		// build a 3*3*1 blocks map
 		start = createRoom(new Position(0, 0, 0), "start", "0, 0, 0");
 		IRoom n = createRoom(new Position(0, 1, 0), "n", "0, 1, 0");
@@ -122,5 +135,59 @@ public class MapTest {
 	@Test
 	public void jsonParsingTest(){
 		MapUtil.parseMapFromJSON("jsonTest.txt");
+	}
+	
+	@Test
+	public void humanTest() {
+		MapTest mt = new MapTest();
+		mt.initialize();
+		
+		PlayerServer singletonServer = new PlayerServer();
+		singletonServer.setPort(12312);
+		singletonServer.start();
+
+		ClientUser oneUser = new ClientUser();
+		assertTrue(oneUser.connectToServer("localhost", 12312));
+		oneUser.start();
+
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
+		PlayerCharacter pc = new PlayerCharacter("霍華", "enf");
+		pc.setDesc("就是霍華。");
+		pc.setStatus(status.CONSTITUTION, 6);
+		pc.setStatus(status.STRENGTH, 29);
+		pc.setStatus(status.SPEED, 3500);
+		pc.addAttribute(attribute.HP, 99);
+		
+		// add equipment
+		pc.getInventory().addItem(new BlueShirt());
+		pc.getInventory().addItem(new NikeShoes());
+		pc.getInventory().addItem(new Watch());
+		pc.setInitialRoom(mt.getStart());
+		pc.setAtRoom(mt.getStart());
+		mt.getStart().getCharList().addChar(pc);
+		
+		// add npc
+		ICharacter dawdw = new Dawdw();
+		dawdw.setInitialRoom(mt.getStart());
+		dawdw.setAtRoom(mt.getStart());
+		mt.getStart().getCharList().addChar(dawdw);
+
+		PlayerServer.pList.get(0).setPlayer(pc);
+		pc.setOutToClient(PlayerServer.pList.get(0).getOutToClient());
+		pc.setInFromClient(PlayerServer.pList.get(0).getInFromClient());
+		
+		// set player group to system time
+		PlayerServer.getSystemTime().addCharacter(pc);
+		
+		try {
+			Thread.sleep(10000000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 }

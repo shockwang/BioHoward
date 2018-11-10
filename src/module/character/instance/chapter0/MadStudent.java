@@ -2,7 +2,8 @@ package module.character.instance.chapter0;
 
 import module.battle.BattleTask;
 import module.character.BaseHumanCharacter;
-import module.character.PlayerGroup;
+import module.character.PlayerCharacter;
+import module.character.api.ICharacter;
 import module.character.constants.CStatus.status;
 
 public class MadStudent extends BaseHumanCharacter{
@@ -24,9 +25,9 @@ public class MadStudent extends BaseHumanCharacter{
 	}
 	
 	@Override
-	public void onTalk(PlayerGroup g){
-		g.getAtRoom().informRoom(String.format("%s大吼一聲，朝%s撲了過來!\n", 
-				this.getChiName(), g.list.get(0).charList.get(0).getChiName()));
+	public void onTalk(ICharacter c){
+		c.getAtRoom().informRoom(String.format("%s大吼一聲，朝%s撲了過來!\n", 
+				this.getChiName(), c.getChiName()));
 		new BattleTask(this.getMyGroup(), g);
 	}
 }

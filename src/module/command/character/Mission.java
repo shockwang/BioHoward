@@ -1,4 +1,4 @@
-package module.command.group;
+package module.command.character;
 
 import java.util.Map.Entry;
 
@@ -35,7 +35,7 @@ public class Mission implements ICommand {
 		if (buf2.toString().equals("")) buf.append("µL");
 		else buf.append(buf2.toString());
 		
-		CommandServer.informGroup(c.getMyGroup(), buf.toString() + "\n");
+		CommandServer.informCharacter(c, buf.toString() + "\n");
 		return false;
 	}
 
@@ -43,6 +43,11 @@ public class Mission implements ICommand {
 	public String getHelp() {
 		String output = HelpUtil.getHelp("resources/help/mission.help");
 		return output;
+	}
+
+	@Override
+	public int getEnergyCost() {
+		return 0;
 	}
 
 }

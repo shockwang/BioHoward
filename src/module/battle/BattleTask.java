@@ -8,9 +8,9 @@ import java.util.TimerTask;
 import java.util.concurrent.ConcurrentHashMap;
 
 import module.character.CharList;
-import module.character.Group;
+import module.character.ICharacter;
 import module.character.GroupList;
-import module.character.PlayerGroup;
+import module.character.PlayerCharacter;
 import module.character.api.ICharacter;
 import module.character.api.IntPair;
 import module.character.constants.CConfig.config;
@@ -28,7 +28,7 @@ public class BattleTask extends TimerTask {
 	private int updateCounter = 0;
 	protected boolean isBlocked = false;  // used if there's something need to pause the timer
 
-	public BattleTask(Group team1, Group team2) {
+	public BattleTask(ICharacter team1, ICharacter team2) {
 		team1.setInBattle(true);
 		team2.setInBattle(true);
 		this.team1List = new GroupList();
@@ -47,7 +47,7 @@ public class BattleTask extends TimerTask {
 		battleTimer.schedule(this, 0, 100);
 	}
 
-	public void addBattleGroup(Group addSide, Group targetG) {
+	public void addBattleGroup(ICharacter addSide, ICharacter targetG) {
 		GroupList side;
 		if (team1List.gList.contains(addSide))
 			side = this.team1List;
@@ -60,7 +60,7 @@ public class BattleTask extends TimerTask {
 		addTimeMap(targetG);
 	}
 	
-	public void addBattleOppositeGroup(Group opposite, Group targetG){
+	public void addBattleOppositeGroup(ICharacter opposite, ICharacter targetG){
 		GroupList side;
 		if (team1List.gList.contains(opposite))
 			side = this.team2List;
@@ -73,13 +73,13 @@ public class BattleTask extends TimerTask {
 		addTimeMap(targetG);
 	}
 	
-	public void removeBattleGroup(Group g){
+	public void removeBattleGroup(ICharacter g){
 		GroupList side;
 		if (team1List.gList.contains(g)) side = this.team1List;
 		else side = this.team2List;
 		
-		if (g instanceof PlayerGroup){
-			for (Group gg : this.getEnemyGroups(g).gList){
+		if (g instanceof PlayerCharacter){
+			for (ICharacter gg : this.getEnemyGroups(g).gList){
 				gg.getAtRoom().informRoom(
 						String.format("由於擊退玩家隊伍，%s士氣大振，回復到最佳狀態!\n", gg.getChiName()));
 				gg.recoverGroup();
@@ -104,8 +104,8 @@ public class BattleTask extends TimerTask {
 		updatePlayerStatus(team2List.gList);
 		try {
 			for (ICharacter c : ready) {
-				if (c.getMyGroup() instanceof PlayerGroup) {
-					if (((PlayerGroup) c.getMyGroup()).getConfigData().get(
+				if (c.getMyGroup() instanceof PlayerCharacter) {
+					if (((PlayerCharacter) c.getMyGroup()).getConfigData().get(
 							config.REALTIMEBATTLE)) {
 						// real time battle
 
@@ -128,18 +128,18 @@ public class BattleTask extends TimerTask {
 		}
 	}
 
-	protected void updatePlayerStatus(List<Group> groupList) {
-		for (Group g : groupList) {
-			if (g instanceof PlayerGroup) {
+	protected void updatePlayerStatus(List<ICharacter> groupList) {
+		for (ICharacter g : groupList) {
+			if (g instanceof PlayerCharacter) {
 				String output = "status:" + showPlayerStatus(g);
 				output = EnDecoder.encodeChangeLine(output);
-				EnDecoder.sendUTF8Packet(((PlayerGroup) g).getOutToClient(),
+				EnDecoder.sendUTF8Packet(((PlayerCharacter) g).getOutToClient(),
 						output);
 			}
 		}
 	}
 
-	private String showPlayerStatus(Group g) {
+	private String showPlayerStatus(ICharacter g) {
 		StringBuilder buffer = new StringBuilder();
 
 		int count = 1;
@@ -157,14 +157,14 @@ public class BattleTask extends TimerTask {
 		return buffer.toString();
 	}
 	
-	public void updatePlayerStatus(PlayerGroup g){
+	public void updatePlayerStatus(PlayerCharacter g){
 		String output = "status:" + showPlayerStatus(g);
 		output = EnDecoder.encodeChangeLine(output);
 		EnDecoder.sendUTF8Packet(g.getOutToClient(),
 				output);
 	}
 
-	private void addTimeMap(Group newGroup) {
+	private void addTimeMap(ICharacter newGroup) {
 		for (CharList cList : newGroup.list) {
 			for (ICharacter c : cList.charList) {
 				timeMap.put(c, new IntPair(0, c.getStatus(status.SPEED))); // temp assign = 3000
@@ -179,7 +179,7 @@ public class BattleTask extends TimerTask {
 			return team1List;
 	}
 
-	public GroupList getEnemyGroups(Group g) {
+	public GroupList getEnemyGroups(ICharacter g) {
 		if (team1List.gList.contains(g))
 			return team2List;
 		else
@@ -228,9 +228,9 @@ public class BattleTask extends TimerTask {
 		if (updateCounter == 20) {
 			updateCounter = 0;
 
-			for (Group g : team1List.gList)
+			for (ICharacter g : team1List.gList)
 				g.updateTime();
-			for (Group g : team2List.gList)
+			for (ICharacter g : team2List.gList)
 				g.updateTime();
 		}
 	}
@@ -264,19 +264,19 @@ public class BattleTask extends TimerTask {
 			
 			// free the battle resources
 			battleTimer.cancel();
-			for (Group g : team1List.gList) {
+			for (ICharacter g : team1List.gList) {
 				g.setInBattle(false);
 				g.setBattleTask(null);
-				if (g instanceof PlayerGroup)
-					CommandServer.informGroup(g,
-							"status:" + ((PlayerGroup) g).showGroupStatus());
+				if (g instanceof PlayerCharacter)
+					CommandServer.informCharacter(g,
+							"status:" + ((PlayerCharacter) g).showGroupStatus());
 			}
-			for (Group g : team2List.gList) {
+			for (ICharacter g : team2List.gList) {
 				g.setInBattle(false);
 				g.setBattleTask(null);
-				if (g instanceof PlayerGroup)
-					CommandServer.informGroup(g,
-							"status:" + ((PlayerGroup) g).showGroupStatus());
+				if (g instanceof PlayerCharacter)
+					CommandServer.informCharacter(g,
+							"status:" + ((PlayerCharacter) g).showGroupStatus());
 			}
 		}
 	}
@@ -287,7 +287,7 @@ public class BattleTask extends TimerTask {
 		boolean isDown = false;
 		while (!isDown) {
 			isDown = true;
-			for (Group g : list.gList) {
+			for (ICharacter g : list.gList) {
 				groupDown = true;
 				for (CharList cList : g.list) {
 					for (ICharacter c : cList.charList) {
@@ -298,18 +298,18 @@ public class BattleTask extends TimerTask {
 					}
 				}
 				if (groupDown) {
-					if (g instanceof PlayerGroup) {
+					if (g instanceof PlayerCharacter) {
 						// TODO: implement player group dead action
-						CommandServer.informGroup(g, "你的隊伍全滅了...\n");
+						CommandServer.informCharacter(g, "你的隊伍全滅了...\n");
 						removeBattleGroup(g);
 						g.getAtRoom().getGroupList().gList.remove(g);
-						CommandServer.informGroup(g, "因為是教學任務，就直接傳送你回起始位置吧。\n");
-						CommandServer.informGroup(g, "可以慢慢熟悉怎麼樣活下來喔!\n");
+						CommandServer.informCharacter(g, "因為是教學任務，就直接傳送你回起始位置吧。\n");
+						CommandServer.informCharacter(g, "可以慢慢熟悉怎麼樣活下來喔!\n");
 						g.recoverGroup();
 						g.setAtRoom(g.getInitialRoom());
 						g.getAtRoom().getGroupList().gList.add(g);
-						String out = "status:" + ((PlayerGroup) g).showGroupStatus();
-						CommandServer.informGroup(g, out);
+						String out = "status:" + ((PlayerCharacter) g).showGroupStatus();
+						CommandServer.informCharacter(g, out);
 						return true;
 					} else {
 						ItemUtil.createLootingItem(g);
@@ -317,16 +317,16 @@ public class BattleTask extends TimerTask {
 						ItemUtil.dropAllItemOnDefeat(g);
 						// do group down event if there's any
 						GroupList oppositeGroups = getEnemyGroups(g);
-						PlayerGroup pg = null;
-						for (Group px : oppositeGroups.gList){
-							if (px instanceof PlayerGroup){
-								pg = (PlayerGroup) px;
+						PlayerCharacter pg = null;
+						for (ICharacter px : oppositeGroups.gList){
+							if (px instanceof PlayerCharacter){
+								pg = (PlayerCharacter) px;
 								break;
 							}
 						}
 						if (pg != null){
 							this.isBlocked = true;
-							g.list.get(0).charList.get(0).doEventWhenGroupDown(pg);
+							g.list.get(0).list.get(0).doEventWhenGroupDown(pg);
 							this.isBlocked = false;
 						}
 					}
@@ -346,7 +346,7 @@ public class BattleTask extends TimerTask {
 		return allDown;
 	}
 
-	protected void removeGroupFromTimeMap(Group g) {
+	protected void removeGroupFromTimeMap(ICharacter g) {
 		for (CharList cList : g.list) {
 			for (ICharacter c : cList.charList) {
 				this.timeMap.remove(c);

@@ -14,6 +14,7 @@ public class Dawdw extends BaseHumanCharacter{
 		desc += "結實，身上穿著有些髒汙的襯衫，一副剛從工地裡出來的模樣。你從\n";
 		desc += "他手上拿的大聲公可以看出他是負責監工的。";
 		this.setDesc(desc);
+		this.setHostile(false);
 		
 		this.addAttribute(attribute.HP, 180);
 		

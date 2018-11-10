@@ -2,9 +2,9 @@ package module.battle.chapter0;
 
 import module.battle.BattleTask;
 import module.character.CharList;
-import module.character.Group;
+import module.character.ICharacter;
 import module.character.GroupList;
-import module.character.PlayerGroup;
+import module.character.PlayerCharacter;
 import module.character.api.ICharacter;
 import module.character.instance.main.Dawdw;
 import module.character.instance.main.Tao;
@@ -17,9 +17,9 @@ import module.utility.ItemUtil;
 import module.utility.MapUtil;
 
 public class ShadowBattle extends BattleTask{
-	private PlayerGroup ggg;
+	private PlayerCharacter ggg;
 	
-	public ShadowBattle(Group team1, Group team2) {
+	public ShadowBattle(ICharacter team1, ICharacter team2) {
 		super(team1, team2);
 	}
 	
@@ -30,7 +30,7 @@ public class ShadowBattle extends BattleTask{
 		boolean isDown = false;
 		while (!isDown) {
 			isDown = true;
-			for (Group g : list.gList) {
+			for (ICharacter g : list.gList) {
 				groupDown = true;
 				for (CharList cList : g.list) {
 					for (ICharacter c : cList.charList) {
@@ -41,9 +41,9 @@ public class ShadowBattle extends BattleTask{
 					}
 				}
 				if (groupDown) {
-					if (g instanceof PlayerGroup) {
-						CommandServer.informGroup(g, "你的隊伍全滅了...\n");
-						ggg = (PlayerGroup) g;
+					if (g instanceof PlayerCharacter) {
+						CommandServer.informCharacter(g, "你的隊伍全滅了...\n");
+						ggg = (PlayerCharacter) g;
 						return true;
 					} else {
 						ItemUtil.createLootingItem(g);
@@ -51,16 +51,16 @@ public class ShadowBattle extends BattleTask{
 						ItemUtil.dropAllItemOnDefeat(g);
 						// do group down event if there's any
 						GroupList oppositeGroups = getEnemyGroups(g);
-						PlayerGroup pg = null;
-						for (Group px : oppositeGroups.gList){
-							if (px instanceof PlayerGroup){
-								pg = (PlayerGroup) px;
+						PlayerCharacter pg = null;
+						for (ICharacter px : oppositeGroups.gList){
+							if (px instanceof PlayerCharacter){
+								pg = (PlayerCharacter) px;
 								break;
 							}
 						}
 						if (pg != null){
 							this.isBlocked = true;
-							g.list.get(0).charList.get(0).doEventWhenGroupDown(pg);
+							g.list.get(0).list.get(0).doEventWhenGroupDown(pg);
 							this.isBlocked = false;
 						}
 					}
@@ -87,11 +87,11 @@ public class ShadowBattle extends BattleTask{
 		((MainMission) PlayerServer.getMissionMap().get(
 				MainMission.class.toString())).setState(MainMission.State.AFTER_DEFEATED);
 		EventUtil.executeEventMessage(ggg, "after_defeated_by_shadow");
-		Group taoG = new Group(new Tao());
+		ICharacter taoG = new ICharacter(new Tao());
 		taoG.addChar(new Dawdw());
-		MapUtil.initializeGroupAtMap(taoG, ggg.getAtRoom());
+		MapUtil.initializeCharacterAtMap(taoG, ggg.getAtRoom());
 		
-		Group shadowG = ggg.getAtRoom().getGroupList().findGroup("shadow");
+		ICharacter shadowG = ggg.getAtRoom().getGroupList().findGroup("shadow");
 		BattleUtil.attackMechanism(taoG.findAliveChar("tao"), shadowG.findAliveChar("shadow"));
 		new ShadowTaoBattle(taoG, shadowG);
 		ggg.setInEvent(false);

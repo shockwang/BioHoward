@@ -3,8 +3,6 @@ package module.utility;
 import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 
-import module.character.CharList;
-import module.character.Group;
 import module.character.api.ICharacter;
 import module.command.CommandServer;
 import module.item.ItemList;
@@ -93,73 +91,86 @@ public class ItemUtil {
 		ConcurrentHashMap<IEquipment.EquipType, IEquipment> equipMap = c
 				.getEquipment();
 
+		boolean hasEquip = false;
+		
 		StringBuffer buf = new StringBuffer("");
-		if (equipMap.containsKey(EquipType.HELMET))
+		if (equipMap.containsKey(EquipType.HELMET)) {
 			buf.append("|頭部|   " + showSingleEquip(EquipType.HELMET, equipMap));
-		if (equipMap.containsKey(EquipType.ARMOR))
+			hasEquip = true;
+		}
+		if (equipMap.containsKey(EquipType.ARMOR)) {
 			buf.append("|身體|   " + showSingleEquip(EquipType.ARMOR, equipMap));
-		if (equipMap.containsKey(EquipType.GLOVES))
+			hasEquip = true;
+		}
+		if (equipMap.containsKey(EquipType.GLOVES)) {
 			buf.append("|雙手|   " + showSingleEquip(EquipType.GLOVES, equipMap));
-		if (equipMap.containsKey(EquipType.WEAPON))
+			hasEquip = true;
+		}
+		if (equipMap.containsKey(EquipType.WEAPON)) {
 			buf.append("|武器|   " + showSingleEquip(EquipType.WEAPON, equipMap));
-		if (equipMap.containsKey(EquipType.SHIELD))
+			hasEquip = true;
+		}
+		if (equipMap.containsKey(EquipType.SHIELD)) {
 			buf.append("|盾牌|   " + showSingleEquip(EquipType.SHIELD, equipMap));
-		if (equipMap.containsKey(EquipType.BOOTS))
+			hasEquip = true;
+		}
+		if (equipMap.containsKey(EquipType.BOOTS)) {
 			buf.append("|雙腳|   " + showSingleEquip(EquipType.BOOTS, equipMap));
-		if (equipMap.containsKey(EquipType.ACCESSORY))
+			hasEquip = true;
+		}
+		if (equipMap.containsKey(EquipType.ACCESSORY)) {
 			buf.append("|飾品|   "
 					+ showSingleEquip(EquipType.ACCESSORY, equipMap));
+			hasEquip = true;
+		}
+		
+		if (!hasEquip) {
+			buf.append("空無一物.\n");
+		}
 
 		return buf.toString();
 	}
 
-	public static void dropAllItemOnDefeat(Group g) {
+	public static void dropAllItemOnDefeat(ICharacter c) {
 		// add all equipments to inventory
-		for (CharList cList : g.list){
-			for (ICharacter c : cList.charList){
-				for (Entry<EquipType, IEquipment> entry : c.getEquipment().entrySet()){
-					IItem equip = entry.getValue();
-					g.getInventory().addItem(equip);
-				}
-				c.getEquipment().clear();
-			}
+		for (Entry<EquipType, IEquipment> entry : c.getEquipment().entrySet()){
+			IItem equip = entry.getValue();
+			c.getInventory().addItem(equip);
 		}
+		c.getEquipment().clear();
 		
-		if (g.getInventory().itemList.size() == 0)
+		if (c.getInventory().itemList.size() == 0)
 			return;
 
-		synchronized (g.getAtRoom().getItemList()) {
+		synchronized (c.getAtRoom().getItemList()) {
 			StringBuffer buf = new StringBuffer();
-			buf.append(g.getChiName() + "掉落了物品：\n");
-			for (SingleItemList sil : g.getInventory().itemList)
+			buf.append(c.getChiName() + "掉落了物品：\n");
+			for (SingleItemList sil : c.getInventory().itemList)
 				buf.append(sil.displayInfo());
 			
 			IItem obj = null;
-			while (g.getInventory().itemList.size() > 0){
-				obj = g.getInventory().itemList.get(0).findItem(0);
-				g.getInventory().removeItem(obj);
-				g.getAtRoom().getItemList().addItem(obj);
+			while (c.getInventory().itemList.size() > 0){
+				obj = c.getInventory().itemList.get(0).findItem(0);
+				c.getInventory().removeItem(obj);
+				c.getAtRoom().getItemList().addItem(obj);
 			}
-			g.getAtRoom().informRoomExceptGroup(g, buf.toString());
+			c.getAtRoom().informRoomExceptCharacter(c, buf.toString());
 		}
 	}
 	
-	public static void createLootingItem(Group g){
-		for (CharList cList : g.list){
-			for (ICharacter c : cList.charList)
-				c.looting();
-		}
+	public static void createLootingItem(ICharacter c){
+		c.looting();
 	}
 	
-	public static IContainer checkIsContainer(Group g, ItemList list, String target){
+	public static IContainer checkIsContainer(ICharacter c, ItemList list, String target){
 		IItem objContainer = list.findItem(target);
 		if (objContainer != null) {
 			if (objContainer instanceof IContainer){
 				return (IContainer) objContainer;
 			} else
-				CommandServer.informGroup(g, "那樣東西並不是容器喔!\n");
+				CommandServer.informCharacter(c, "那樣東西並不是容器喔!\n");
 		} else
-			CommandServer.informGroup(g, "這裡沒有你指定的容器。\n");
+			CommandServer.informCharacter(c, "這裡沒有你指定的容器。\n");
 		return null;
 	}
 	
@@ -173,16 +184,12 @@ public class ItemUtil {
 		return null;
 	}
 	
-	public static IEquipment findEquipByName(Group g, String name){
-		for (CharList cList : g.list){
-			for (ICharacter c : cList.charList){
-				for (Entry<EquipType, IEquipment> entry : c.getEquipment().entrySet()){
-					if (Search.searchName(entry.getValue().getEngName(), name))
-						return entry.getValue();
-				}
-			}
+	public static IEquipment findEquipByName(ICharacter c, String name) {
+		for (Entry<EquipType, IEquipment> entry : c.getEquipment().entrySet()){
+			if (Search.searchName(entry.getValue().getEngName(), name))
+				return entry.getValue();
 		}
-		
+
 		return null;
 	}
 }

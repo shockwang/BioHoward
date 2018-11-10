@@ -19,5 +19,4 @@ public class BaseHumanCharacter extends AbstractCharacter{
 	public String getBareHandAttackMessage() {
 		return "´§®±§ğÀ»";
 	}
-
 }

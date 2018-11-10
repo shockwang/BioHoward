@@ -1,54 +1,95 @@
 package module.character;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import module.character.api.ICharacter;
+import module.command.api.IndexStringPair;
+import module.utility.Parse;
+import module.utility.Search;
 
-public class CharList implements Serializable{
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -6350303926974208673L;
-	public List<ICharacter> charList;
+public class CharList {
+	public List<SingleCharList> charList;
 	
-	public CharList(ICharacter obj){
-		charList = Collections.synchronizedList(new ArrayList<ICharacter>());
-		charList.add(obj);
+	public CharList(){
+		charList = Collections.synchronizedList(new ArrayList<SingleCharList>());
 	}
 	
-	public ICharacter findChar(int index){
-		try {
-			return charList.get(index);
-		} catch (IndexOutOfBoundsException e){
-			return null;
+	public ICharacter findChar(String name){
+		IndexStringPair pair = Parse.parseName(name);
+		int index = 0;
+		for (SingleCharList scl : charList) {
+			for (ICharacter c : scl.list) {
+				if (Search.searchName(c.getEngName(), pair.name)){
+					if (index == pair.index) return c;
+					else index++;
+				}
+			}
 		}
-	}
-	
-	public boolean removeChar(ICharacter target){  // return true if object exists in this list
-		return charList.remove(target);
+		return null;
 	}
 	
 	public String displayInfo(){
 		StringBuffer buffer = new StringBuffer();
-		for (ICharacter obj : charList){
-			if (!obj.isDown())
-				buffer.append(String.format("%s/%s\n", obj.getChiName(), obj.getEngName()));
+		for (SingleCharList scl : charList) {
+			for (ICharacter c : scl.list) {
+				if (!c.isDown()) {
+					buffer.append(String.format("%s/%s\n", c.getChiName(), c.getEngName()));
+				}
+			}
 		}
 		return buffer.toString();
 	}
 	
-	public String displayChar(int index){
+	public String displayInfoExceptChar(ICharacter target) {
+		StringBuffer buffer = new StringBuffer();
+		for (SingleCharList scl : charList) {
+			for (ICharacter c : scl.list) {
+				if (!c.isDown() && c != target) {
+					buffer.append(String.format("%s/%s\n", c.getChiName(), c.getEngName()));
+				}
+			}
+		}
+		return buffer.toString();
+	}
+	
+	public String displayChar(String name){
 		String output = "";
-		try {
-			ICharacter target = charList.get(index);
+		ICharacter target = this.findChar(name);
+		if (target != null) {
 			output += String.format("%s/%s\n", target.getChiName(), target.getEngName());
 			output += "Character information.\n";
 			return output;
-		} catch (IndexOutOfBoundsException e){
-			return "你並沒有看到那樣東西.\n";
+		} else {
+			return null;
 		}
+	}
+	
+	public boolean removeChar(ICharacter target) {
+		for (SingleCharList scl : charList) {
+			for (ICharacter c : scl.list) {
+				if (target == c) {
+					boolean success = scl.list.remove(c);
+					if (scl.list.size() == 0) {
+						charList.remove(scl);
+					}
+					return success;
+				}
+			}
+		}
+		return false;
+	}
+	
+	public void addChar(ICharacter c) {
+		for (SingleCharList scl : charList) {
+			if (scl.list.get(0).getEngName().equals(c.getEngName())) {
+				// same list
+				scl.list.add(c);
+				return;
+			}
+		}
+		// new list
+		charList.add(new SingleCharList(c));
 	}
 }

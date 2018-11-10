@@ -1,7 +1,7 @@
 package module.event.map.instance.chapter0;
 
-import module.character.Group;
-import module.character.PlayerGroup;
+import module.character.ICharacter;
+import module.character.PlayerCharacter;
 import module.command.CommandServer;
 import module.event.api.IRoomCommand;
 import module.map.api.IDoor;
@@ -17,7 +17,7 @@ public class YiDormitoryRoomCommand {
 		EventUtil.mapCommandMap.put("101,92,1", new IRoomCommand() {
 
 			@Override
-			public boolean roomSpecialCommand(Group g, String[] msg) {
+			public boolean roomSpecialCommand(ICharacter g, String[] msg) {
 				if (msg.length == 0)
 					return false;
 
@@ -28,13 +28,13 @@ public class YiDormitoryRoomCommand {
 						if (g.getInventory().findItem("fire") != null) {
 							g.getAtRoom()
 									.informRoom(
-											g.list.get(0).charList.get(0)
+											g.list.get(0).list.get(0)
 													.getChiName()
 													+ "舉起滅火器，用力地往玻璃門砸下去! 匡噹!\n只見門上的玻璃碎了一地。\n");
 							mm.setState(MainMission.State.AFTER_BREAK_MANAGE_DOOR);
 						} else {
 							g.getAtRoom().informRoom(
-									g.list.get(0).charList.get(0).getChiName()
+									g.list.get(0).list.get(0).getChiName()
 											+ "身上並沒有帶著適當的工具。\n");
 						}
 					} else if (((MainMission.State) mm.getState()).index >= MainMission.State.AFTER_BREAK_MANAGE_DOOR.index) {
@@ -54,17 +54,17 @@ public class YiDormitoryRoomCommand {
 								g.getAtRoom().informRoom(
 										String.format(
 												"%s跨過門上破碎玻璃窗的空隙，鑽進了宿舍管理中心。\n",
-												g.list.get(0).charList.get(0)
+												g.list.get(0).list.get(0)
 														.getChiName()));
 								IRoom south = g.getAtRoom().getExits()
 										.get(exit.SOUTH).getRoom();
 								south.getGroupList().gList.add(g);
 								g.getAtRoom().getGroupList().gList.remove(g);
 								g.setAtRoom(south);
-								CommandServer.informGroup(g, 
-										south.displayRoomExceptGroup(g));
+								CommandServer.informCharacter(g, 
+										south.displayRoomExceptCharacter(g));
 							} else
-								CommandServer.informGroup(g, "隊伍正在戰鬥中喔!\n");
+								CommandServer.informCharacter(g, "隊伍正在戰鬥中喔!\n");
 						}
 						return true;
 					}
@@ -76,7 +76,7 @@ public class YiDormitoryRoomCommand {
 		EventUtil.mapCommandMap.put("101,91,1", new IRoomCommand() {
 
 			@Override
-			public boolean roomSpecialCommand(Group g, String[] msg) {
+			public boolean roomSpecialCommand(ICharacter g, String[] msg) {
 				if (msg.length == 0) return false;
 				
 				if (msg[0].equals("climb")){
@@ -85,17 +85,17 @@ public class YiDormitoryRoomCommand {
 							g.getAtRoom().informRoom(
 									String.format(
 											"%s跨過門上破碎玻璃窗的空隙，鑽出了宿舍管理中心。\n",
-											g.list.get(0).charList.get(0)
+											g.list.get(0).list.get(0)
 													.getChiName()));
 							IRoom north = g.getAtRoom().getExits()
 									.get(exit.NORTH).getRoom();
 							north.getGroupList().gList.add(g);
 							g.getAtRoom().getGroupList().gList.remove(g);
 							g.setAtRoom(north);
-							CommandServer.informGroup(g, 
-									north.displayRoomExceptGroup(g));
+							CommandServer.informCharacter(g, 
+									north.displayRoomExceptCharacter(g));
 						} else
-							CommandServer.informGroup(g, "隊伍正在戰鬥中喔!\n");
+							CommandServer.informCharacter(g, "隊伍正在戰鬥中喔!\n");
 					}
 					return true;
 				}
@@ -107,7 +107,7 @@ public class YiDormitoryRoomCommand {
 		EventUtil.mapCommandMap.put("101,99,2", new IRoomCommand() {
 
 			@Override
-			public boolean roomSpecialCommand(Group g, String[] msg) {
+			public boolean roomSpecialCommand(ICharacter g, String[] msg) {
 				if (msg.length < 2) return false;
 				
 				if (msg[0].equals("open") || msg[0].equals("o")){
@@ -129,7 +129,7 @@ public class YiDormitoryRoomCommand {
 		EventUtil.mapCommandMap.put("101,94,2", new IRoomCommand() {
 
 			@Override
-			public boolean roomSpecialCommand(Group g, String[] msg) {
+			public boolean roomSpecialCommand(ICharacter g, String[] msg) {
 				if (msg.length < 2) return false;
 				
 				if (msg[0].equals("open") || msg[0].equals("o")){
@@ -151,7 +151,7 @@ public class YiDormitoryRoomCommand {
 		EventUtil.mapCommandMap.put("101,95,2", new IRoomCommand() {
 
 			@Override
-			public boolean roomSpecialCommand(Group g, String[] msg) {
+			public boolean roomSpecialCommand(ICharacter g, String[] msg) {
 				if (msg.length < 2) return false;
 				
 				if (msg[0].equals("open") || msg[0].equals("o")){
@@ -173,7 +173,7 @@ public class YiDormitoryRoomCommand {
 		EventUtil.mapCommandMap.put("101,99,1", new IRoomCommand() {
 
 			@Override
-			public boolean roomSpecialCommand(Group g, String[] msg) {
+			public boolean roomSpecialCommand(ICharacter g, String[] msg) {
 				if (msg.length < 2) return false;
 				
 				if (msg[0].equals("open") || msg[0].equals("o")){
@@ -196,7 +196,7 @@ public class YiDormitoryRoomCommand {
 		EventUtil.mapCommandMap.put("101,96,1", new IRoomCommand() {
 
 			@Override
-			public boolean roomSpecialCommand(Group g, String[] msg) {
+			public boolean roomSpecialCommand(ICharacter g, String[] msg) {
 				if (msg.length < 2) return false;
 				
 				if (msg[0].equals("open") || msg[0].equals("o")){
@@ -219,7 +219,7 @@ public class YiDormitoryRoomCommand {
 		EventUtil.mapCommandMap.put("101,95,1", new IRoomCommand() {
 
 			@Override
-			public boolean roomSpecialCommand(Group g, String[] msg) {
+			public boolean roomSpecialCommand(ICharacter g, String[] msg) {
 				if (msg.length < 2) return false;
 				
 				if (msg[0].equals("open") || msg[0].equals("o")){
@@ -242,7 +242,7 @@ public class YiDormitoryRoomCommand {
 		EventUtil.mapCommandMap.put("101,98,3", new IRoomCommand() {
 
 			@Override
-			public boolean roomSpecialCommand(Group g, String[] msg) {
+			public boolean roomSpecialCommand(ICharacter g, String[] msg) {
 				if (msg.length < 2) return false;
 				
 				if (msg[0].equals("open") || msg[0].equals("o")){
@@ -265,7 +265,7 @@ public class YiDormitoryRoomCommand {
 		EventUtil.mapCommandMap.put("101,96,3", new IRoomCommand() {
 
 			@Override
-			public boolean roomSpecialCommand(Group g, String[] msg) {
+			public boolean roomSpecialCommand(ICharacter g, String[] msg) {
 				if (msg.length < 2) return false;
 				
 				if (msg[0].equals("open") || msg[0].equals("o")){
@@ -288,13 +288,13 @@ public class YiDormitoryRoomCommand {
 		EventUtil.mapCommandMap.put("104,110,1", new IRoomCommand() {
 
 			@Override
-			public boolean roomSpecialCommand(Group g, String[] msg) {
-				if (!(g instanceof PlayerGroup)) return false;
+			public boolean roomSpecialCommand(ICharacter g, String[] msg) {
+				if (!(g instanceof PlayerCharacter)) return false;
 				
 				MainMission mm = (MainMission) PlayerServer.getMissionMap().get(
 						MainMission.class.toString());
 				if (mm.getState() == MainMission.State.AFTER_DEFEATED){
-					CommandServer.informGroup(g, g.list.get(0).charList.get(0).getChiName()
+					CommandServer.informCharacter(g, g.list.get(0).list.get(0).getChiName()
 							+ "被打敗了，正在昏迷中。\n");
 					return true;
 				}
@@ -310,7 +310,7 @@ public class YiDormitoryRoomCommand {
 					match = true;
 				
 				if (match){
-					CommandServer.informGroup(g, g.list.get(0).charList.get(0).getChiName()
+					CommandServer.informCharacter(g, g.list.get(0).list.get(0).getChiName()
 							+ "的腳被黑影纏住了，動彈不得!\n");
 					return true;
 				}

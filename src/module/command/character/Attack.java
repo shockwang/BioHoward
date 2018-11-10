@@ -1,6 +1,5 @@
 package module.command.character;
 
-import module.character.Group;
 import module.character.GroupList;
 import module.character.api.ICharacter;
 import module.command.CommandServer;
@@ -25,11 +24,9 @@ public class Attack implements ICommand {
 
 	@Override
 	public boolean action(ICharacter c, String[] command) {
-		Group g = c.getMyGroup();
-
-		synchronized (g.getAtRoom()) {
+		synchronized (c.getAtRoom()) {
 			ICharacter target = null;
-			if (g.getInBattle()) {
+			if (c.getInBattle()) {
 				GroupList enemyList = g.getBattleTask().getEnemyGroups(c);
 				if (command.length == 2) {
 					target = enemyList.findFirstAliveChar();
@@ -39,12 +36,12 @@ public class Attack implements ICommand {
 							.findCharExceptGroup(g, ttt);
 					if (target != null) {
 						if (target.getMyGroup() == g) {
-							CommandServer.informGroup(g, "或硂或み稱ю阑︸?\n");
+							CommandServer.informCharacter(g, "或硂或み稱ю阑︸?\n");
 							return false;
 						} else {
 							if (!(target.getMyGroup().getInBattle())) {
 								if (target.getMyGroup().getTalking()){
-									CommandServer.informGroup(g, "產タ量杠单\n");
+									CommandServer.informCharacter(g, "產タ量杠单\n");
 									return false;
 								}
 								// add the group to enemyList
@@ -60,7 +57,7 @@ public class Attack implements ICommand {
 				}
 			} else {
 				if (command.length == 2) {
-					CommandServer.informGroup(g,
+					CommandServer.informCharacter(g,
 							String.format("稱琵%sю阑街㎡?\n", c.getChiName()));
 					return false;
 				} else {
@@ -69,12 +66,12 @@ public class Attack implements ICommand {
 							.findCharExceptGroup(g, ttt);
 					if (target != null) {
 						if (target.getMyGroup() == g) {
-							CommandServer.informGroup(g, "或硂或み稱ю阑︸?\n");
+							CommandServer.informCharacter(g, "或硂或み稱ю阑︸?\n");
 							return false;
 						} else {
 							if (!target.getMyGroup().getInBattle()) {
 								if (target.getMyGroup().getTalking()){
-									CommandServer.informGroup(g, "產タ量杠单\n");
+									CommandServer.informCharacter(g, "產タ量杠单\n");
 									return false;
 								}
 								// attack mechanism
@@ -97,7 +94,7 @@ public class Attack implements ICommand {
 				BattleUtil.attackMechanism(c, target);
 				return true;
 			} else {
-				CommandServer.informGroup(g, "璶ю阑癸禜ぃ硂柑.\n");
+				CommandServer.informCharacter(g, "璶ю阑癸禜ぃ硂柑.\n");
 				return false;
 			}
 		}

@@ -5,8 +5,8 @@ import java.io.BufferedReader;
 import module.battle.BattleTask;
 import module.battle.chapter0.DormKeeperBattle;
 import module.battle.chapter0.ShadowBattle;
-import module.character.Group;
-import module.character.PlayerGroup;
+import module.character.ICharacter;
+import module.character.PlayerCharacter;
 import module.character.constants.CConfig.config;
 import module.character.instance.chapter0.DarkShadow;
 import module.character.instance.chapter0.MadStudent;
@@ -30,7 +30,7 @@ public class YiDormitoryEvent {
 	public static void initialize(){
 		EventUtil.mapEventMap.put("102,100,3", new AbstractEvent(){
 			@Override
-			public boolean isTriggered(Group g){
+			public boolean isTriggered(ICharacter g){
 				if (super.isTriggered(g)){
 					MainMission mm = (MainMission) PlayerServer.getMissionMap().get(MainMission.class.toString());
 					if (mm == null ||
@@ -42,8 +42,8 @@ public class YiDormitoryEvent {
 			}
 
 			@Override
-			public void doEvent(Group g) {
-				PlayerGroup pg = (PlayerGroup) g;
+			public void doEvent(ICharacter g) {
+				PlayerCharacter pg = (PlayerCharacter) g;
 				
 				MainMission mm = (MainMission) PlayerServer.getMissionMap()
 						.get(MainMission.class.toString());
@@ -90,7 +90,7 @@ public class YiDormitoryEvent {
 							}
 						}
 					} catch (SkipEventException e){
-						CommandServer.informGroup(pg, "跳過劇情。\n");
+						CommandServer.informCharacter(pg, "跳過劇情。\n");
 					}
 					String[] msg2 = {"talk", "roommate"};
 					CommandServer.readCommand(pg, msg2);
@@ -244,7 +244,7 @@ public class YiDormitoryEvent {
 							EventUtil.informCheckReset(pg, buf, in);
 						}
 					} catch (SkipEventException e){
-						CommandServer.informGroup(pg, "跳過劇情。\n");
+						CommandServer.informCharacter(pg, "跳過劇情。\n");
 					}
 					mm.setState(MainMission.State.START_SEARCHING);
 					pg.setInEvent(false);
@@ -254,7 +254,7 @@ public class YiDormitoryEvent {
 		
 		EventUtil.mapEventMap.put("100,92,1", new AbstractEvent(){
 			@Override
-			public boolean isTriggered(Group g){
+			public boolean isTriggered(ICharacter g){
 				if (super.isTriggered(g)){
 					TwoDoorsMission tdm = (TwoDoorsMission) PlayerServer.getMissionMap()
 							.get(TwoDoorsMission.class.toString());
@@ -266,9 +266,9 @@ public class YiDormitoryEvent {
 			}
 			
 			@Override
-			public void doEvent(Group g) {
+			public void doEvent(ICharacter g) {
 				g.setInEvent(true);
-				PlayerGroup pg = (PlayerGroup) g;
+				PlayerCharacter pg = (PlayerCharacter) g;
 				
 				TwoDoorsMission tdm = (TwoDoorsMission) PlayerServer.getMissionMap()
 						.get(TwoDoorsMission.class.toString());
@@ -293,7 +293,7 @@ public class YiDormitoryEvent {
 						g.getAtRoom().informRoom(buf.toString() + "\n");
 					}
 				} catch (SkipEventException e){
-					CommandServer.informGroup(pg, "跳過劇情。\n");
+					CommandServer.informCharacter(pg, "跳過劇情。\n");
 				}
 				tdm.south = true;
 				if (tdm.south && tdm.north){
@@ -310,7 +310,7 @@ public class YiDormitoryEvent {
 		EventUtil.mapEventMap.put("100,103,1", new AbstractEvent(){
 			
 			@Override
-			public boolean isTriggered(Group g){
+			public boolean isTriggered(ICharacter g){
 				if (super.isTriggered(g)){
 					TwoDoorsMission tdm = (TwoDoorsMission) PlayerServer.getMissionMap()
 							.get(TwoDoorsMission.class.toString());
@@ -322,9 +322,9 @@ public class YiDormitoryEvent {
 			}
 
 			@Override
-			public void doEvent(Group g) {
+			public void doEvent(ICharacter g) {
 				g.setInEvent(true);
-				PlayerGroup pg = (PlayerGroup) g;
+				PlayerCharacter pg = (PlayerCharacter) g;
 				
 				TwoDoorsMission tdm = (TwoDoorsMission) PlayerServer.getMissionMap()
 						.get(TwoDoorsMission.class.toString());
@@ -344,7 +344,7 @@ public class YiDormitoryEvent {
 						g.getAtRoom().informRoom(buf.toString() + "\n");
 					}
 				} catch (SkipEventException e){
-					CommandServer.informGroup(pg, "跳過劇情。\n");
+					CommandServer.informCharacter(pg, "跳過劇情。\n");
 				}
 				tdm.north = true;
 				if (tdm.south && tdm.north){
@@ -362,7 +362,7 @@ public class YiDormitoryEvent {
 		EventUtil.mapEventMap.put("101,92,1", new AbstractEvent(){
 			
 			@Override
-			public boolean isTriggered(Group g){
+			public boolean isTriggered(ICharacter g){
 				if (super.isTriggered(g)){
 					MainMission mm = (MainMission) PlayerServer.getMissionMap().get(MainMission.class.toString());
 					if (mm.getState() == MainMission.State.FOUND_DOORS_BLOCKED)
@@ -372,8 +372,8 @@ public class YiDormitoryEvent {
 			}
 
 			@Override
-			public void doEvent(Group g) {
-				PlayerGroup pg = (PlayerGroup) g;
+			public void doEvent(ICharacter g) {
+				PlayerCharacter pg = (PlayerCharacter) g;
 				
 				MainMission mm = (MainMission) PlayerServer.getMissionMap().get(MainMission.class.toString());
 				if (mm.getState() == MainMission.State.FOUND_DOORS_BLOCKED){
@@ -400,7 +400,7 @@ public class YiDormitoryEvent {
 						buf.append("霍華：只好去找找看有沒有什麼可用的工具了。\n");
 						g.getAtRoom().informRoom(buf.toString());
 					} catch (SkipEventException e){
-						CommandServer.informGroup(pg, "跳過劇情。\n");
+						CommandServer.informCharacter(pg, "跳過劇情。\n");
 					}
 					g.setInEvent(false);
 				}
@@ -411,7 +411,7 @@ public class YiDormitoryEvent {
 		EventUtil.mapEventMap.put("101,91,2", new AbstractEvent() {
 
 			@Override
-			public boolean isTriggered(Group g){
+			public boolean isTriggered(ICharacter g){
 				if (super.isTriggered(g)){
 					IMission m = PlayerServer.getMissionMap().get(ContainerTutorialMission.class.toString());
 					if (m == null) return true;
@@ -420,8 +420,8 @@ public class YiDormitoryEvent {
 			}
 			
 			@Override
-			public void doEvent(Group g) {
-				PlayerGroup pg = (PlayerGroup) g;
+			public void doEvent(ICharacter g) {
+				PlayerCharacter pg = (PlayerCharacter) g;
 				
 				if (pg.getConfigData().get(config.TUTORIAL_ON)){
 					g.setInEvent(true);
@@ -488,7 +488,7 @@ public class YiDormitoryEvent {
 						CommandServer.readCommand(pg, msg4);
 						EventUtil.executeEventMessage(pg, "use_item_tutorial");
 					} catch (SkipEventException e){
-						CommandServer.informGroup(pg, "跳過劇情。\n");
+						CommandServer.informCharacter(pg, "跳過劇情。\n");
 					}
 					g.setInEvent(false);
 				}
@@ -498,7 +498,7 @@ public class YiDormitoryEvent {
 		
 		EventUtil.mapEventMap.put("100,91,1", new AbstractEvent() {
 			@Override
-			public boolean isTriggered(Group g){
+			public boolean isTriggered(ICharacter g){
 				if (super.isTriggered(g)){
 					FirstTimeSeeKeeperMission ftskm = (FirstTimeSeeKeeperMission) PlayerServer
 							.getMissionMap().get(FirstTimeSeeKeeperMission.class.toString());
@@ -508,12 +508,12 @@ public class YiDormitoryEvent {
 			}
 			
 			@Override
-			public void doEvent(Group g) {
+			public void doEvent(ICharacter g) {
 				g.setInEvent(true);
 				PlayerServer.getMissionMap().put(FirstTimeSeeKeeperMission.class.toString(), 
 						new FirstTimeSeeKeeperMission());
-				EventUtil.executeEventMessage((PlayerGroup) g, "first time see keeper");
-				Group gg = g.getAtRoom().getGroupList().findGroup("keeper");
+				EventUtil.executeEventMessage((PlayerCharacter) g, "first time see keeper");
+				ICharacter gg = g.getAtRoom().getGroupList().findGroup("keeper");
 				new DormKeeperBattle(gg, g);
 				g.setInEvent(false);
 			}
@@ -522,7 +522,7 @@ public class YiDormitoryEvent {
 		EventUtil.mapEventMap.put("100,101,3", new AbstractEvent() {
 			
 			@Override
-			public boolean isTriggered(Group g){
+			public boolean isTriggered(ICharacter g){
 				if (super.isTriggered(g)){
 					MainMission mm = (MainMission) PlayerServer.getMissionMap()
 							.get(MainMission.class.toString());
@@ -533,9 +533,9 @@ public class YiDormitoryEvent {
 			}
 
 			@Override
-			public void doEvent(Group g) {
+			public void doEvent(ICharacter g) {
 				g.setInEvent(true);
-				EventUtil.executeEventMessage((PlayerGroup) g, "find_hydrualic_cut");
+				EventUtil.executeEventMessage((PlayerCharacter) g, "find_hydrualic_cut");
 				((MainMission) PlayerServer.getMissionMap()
 						.get(MainMission.class.toString())).setState(
 								MainMission.State.AFTER_FOUND_CUTTER);
@@ -546,7 +546,7 @@ public class YiDormitoryEvent {
 		EventUtil.mapEventMap.put("104,110,1", new AbstractEvent() {
 			
 			@Override
-			public boolean isTriggered(Group g){
+			public boolean isTriggered(ICharacter g){
 				if (super.isTriggered(g)){
 					MainMission mm = (MainMission) PlayerServer.getMissionMap()
 							.get(MainMission.class.toString());
@@ -557,17 +557,17 @@ public class YiDormitoryEvent {
 			}
 			
 			@Override
-			public void doEvent(Group g) {
+			public void doEvent(ICharacter g) {
 				g.setInEvent(true);
-				EventUtil.executeEventMessage((PlayerGroup) g, "see_shadow");
+				EventUtil.executeEventMessage((PlayerCharacter) g, "see_shadow");
 				MainMission mm = (MainMission) PlayerServer.getMissionMap()
 						.get(MainMission.class.toString());
 				mm.setState(MainMission.State.FIGHT_WITH_SHADOW);
 				
 				// create shadow group
-				Group enemyG = new Group(new DarkShadow());
+				ICharacter enemyG = new ICharacter(new DarkShadow());
 				enemyG.setIsRespawn(false);
-				MapUtil.initializeGroupAtMap(enemyG, g.getAtRoom());
+				MapUtil.initializeCharacterAtMap(enemyG, g.getAtRoom());
 				new ShadowBattle(enemyG, g);
 				g.setInEvent(false);
 			}
@@ -577,7 +577,7 @@ public class YiDormitoryEvent {
 		EventUtil.mapEventMap.put("103,103,1", new AbstractEvent() {
 			
 			@Override
-			public boolean isTriggered(Group g){
+			public boolean isTriggered(ICharacter g){
 				if (super.isTriggered(g)){
 					if (PlayerServer.getMissionMap().get(SoapMission.class.toString()) == null)
 						return true;
@@ -586,16 +586,16 @@ public class YiDormitoryEvent {
 			}
 			
 			@Override
-			public void doEvent(Group g) {
+			public void doEvent(ICharacter g) {
 				g.setInEvent(true);
 				PlayerServer.getMissionMap().put(SoapMission.class.toString(), 
 						new SoapMission());
 				IRoom here = g.getAtRoom();
 				here.getItemList().addItem(new Soap());
-				EventUtil.executeEventMessage((PlayerGroup) g, "soap_event");
-				Group enemyG = new Group(new MadStudent());
+				EventUtil.executeEventMessage((PlayerCharacter) g, "soap_event");
+				ICharacter enemyG = new ICharacter(new MadStudent());
 				enemyG.setIsRespawn(false);
-				MapUtil.initializeGroupAtMap(enemyG, here);
+				MapUtil.initializeCharacterAtMap(enemyG, here);
 				new BattleTask(enemyG, g);
 				g.setInEvent(false);
 			}

@@ -1,13 +1,11 @@
 package module.map.api;
 
-import java.io.Serializable;
-
 import module.character.api.ICharacter;
 import module.map.PositionDoor;
 import module.map.constants.CDoorAttribute.doorAttribute;
 import module.map.constants.CDoorAttribute.doorStatus;
 
-public interface IDoor extends Serializable {
+public interface IDoor {
 	// description
 	void setDescription(String des);
 	String getDescription();

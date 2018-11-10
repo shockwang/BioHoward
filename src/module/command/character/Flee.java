@@ -1,6 +1,6 @@
 package module.command.character;
 
-import module.character.Group;
+import module.character.ICharacter;
 import module.character.api.ICharacter;
 import module.command.CommandServer;
 import module.command.api.ICommand;
@@ -25,11 +25,11 @@ public class Flee implements ICommand {
 
 	@Override
 	public boolean action(ICharacter c, String[] command) {
-		Group g = c.getMyGroup();
+		ICharacter g = c.getMyGroup();
 
 		synchronized (g.getAtRoom()) {
 			if (!g.getInBattle()) {
-				CommandServer.informGroup(g, "你並沒有在戰鬥中，為何要逃跑?\n");
+				CommandServer.informCharacter(g, "你並沒有在戰鬥中，為何要逃跑?\n");
 				return false;
 			} else {
 				// TODO: implement flee mechanism

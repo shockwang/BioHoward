@@ -1,6 +1,5 @@
 package module.command.character;
 
-import module.character.Group;
 import module.character.api.ICharacter;
 import module.command.CommandServer;
 import module.command.api.ICommand;
@@ -19,7 +18,7 @@ public class Open implements ICommand {
 	public Open() {
 		name = new String[2];
 		name[0] = "open";
-		name[1] = "o";
+		name[1] = "op";
 	}
 
 	@Override
@@ -29,43 +28,41 @@ public class Open implements ICommand {
 
 	@Override
 	public boolean action(ICharacter c, String[] command) {
-		Group g = c.getMyGroup();
-
-		if (command.length == 2) {
-			CommandServer.informGroup(g, "你想讓" + c.getChiName() + "打開什麼?\n");
+		if (command.length == 1) {
+			CommandServer.informCharacter(c, "你想打開什麼?\n");
 			return false;
 		}
 		
 		// exit case
-		exit target = MoveUtil.getWay(command[2]);
+		exit target = MoveUtil.getWay(command[1]);
 		if (target != null){
 			try {
-				IDoor targetDoor = g.getAtRoom().getExits().get(target).getDoor();
+				IDoor targetDoor = c.getAtRoom().getExits().get(target).getDoor();
 				synchronized (targetDoor) {
 					if (targetDoor.getDoorStatus() == doorStatus.OPENED)
-						CommandServer.informGroup(g, "這個方向的門早就是開著的了。\n");
+						CommandServer.informCharacter(c, "這個方向的門早就是開著的了。\n");
 					else if (targetDoor.getDoorStatus() == doorStatus.LOCKED)
-						CommandServer.informGroup(g, "這扇門上鎖了喔。\n");
+						CommandServer.informCharacter(c, "這扇門上鎖了喔。\n");
 					else {
 						if (targetDoor.getDoorAttribute() == doorAttribute.BROKEN){
-							CommandServer.informGroup(g, "這扇門壞掉了，打不開。\n");
+							CommandServer.informCharacter(c, "這扇門壞掉了，打不開。\n");
 							return false;
 						}
 						targetDoor.setDoorStatus(doorStatus.OPENED);
-						g.getAtRoom().informRoom(c.getChiName() + "打開了"
+						c.getAtRoom().informRoom(c.getChiName() + "打開了"
 								+ target.chineseName + "方的門。\n");
-						if (g.getInBattle())
+						if (c.getInBattle())
 							return true;
 					}
 				}
 			} catch (NullPointerException e){
-				CommandServer.informGroup(g, "這個方向沒有門喔。\n");
+				CommandServer.informCharacter(c, "這個方向沒有門喔。\n");
 			}
 			return false;
 		} 
 		
 		// container case
-		IContainer container = ItemUtil.checkIsContainer(g, g.getAtRoom().getItemList(), command[2]);
+		IContainer container = ItemUtil.checkIsContainer(c, c.getAtRoom().getItemList(), command[1]);
 		if (container != null){
 			if (container.onOpen(c)) return true;
 		}
@@ -79,6 +76,11 @@ public class Open implements ICommand {
 		output += "\n";
 		output += HelpUtil.getHelp("resources/help/chooseTeammate.help");
 		return output;
+	}
+
+	@Override
+	public int getEnergyCost() {
+		return 50;
 	}
 
 }

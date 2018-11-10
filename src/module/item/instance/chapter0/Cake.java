@@ -1,6 +1,5 @@
 package module.item.instance.chapter0;
 
-import module.character.Group;
 import module.character.api.ICharacter;
 import module.character.constants.CAttribute.attribute;
 import module.item.useable.AbstractUsableItem;
@@ -21,8 +20,6 @@ public class Cake extends AbstractUsableItem {
 
 	@Override
 	public boolean onUse(ICharacter src) {
-		Group g = src.getMyGroup();
-
 		if (super.onUse(src)) {
 			StringBuffer buf = new StringBuffer();
 			buf.append(String.format("%s%s", src.getChiName(), this.getChiName()));
@@ -30,8 +27,8 @@ public class Cake extends AbstractUsableItem {
 				buf.append("確" + recover + "翴砰\n");
 			else buf.append("ぐ或ㄆ常⊿Τ祇ネ\n");
 			
-			g.getAtRoom().informRoom(buf.toString());
-			g.getInventory().removeItem(this);
+			src.getAtRoom().informRoom(buf.toString());
+			src.getInventory().removeItem(this);
 			return true;
 		}
 		return false;
@@ -39,8 +36,6 @@ public class Cake extends AbstractUsableItem {
 
 	@Override
 	public boolean onUse(ICharacter src, ICharacter target) {
-		Group g = src.getMyGroup();
-
 		if (super.onUse(src)) {
 			if (src == target) return this.onUse(src);
 			else {
@@ -51,8 +46,8 @@ public class Cake extends AbstractUsableItem {
 					buf.append("ㄏ確" + recover + "翴砰\n");
 				else buf.append("ぐ或ㄆ常⊿Τ祇ネ\n");
 				
-				g.getAtRoom().informRoom(buf.toString());
-				g.getInventory().removeItem(this);
+				src.getAtRoom().informRoom(buf.toString());
+				src.getInventory().removeItem(this);
 				return true;
 			}
 		}

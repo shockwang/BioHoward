@@ -1,10 +1,8 @@
 package module.map.api;
 
-import java.io.Serializable;
 import java.util.concurrent.ConcurrentHashMap;
 
-import module.character.Group;
-import module.character.GroupList;
+import module.character.CharList;
 import module.character.api.ICharacter;
 import module.command.api.ICommand;
 import module.item.ItemList;
@@ -13,7 +11,7 @@ import module.map.Neighbor;
 import module.map.Position;
 import module.map.constants.CExit;
 
-public interface IRoom extends Serializable{
+public interface IRoom {
 	// interface for map unit in the game
 
 	// position information
@@ -26,7 +24,7 @@ public interface IRoom extends Serializable{
 	void setDescription(String description);
 	String getDescription();
 	String displayRoom(); 
-	String displayRoomExceptGroup(Group g);
+	String displayRoomExceptCharacter(ICharacter c);
 	
 	// exits & neighbor rooms & door
 	ConcurrentHashMap<CExit.exit, Neighbor> getExits();
@@ -36,14 +34,13 @@ public interface IRoom extends Serializable{
 	void removeSingleExit(CExit.exit way);
 	
 	// search & edit objects
-	GroupList getGroupList();
-	ICharacter searchCharByName(String groupName, String name);
+	CharList getCharList();
 	
 	IItem searchItemByName(String name);
 	
 	// inform message to creatures in room
 	void informRoom(String message);
-	void informRoomExceptGroup(Group g, String message);
+	void informRoomExceptCharacter(ICharacter c, String message);
 	
 	// special commands in the room
 	ICommand roomCommand(String message);

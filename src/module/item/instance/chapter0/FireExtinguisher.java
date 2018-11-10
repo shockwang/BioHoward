@@ -1,6 +1,5 @@
 package module.item.instance.chapter0;
 
-import module.character.Group;
 import module.character.api.ICharacter;
 import module.character.constants.CSpecialStatus;
 import module.character.constants.CSpecialStatus.specialStatus;
@@ -34,10 +33,8 @@ public class FireExtinguisher extends AbstractHarmfulItem {
 
 	@Override
 	protected boolean useAction(ICharacter src, ICharacter target) {
-		Group g = src.getMyGroup();
-		
 		if (count >= 10)
-			CommandServer.informGroup(g, this.getChiName()
+			CommandServer.informCharacter(src, this.getChiName()
 					+ "的內容物已經耗盡，再也噴不出東西來了。\n");
 		else {
 			if (src == target) {
@@ -50,13 +47,13 @@ public class FireExtinguisher extends AbstractHarmfulItem {
 				 * buf.append("Jazz for you Soul!\n");
 				 * g.getAtRoom().informRoom(buf.toString());
 				 */
-				g.getAtRoom().informRoom(
+				src.getAtRoom().informRoom(
 						String.format("%s舉起%s對著自己的臉狂噴，他有病嗎?\n",
 								src.getChiName(), this.getChiName(), src.getChiName()));
 				CSpecialStatus.setSpecialStatus(src, specialStatus.BLIND, 10);
 			}
 			else {
-				g.getAtRoom().informRoom(
+				src.getAtRoom().informRoom(
 						String.format("%s舉起%s對著%s的臉上噴去，使他的臉上蓋滿了白白的泡沫!\n",
 								src.getChiName(), this.getChiName(),
 								target.getChiName(), target.getChiName()));
@@ -70,13 +67,11 @@ public class FireExtinguisher extends AbstractHarmfulItem {
 
 	@Override
 	protected boolean useAction(ICharacter src) {
-		Group g = src.getMyGroup();
-		
 		if (count >= 10)
-			CommandServer.informGroup(g, this.getChiName()
+			CommandServer.informCharacter(src, this.getChiName()
 					+ "的內容物已經耗盡，再也噴不出東西來了。\n");
 		else {
-			g.getAtRoom().informRoom("你想要拿滅火器噴誰呢?\n");
+			src.getAtRoom().informRoom("你想要拿滅火器噴誰呢?\n");
 		}
 		return false;
 	}

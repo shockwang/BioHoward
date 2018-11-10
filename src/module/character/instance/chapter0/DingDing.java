@@ -1,7 +1,7 @@
 package module.character.instance.chapter0;
 
 import module.character.AbstractCharacter;
-import module.character.PlayerGroup;
+import module.character.api.ICharacter;
 import module.character.constants.CAttribute.attribute;
 import module.character.constants.CStatus.status;
 
@@ -32,7 +32,7 @@ public class DingDing extends AbstractCharacter{
 	}
 	
 	@Override
-	public void onTalk(PlayerGroup pg){
-		pg.getAtRoom().informRoom("丁丁對" + pg.list.get(0).charList.get(0).getChiName() + "熱情的搖尾巴。\n");
+	public void onTalk(ICharacter pg){
+		pg.getAtRoom().informRoom("丁丁對" + pg.getChiName() + "熱情的搖尾巴。\n");
 	}
 }

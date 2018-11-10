@@ -1,7 +1,7 @@
 package module.character.instance.chapter0;
 
 import module.character.BaseHumanCharacter;
-import module.character.PlayerGroup;
+import module.character.PlayerCharacter;
 import module.character.constants.CAttribute.attribute;
 import module.character.constants.CStatus.status;
 import module.item.api.IEquipment.EquipType;
@@ -37,12 +37,12 @@ public class DormKeeper extends BaseHumanCharacter{
 	}
 	
 	@Override
-	public void doEventWhenGroupDown(PlayerGroup pg){
+	public void doEventWhenGroupDown(PlayerCharacter pc){
 		MainMission mm = (MainMission) PlayerServer.getMissionMap()
 				.get(MainMission.class.toString());
-		pg.setInEvent(true);
-		EventUtil.executeEventMessage(pg, "after_beat_keeper");
+		pc.setInEvent(true);
+		EventUtil.executeEventMessage(pc, "after_beat_keeper");
 		mm.setState(MainMission.State.AFTER_DEFEAT_MANAGER);
-		pg.setInEvent(false);
+		pc.setInEvent(false);
 	}
 }

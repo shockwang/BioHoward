@@ -81,7 +81,7 @@ public class BaseDoor implements IDoor {
 	}
 
 	private boolean hasKey(ICharacter c) {
-		for (SingleItemList list : c.getMyGroup().getInventory().itemList) {
+		for (SingleItemList list : c.getInventory().itemList) {
 			if (keyName.equals(list.list.get(0).getEngName()))
 				return true;
 		}

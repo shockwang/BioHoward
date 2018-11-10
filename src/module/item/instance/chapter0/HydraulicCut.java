@@ -31,7 +31,7 @@ public class HydraulicCut extends AbstractHarmfulItem{
 
 	@Override
 	protected boolean useAction(ICharacter src, ICharacter target) {
-		CommandServer.informGroup(src.getMyGroup(), 
+		CommandServer.informCharacter(src, 
 				"這個道具不適合拿來攻擊別人喔。\n");
 		return false;
 	}
@@ -39,9 +39,9 @@ public class HydraulicCut extends AbstractHarmfulItem{
 	@Override
 	protected boolean useAction(ICharacter src) {
 		IRoom targetRoom = MapUtil.roomMap.get("102,100,1");
-		if (src.getMyGroup().getAtRoom() == targetRoom){
+		if (src.getAtRoom() == targetRoom){
 			targetRoom.informRoom(src.getChiName() + "反覆操作著油壓剪，終於在扭曲的鐵窗上開出了一道出口。\n");
-			CommandServer.informGroup(src.getMyGroup(), 
+			CommandServer.informCharacter(src, 
 					src.getChiName() + "擦了擦頭上的汗：\"呼~總算可以出去了，快離開這鬼地方吧!\"\n");
 			PlayerServer.getMissionMap().get(MainMission.class.toString())
 				.setState(MainMission.State.AFTER_EXIT_DORMITORY);
@@ -53,7 +53,7 @@ public class HydraulicCut extends AbstractHarmfulItem{
 			return true;
 		}
 		else {
-			CommandServer.informGroup(src.getMyGroup(), 
+			CommandServer.informCharacter(src, 
 					src.getChiName() + "環顧四週，卻找不到適合的地方下手。\n");
 			return false;
 		}

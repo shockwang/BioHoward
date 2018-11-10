@@ -3,8 +3,8 @@ package module.battle.chapter0;
 import java.io.BufferedReader;
 
 import module.battle.BattleTask;
-import module.character.Group;
-import module.character.PlayerGroup;
+import module.character.ICharacter;
+import module.character.PlayerCharacter;
 import module.character.api.ICharacter;
 import module.character.constants.CConfig.config;
 import module.command.CommandServer;
@@ -14,7 +14,7 @@ import module.utility.IOUtil;
 public class FirstTutorialBattle extends BattleTask{
 	private int playerMoveCount;
 	
-	public FirstTutorialBattle(Group team1, Group team2) {
+	public FirstTutorialBattle(ICharacter team1, ICharacter team2) {
 		super(team1, team2);
 		playerMoveCount = 0;
 	}
@@ -30,16 +30,16 @@ public class FirstTutorialBattle extends BattleTask{
 		updatePlayerStatus(team2List.gList);
 		try {
 			for (ICharacter c : ready) {
-				if (c.getMyGroup() instanceof PlayerGroup) {
-					if (((PlayerGroup) c.getMyGroup()).getConfigData().get(config.TUTORIAL_ON)){
+				if (c.getMyGroup() instanceof PlayerCharacter) {
+					if (((PlayerCharacter) c.getMyGroup()).getConfigData().get(config.TUTORIAL_ON)){
 						isBlocked = true;
 						playerMoveCount++;
-						boolean skip = doEvent((PlayerGroup) c.getMyGroup());
+						boolean skip = doEvent((PlayerCharacter) c.getMyGroup());
 						isBlocked = false;
 						if (skip) continue;
 					}
 					
-					if (((PlayerGroup) c.getMyGroup()).getConfigData().get(
+					if (((PlayerCharacter) c.getMyGroup()).getConfigData().get(
 							config.REALTIMEBATTLE)) {
 						// real time battle
 
@@ -62,7 +62,7 @@ public class FirstTutorialBattle extends BattleTask{
 		}
 	}
 	
-	private boolean doEvent(PlayerGroup g){
+	private boolean doEvent(PlayerCharacter g){
 		StringBuffer buf = new StringBuffer();
 		BufferedReader in = g.getInFromClient();
 		String input;

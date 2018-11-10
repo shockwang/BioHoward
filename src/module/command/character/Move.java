@@ -1,6 +1,5 @@
-package module.command.group;
+package module.command.character;
 
-import module.character.Group;
 import module.character.api.ICharacter;
 import module.command.CommandServer;
 import module.command.api.ICommand;
@@ -40,44 +39,42 @@ public class Move implements ICommand {
 	public boolean action(ICharacter c, String[] command) {
 		exit go = MoveUtil.getWay(command[0]);
 		exit from = MoveUtil.getOppositeWay(go);
-
-		Group g = c.getMyGroup();
 		
 		boolean triggerRoomEvent = false;
-		synchronized (g.getAtRoom()) {
-			if (g.getInBattle()) {
-				CommandServer.informGroup(g, "隊伍正在戰鬥中喔!\n");
+		synchronized (c.getAtRoom()) {
+			if (c.getInBattle()) {
+				CommandServer.informCharacter(c, "你正在戰鬥中，不能移動!\n");
 			} else {
 				// implement the go-north mechanism.
-				if (g.getAtRoom().getExits().get(go) == null)
-					CommandServer.informGroup(g, "這個方向沒有路喔!\n");
-				else if (g.getAtRoom().getExits().get(go).getDoor() == null
-						|| g.getAtRoom().getExits().get(go).getDoor()
+				if (c.getAtRoom().getExits().get(go) == null)
+					CommandServer.informCharacter(c, "這個方向沒有路喔!\n");
+				else if (c.getAtRoom().getExits().get(go).getDoor() == null
+						|| c.getAtRoom().getExits().get(go).getDoor()
 								.getDoorStatus() == doorStatus.OPENED) {
-					IRoom here = g.getAtRoom();
+					IRoom here = c.getAtRoom();
 					IRoom nRoom = here.getExits().get(go).getRoom();
-					here.getGroupList().gList.remove(g);
-					here.informRoom(g.getChiName() + "朝" + go.chineseName
+					here.getCharList().removeChar(c);
+					here.informRoom(c.getChiName() + "朝" + go.chineseName
 							+ "邊離開了。\n");
-					nRoom.getGroupList().gList.add(g);
-					g.setAtRoom(nRoom);
-					nRoom.informRoomExceptGroup(g, g.getChiName() + "從"
+					nRoom.getCharList().addChar(c);
+					c.setAtRoom(nRoom);
+					nRoom.informRoomExceptCharacter(c, c.getChiName() + "從"
 							+ from.chineseName + "邊過來了。\n");
-					CommandServer.informGroup(g,
-							nRoom.displayRoomExceptGroup(g));
+					CommandServer.informCharacter(c,
+							nRoom.displayRoomExceptCharacter(c));
 					
 					// check if trigger room event
-					triggerRoomEvent = EventUtil.triggerRoomEvent(g);
-					if (triggerRoomEvent) g.setTalking(true);
+					triggerRoomEvent = EventUtil.triggerRoomEvent(c);
+					if (triggerRoomEvent) c.setTalking(true);
 					
-					NpcActionUtil.checkAutoAttackPlayerGroup(g.getAtRoom());
+					NpcActionUtil.checkAutoAttackPlayer(c.getAtRoom());
 				} else
-					CommandServer.informGroup(g, "那邊的門是關著的。\n");
+					CommandServer.informCharacter(c, "那邊的門是關著的。\n");
 			}
 		}
-		if (triggerRoomEvent){
-			EventUtil.doRoomEvent(g);
-			g.setTalking(false);
+		if (triggerRoomEvent) {
+			EventUtil.doRoomEvent(c);
+			c.setTalking(false);
 		}
 		
 		return false;
@@ -87,5 +84,10 @@ public class Move implements ICommand {
 	public String getHelp() {
 		String output = HelpUtil.getHelp("resources/help/move.help");
 		return output;
+	}
+
+	@Override
+	public int getEnergyCost() {
+		return 0;
 	}
 }

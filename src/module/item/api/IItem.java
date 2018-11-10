@@ -28,6 +28,9 @@ public interface IItem extends Serializable{
 	void setWeight(int weight);
 	int getWeight();
 	
+	// check if stackable
+	boolean isStackable();
+	
 	// expire mechanism on the ground
 	void setTTL(int ttl);
 	void updateTTL(int ttl);

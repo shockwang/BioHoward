@@ -1,9 +1,8 @@
 package module.utility;
 
 import module.character.CharList;
-import module.character.Group;
-import module.character.GroupList;
-import module.character.PlayerGroup;
+import module.character.PlayerCharacter;
+import module.character.SingleCharList;
 import module.character.api.ICharacter;
 import module.command.CommandServer;
 import module.item.SingleItemList;
@@ -13,21 +12,19 @@ import module.map.constants.CExit;
 import module.server.PlayerServer;
 
 public class NpcActionUtil {
-	public static void randomMove(Group g){
-		String[] select = CExit.getAccessibleExitsRoom(g.getAtRoom());
+	public static void randomMove(ICharacter c){
+		String[] select = CExit.getAccessibleExitsRoom(c.getAtRoom());
 		
 		if (select == null) return;
 		
 		int ddd = PlayerServer.getRandom().nextInt(select.length);
 		String[] output = {select[ddd]};
-		CommandServer.readCommand(g, output);
+		CommandServer.readCommand(c, output);
 	}
 	
 	public static void randomGet(ICharacter c){
-		Group g = c.getMyGroup();
-		
 		int itemNum = 0;
-		for (SingleItemList sil : g.getAtRoom().getItemList().itemList){
+		for (SingleItemList sil : c.getAtRoom().getItemList().itemList){
 			itemNum += sil.list.size();
 		}
 		if (itemNum == 0) return;
@@ -35,7 +32,7 @@ public class NpcActionUtil {
 		int ddd = PlayerServer.getRandom().nextInt(itemNum);
 		IItem target = null;
 		int index = 0, count = 0;
-		for (SingleItemList sil : g.getAtRoom().getItemList().itemList){
+		for (SingleItemList sil : c.getAtRoom().getItemList().itemList){
 			index = 1;
 			for (IItem obj : sil.list){
 				if (count == ddd) {
@@ -51,14 +48,12 @@ public class NpcActionUtil {
 		result[0] = Parse.getFirstWord(c.getEngName());
 		result[1] = "get";
 		result[2] = index + "." + Parse.getFirstWord(target.getEngName());
-		CommandServer.readCommand(g, result);
+		CommandServer.readCommand(c, result);
 	}
 	
 	public static void randomDrop(ICharacter c){
-		Group g = c.getMyGroup();
-
 		int itemNum = 0;
-		for (SingleItemList sil : g.getInventory().itemList){
+		for (SingleItemList sil : c.getInventory().itemList){
 			itemNum += sil.list.size();
 		}
 		if (itemNum == 0) return;
@@ -66,7 +61,7 @@ public class NpcActionUtil {
 		IItem target = null;
 		int ddd = PlayerServer.getRandom().nextInt(itemNum);
 		int index = 0, count = 0;
-		for (SingleItemList sil : g.getInventory().itemList){
+		for (SingleItemList sil : c.getInventory().itemList){
 			index = 1;
 			for (IItem obj : sil.list){
 				if (count == ddd){
@@ -80,61 +75,55 @@ public class NpcActionUtil {
 		
 		String[] result = {Parse.getFirstWord(c.getEngName()), "drop", 
 				index + "." + Parse.getFirstWord(target.getEngName())};
-		CommandServer.readCommand(g, result);
+		CommandServer.readCommand(c, result);
 	}
 	
-	public static void attackRandomPlayerGroup(ICharacter c){
-		String[] targetS = locateRandomPlayerGroup(c.getMyGroup().getAtRoom().getGroupList());
+	public static void attackRandomPlayer(ICharacter c){
+		String target = locateRandomPlayer(c.getAtRoom().getCharList());
 		
-		if (targetS == null) return;
-		String[] output = new String[targetS.length + 2];
-		output[0] = Parse.getFirstWord(c.getEngName());
-		output[1] = "attack";
-		for (int i = 0; i < targetS.length; i++) {
-			output[i + 2] = targetS[i];
-			System.out.print(targetS[i] + " ");
-		}
-		System.out.println();
-		CommandServer.readCommand(c.getMyGroup(), output);
+		if (target == null) return;
+		String[] output = new String[2];
+		output[0] = "attack";
+		output[1] = target;
+		System.out.println(c.getChiName() + "attack + " + target);
+		CommandServer.readCommand(c, output);
 	}
 	
 	
-	public static String[] locateRandomPlayerGroup(GroupList targetGList){
+	public static String locateRandomPlayer(CharList cList){
 		int num = 0;
-		for (Group gg : targetGList.gList){
-			if (gg instanceof PlayerGroup) {
-				num++;
+		for (SingleCharList scl : cList.charList) {
+			for (ICharacter c : scl.list) {
+				if (c instanceof PlayerCharacter) {
+					num++;
+				}
 			}
 		}
 		
 		if (num == 0) return null;
 		int ddd = PlayerServer.getRandom().nextInt(num);
-		int count = 0, targetIndex = 0;
-		for (Group gg : targetGList.gList){
-			if (gg instanceof PlayerGroup) {
-				if (ddd == count) {
-					int charNum = 0;
-					for (CharList cList : gg.list){
-						charNum += cList.charList.size();
+		int count = 0;
+		for (SingleCharList scl : cList.charList) {
+			for (ICharacter c : scl.list){
+				if (c instanceof PlayerCharacter) {
+					if (ddd == count) {
+						return c.getEngName();
 					}
-					targetIndex += PlayerServer.getRandom().nextInt(charNum);
-					String[] result = NpcBattleActionUtil.locateTargetCommand(
-							gg.getAtRoom().getGroupList(), targetIndex);
-					return result;
+					count++;
 				}
-				count++;
-			}
-			for (CharList cList : gg.list){
-				targetIndex += cList.charList.size();
 			}
 		}
+		
 		return null;
 	}
 	
-	public static void checkAutoAttackPlayerGroup(IRoom r){
-		for (Group g : r.getGroupList().gList){
-			if (g.list.get(0).charList.get(0).getHostile())
-				attackRandomPlayerGroup(g.list.get(0).charList.get(0));
+	public static void checkAutoAttackPlayer(IRoom r){
+		for (SingleCharList scl : r.getCharList().charList) {
+			for (ICharacter c : scl.list) {
+				if (c.getHostile()) {
+					attackRandomPlayer(c);
+				}
+			}
 		}
 	}
 }

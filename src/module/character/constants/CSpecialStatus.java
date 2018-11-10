@@ -4,7 +4,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 
-import module.character.PlayerGroup;
+import module.character.PlayerCharacter;
 import module.character.api.ICharacter;
 import module.command.CommandServer;
 
@@ -70,7 +70,7 @@ public class CSpecialStatus {
 	// remove a special status from a character
 	public static void removeSpecialStatus(ICharacter ch, specialStatus ss) {
 		ch.getSpecialStatusMap().remove(ss);
-		ch.getMyGroup().getAtRoom().informRoom(String.format("%s狀態從%s身上消失了。\n", 
+		ch.getAtRoom().informRoom(String.format("%s狀態從%s身上消失了。\n", 
 				ss.chineseName, ch.getChiName()));
 	}
 	
@@ -84,11 +84,11 @@ public class CSpecialStatus {
 			c.setSpecialStatus(ss, time);
 		}
 		
-		c.getMyGroup().getAtRoom().informRoom(output + "\n");
-		if (c.getMyGroup() instanceof PlayerGroup){
-			PlayerGroup pg = (PlayerGroup) c.getMyGroup();
+		c.getAtRoom().informRoom(output + "\n");
+		if (c instanceof PlayerCharacter){
+			PlayerCharacter pg = (PlayerCharacter) c;
 			String out = "status:" + pg.showGroupStatus();
-			CommandServer.informGroup(pg, out);
+			CommandServer.informCharacter(pg, out);
 		}
 	}
 	

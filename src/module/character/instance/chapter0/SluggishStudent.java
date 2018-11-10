@@ -1,7 +1,7 @@
 package module.character.instance.chapter0;
 
 import module.character.BaseHumanCharacter;
-import module.character.PlayerGroup;
+import module.character.api.ICharacter;
 import module.character.constants.CStatus.status;
 
 public class SluggishStudent extends BaseHumanCharacter{
@@ -27,8 +27,8 @@ public class SluggishStudent extends BaseHumanCharacter{
 	}
 	
 	@Override
-	public void onTalk(PlayerGroup g){
-		g.getAtRoom().informRoom(String.format("%s嘗試跟%s交談，但他一點反應也沒有。\n", 
-				g.list.get(0).charList.get(0).getChiName(), this.getChiName()));
+	public void onTalk(ICharacter c){
+		c.getAtRoom().informRoom(String.format("%s嘗試跟%s交談，但他一點反應也沒有。\n", 
+				c.getChiName(), this.getChiName()));
 	}
 }

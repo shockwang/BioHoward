@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
 
-import module.character.PlayerGroup;
+import module.character.PlayerCharacter;
 import module.command.CommandServer;
 import module.utility.IOUtil;
 
@@ -14,7 +14,7 @@ public class EachPlayerServer extends Thread {
 	private Socket connectionSocket = null;
 	private BufferedReader inFromClient = null;
 	private DataOutputStream outToClient = null;
-	private PlayerGroup playerGroup = null;
+	private PlayerCharacter pc = null;
 	
 	public Thread thisThread = null;
 
@@ -22,12 +22,12 @@ public class EachPlayerServer extends Thread {
 		this.connectionSocket = connectionSocket;
 	}
 
-	public void setGroup(PlayerGroup in) {
-		this.playerGroup = in;
+	public void setPlayer(PlayerCharacter in) {
+		this.pc = in;
 	}
 
-	public PlayerGroup getGroup() {
-		return this.playerGroup;
+	public PlayerCharacter getPlayer() {
+		return this.pc;
 	}
 
 	public DataOutputStream getOutToClient() {
@@ -56,7 +56,7 @@ public class EachPlayerServer extends Thread {
 			}
 			
 			thisThread = Thread.currentThread();
-			playerGroup.thisServer = this;
+			pc.thisServer = this;
 			//CommandServer.informGroup(playerGroup, "status:" + playerGroup.showGroupStatus());
 			//CommandServer.readCommand(playerGroup, "look".split(" "));
 			
@@ -64,12 +64,12 @@ public class EachPlayerServer extends Thread {
 			String[] lastInput = {""};
 			
 			while (PlayerServer.getServerRun()) {
-				if (playerGroup.getInEvent()) continue;
+				if (pc.getInEvent()) continue;
 				
 				// rollback the message read if group start the event
 				input = IOUtil.readLineFromClientSocket(inFromClient);
-				if (playerGroup.getInEvent()){
-					CommandServer.informGroup(playerGroup, "<ENTER>\n");
+				if (pc.getInEvent()){
+					CommandServer.informCharacter(pc, "<ENTER>\n");
 					continue;
 				} 
 				temp = input.split(" ");
@@ -82,7 +82,7 @@ public class EachPlayerServer extends Thread {
 					temp = lastInput;
 				
 				lastInput = temp;
-				CommandServer.readCommand(playerGroup, temp);
+				CommandServer.readCommand(pc, temp);
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

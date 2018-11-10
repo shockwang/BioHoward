@@ -1,6 +1,5 @@
 package module.command.character;
 
-import module.character.Group;
 import module.character.api.ICharacter;
 import module.command.CommandServer;
 import module.command.api.ICommand;
@@ -23,13 +22,11 @@ public class Equipment implements ICommand {
 
 	@Override
 	public boolean action(ICharacter c, String[] command) {
-		Group g = c.getMyGroup();
-
-		synchronized (g.getAtRoom()) {
+		synchronized (c.getAtRoom()) {
 			StringBuffer buf = new StringBuffer();
-			buf.append(c.getChiName() + "的裝備：\n");
+			buf.append("你的裝備：\n");
 			buf.append(ItemUtil.showPlayerEquip(c));
-			CommandServer.informGroup(g, buf.toString());
+			CommandServer.informCharacter(c, buf.toString());
 			return false;
 		}
 	}
@@ -40,6 +37,11 @@ public class Equipment implements ICommand {
 		output += "\n";
 		output += HelpUtil.getHelp("resources/help/chooseTeammate.help");
 		return output;
+	}
+
+	@Override
+	public int getEnergyCost() {
+		return 0;
 	}
 
 }

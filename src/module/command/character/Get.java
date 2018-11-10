@@ -1,6 +1,5 @@
 package module.command.character;
 
-import module.character.Group;
 import module.character.api.ICharacter;
 import module.command.CommandServer;
 import module.command.api.ICommand;
@@ -27,44 +26,41 @@ public class Get implements ICommand {
 
 	@Override
 	public boolean action(ICharacter c, String[] command) {
-		Group g = c.getMyGroup();
-
-		synchronized (g.getAtRoom()) {
-			if (command.length == 2) {
-				CommandServer.informGroup(g, "稱琵" + c.getChiName()
-						+ "具癬ぐ或狥﹁?\n");
+		synchronized (c.getAtRoom()) {
+			if (command.length == 1) {
+				CommandServer.informCharacter(c, "稱具癬ぐ或狥﹁?\n");
 				return false;
 			}
 
-			if (g.getInBattle()) {
-				if (command[2].equals("all")) {
-					CommandServer.informGroup(g, "タ驹矮い礚猭Ω具癬珇\n");
+			if (c.getInBattle()) {
+				if (command[1].equals("all")) {
+					CommandServer.informCharacter(c, "タ驹矮い礚猭Ω具癬珇\n");
 					return false;
 				}
 
-				if (command.length == 4) {
-					IContainer container = ItemUtil.checkIsContainer(g, g
-							.getAtRoom().getItemList(), command[3]);
+				if (command.length == 3) {
+					IContainer container = ItemUtil.checkIsContainer(c, c
+							.getAtRoom().getItemList(), command[2]);
 					if (container != null) {
-						if (container.onGetContent(c, command[2]))
+						if (container.onGetContent(c, command[1]))
 							return true;
 					}
 					return false;
 				} else {
-					IItem obj = g.getAtRoom().getItemList()
-							.findItem(command[2]);
+					IItem obj = c.getAtRoom().getItemList()
+							.findItem(command[1]);
 					if (obj != null) {
-						if (pickUpSingleItem(c, g, obj))
+						if (pickUpSingleItem(c, obj))
 							return true;
 					} else
-						CommandServer.informGroup(g, "硂柑⊿Τ稱具狥﹁\n");
+						CommandServer.informCharacter(c, "硂柑⊿Τ稱具狥﹁\n");
 				}
 			} else {
-				if (command.length == 4) {
-					IContainer container = ItemUtil.checkIsContainer(g, g
-							.getAtRoom().getItemList(), command[3]);
+				if (command.length == 3) {
+					IContainer container = ItemUtil.checkIsContainer(c, c
+							.getAtRoom().getItemList(), command[2]);
 					if (container != null) {
-						if (command[2].equals("all")) {
+						if (command[1].equals("all")) {
 							while (container.getItemList().itemList.size() > 0) {
 								IItem obj = container.getItemList().itemList
 										.get(0).findItem(0);
@@ -73,27 +69,27 @@ public class Get implements ICommand {
 								if (!container.onGetContent(c, target))
 									break;
 							}
-							CommandServer.informGroup(g, "OK.\n");
+							CommandServer.informCharacter(c, "OK.\n");
 						} else {
-							container.onGetContent(c, command[2]);
+							container.onGetContent(c, command[1]);
 						}
 					}
 				} else {
 					IItem obj = null;
-					if (command[2].equals("all")) {
-						while (g.getAtRoom().getItemList().itemList.size() > 0) {
-							obj = g.getAtRoom().getItemList().itemList.get(0)
+					if (command[1].equals("all")) {
+						while (c.getAtRoom().getItemList().itemList.size() > 0) {
+							obj = c.getAtRoom().getItemList().itemList.get(0)
 									.findItem(0);
-							if (!pickUpSingleItem(c, g, obj)) break;
+							if (!pickUpSingleItem(c, obj)) break;
 						}
-						CommandServer.informGroup(g, "OK.\n");
+						CommandServer.informCharacter(c, "OK.\n");
 						return false;
 					}
-					obj = g.getAtRoom().getItemList().findItem(command[2]);
+					obj = c.getAtRoom().getItemList().findItem(command[1]);
 					if (obj != null) {
-						pickUpSingleItem(c, g, obj);
+						pickUpSingleItem(c, obj);
 					} else
-						CommandServer.informGroup(g, "硂柑⊿Τ稱具狥﹁\n");
+						CommandServer.informCharacter(c, "硂柑⊿Τ稱具狥﹁\n");
 				}
 			}
 			return false;
@@ -108,28 +104,33 @@ public class Get implements ICommand {
 		return output;
 	}
 
-	private boolean pickUpSingleItem(ICharacter c, Group g, IItem obj) {
+	private boolean pickUpSingleItem(ICharacter c, IItem obj) {
 		// shock add for container test
 		if (obj instanceof IContainer) {
 			IContainer container = (IContainer) obj;
 			switch (container.getType()) {
 			case FIXED_POSITION:
 			case TREASURE_BOX:
-				CommandServer.informGroup(g, "硂甧竟琌ぃ繦種具癬\n");
+				CommandServer.informCharacter(c, "硂甧竟琌ぃ繦種具癬\n");
 				return false;
 			default:
 				// do nothing for now
 			}
 		}
 		// shock add end
-		g.getAtRoom().getItemList().removeItem(obj);
-		g.getInventory().addItem(obj);
-		g.getAtRoom().informRoom(
+		c.getAtRoom().getItemList().removeItem(obj);
+		c.getInventory().addItem(obj);
+		c.getAtRoom().informRoom(
 				c.getChiName() + "具癬" + obj.getChiName() + "\n");
 		obj.setTTL(0);
 		obj.setAtRoom(null);
 		PlayerServer.getSystemTime().removeItem(obj);
 		return true;
+	}
+
+	@Override
+	public int getEnergyCost() {
+		return 50;
 	}
 
 }

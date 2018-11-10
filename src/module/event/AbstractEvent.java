@@ -1,14 +1,14 @@
 package module.event;
 
-import module.character.Group;
-import module.character.PlayerGroup;
+import module.character.PlayerCharacter;
+import module.character.api.ICharacter;
 import module.event.api.IEvent;
 
 public abstract class AbstractEvent implements IEvent{
 
 	@Override
-	public boolean isTriggered(Group g) {
-		if (g instanceof PlayerGroup) return true;
+	public boolean isTriggered(ICharacter c) {
+		if (c instanceof PlayerCharacter) return true;
 		return false;
 	}
 }

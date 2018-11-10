@@ -5,8 +5,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Map.Entry;
 
 import module.battle.BattleTask;
-import module.character.Group;
-import module.character.PlayerGroup;
+import module.character.ICharacter;
+import module.character.PlayerCharacter;
 import module.character.api.ICharacter;
 import module.character.constants.CAttribute.attribute;
 import module.character.constants.CSpecialStatus;
@@ -20,10 +20,10 @@ import module.server.PlayerServer;
 
 public class BattleUtil {
 	public static void deadMechanism(ICharacter target) {
-		Group g = target.getMyGroup();
+		ICharacter g = target.getMyGroup();
 		target.getMyGroup().getAtRoom().informRoom(target.getChiName() + "ぃ癬!\n");
 
-		if (g instanceof PlayerGroup) {
+		if (g instanceof PlayerCharacter) {
 			target.getAttributeMap().get(attribute.HP).setCurrent(0);
 			synchronized (g.getBattleTask().getTimeMap()) {
 				g.getBattleTask().getTimeMap().get(target).setCurrent(0);
@@ -50,12 +50,12 @@ public class BattleUtil {
 	}
 	
 	public static boolean checkIfAbleToStartBattle(ICharacter src, ICharacter target){
-		Group g = src.getMyGroup();
+		ICharacter g = src.getMyGroup();
 		
 		if (g.getTalking() || g.getInEvent()){
-			CommandServer.informGroup(g, "钉ヮタΓ㎡单\n");
+			CommandServer.informCharacter(g, "钉ヮタΓ㎡单\n");
 		} else if (target.getMyGroup().getTalking() || target.getMyGroup().getInEvent()){
-			CommandServer.informGroup(g, "﹚钉ヮタΓ㎡单\n");
+			CommandServer.informCharacter(g, "﹚钉ヮタΓ㎡单\n");
 		} else 
 			return true;
 		return false;
@@ -64,8 +64,8 @@ public class BattleUtil {
 	public static void handleBattleTaskBehavior(ICharacter src, ICharacter target){
 		if (src.getMyGroup() == target.getMyGroup()) return;
 		
-		Group gS = src.getMyGroup();
-		Group gT = target.getMyGroup();
+		ICharacter gS = src.getMyGroup();
+		ICharacter gT = target.getMyGroup();
 		if (gS.getInBattle()){
 			if (gT.getInBattle()){
 				if (gS == gT) return; // already in the same battle
@@ -145,9 +145,9 @@ public class BattleUtil {
 				BattleUtil.deadMechanism(target);
 			}
 			
-			if (target.getMyGroup() instanceof PlayerGroup) {
+			if (target.getMyGroup() instanceof PlayerCharacter) {
 				target.getMyGroup().getBattleTask()
-						.updatePlayerStatus((PlayerGroup) target.getMyGroup());
+						.updatePlayerStatus((PlayerCharacter) target.getMyGroup());
 			}
 			return;
 		} else {
@@ -195,7 +195,7 @@ public class BattleUtil {
 		return defenseSum;
 	}
 	
-	public static void startNewBattle(Group src, Group target){
+	public static void startNewBattle(ICharacter src, ICharacter target){
 		Class<BattleTask> specialTaskClass = null;
 		
 		if (src.getSpecialBattle() != null)
@@ -204,7 +204,7 @@ public class BattleUtil {
 			specialTaskClass = src.getSpecialBattle();
 		
 		if (specialTaskClass != null){
-			Class[] paramClass = new Class[] {Group.class, Group.class};
+			Class[] paramClass = new Class[] {ICharacter.class, ICharacter.class};
 			Object[] paramArray = new Object[] {src, target};
 			try {
 				Constructor c = specialTaskClass.getConstructor(paramClass);

@@ -1,6 +1,5 @@
 package module.command.character;
 
-import module.character.Group;
 import module.character.api.ICharacter;
 import module.command.CommandServer;
 import module.command.api.ICommand;
@@ -28,47 +27,45 @@ public class Unlock implements ICommand {
 
 	@Override
 	public boolean action(ICharacter c, String[] command) {
-		Group g = c.getMyGroup();
-
-		if (command.length == 2) {
-			CommandServer.informGroup(g, "你想把什麼東西解鎖?\n");
+		if (command.length == 1) {
+			CommandServer.informCharacter(c, "你想把什麼東西解鎖?\n");
 			return false;
 		}
 
 		// exit case
-		exit direction = MoveUtil.getWay(command[2]);
+		exit direction = MoveUtil.getWay(command[1]);
 		if (direction != null) {
 			try {
-				IDoor targetDoor = g.getAtRoom().getExits().get(direction)
+				IDoor targetDoor = c.getAtRoom().getExits().get(direction)
 						.getDoor();
 				synchronized (targetDoor) {
 					switch (targetDoor.getDoorStatus()) {
 					case OPENED:
 					case CLOSED:
-						CommandServer.informGroup(g, "這扇門並沒有上鎖。\n");
+						CommandServer.informCharacter(c, "這扇門並沒有上鎖。\n");
 						return false;
 					case LOCKED:
 						if (targetDoor.onUnlock(c)) {
 							targetDoor.setDoorStatus(doorStatus.CLOSED);
-							g.getAtRoom()
+							c.getAtRoom()
 									.informRoom(
 											c.getChiName() + "解開了"
 													+ direction.chineseName
 													+ "方的門鎖。\n");
-							if (g.getInBattle())
+							if (c.getInBattle())
 								return true;
 						} else
-							CommandServer.informGroup(g, "你身上並沒有帶著合適的鑰匙。\n");
+							CommandServer.informCharacter(c, "你身上並沒有帶著合適的鑰匙。\n");
 					}
 				}
 			} catch (NullPointerException e) {
-				CommandServer.informGroup(g, "這個方向沒有門喔。\n");
+				CommandServer.informCharacter(c, "這個方向沒有門喔。\n");
 			}
 			return false;
 		} 
 		
 		// container case
-		IContainer container = ItemUtil.checkIsContainer(g, g.getAtRoom().getItemList(), command[2]);
+		IContainer container = ItemUtil.checkIsContainer(c, c.getAtRoom().getItemList(), command[1]);
 		if (container != null){
 			if (container.onUnlock(c)) return true;
 		}
@@ -82,6 +79,11 @@ public class Unlock implements ICommand {
 		output += "\n";
 		output += HelpUtil.getHelp("resources/help/chooseTeammate.help");
 		return output;
+	}
+
+	@Override
+	public int getEnergyCost() {
+		return 50;
 	}
 
 }

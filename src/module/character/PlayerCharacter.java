@@ -4,13 +4,12 @@ import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.util.HashMap;
 
-import module.character.api.ICharacter;
 import module.character.constants.CConfig.config;
 import module.command.CommandServer;
 import module.server.EachPlayerServer;
 import module.utility.EnDecoder;
 
-public class PlayerGroup extends Group {
+public class PlayerCharacter extends BaseHumanCharacter {
 	/**
 	 * 
 	 */
@@ -21,10 +20,14 @@ public class PlayerGroup extends Group {
 	private volatile DataOutputStream outToClient = null;
 	private volatile BufferedReader inFromClient = null;
 	public volatile EachPlayerServer thisServer = null;
-
-	public PlayerGroup(ICharacter obj) {
-		super(obj);
+	
+	private boolean inEvent = false;
+	
+	public PlayerCharacter(String chiName, String engName) {
+		super(chiName, engName);
+		this.setHostile(false);
 		initializeConfig();
+		inEvent = false;
 	}
 
 	private void initializeConfig() {
@@ -57,25 +60,15 @@ public class PlayerGroup extends Group {
 		StringBuilder buffer = new StringBuilder();
 
 		int count = 1;
-		for (CharList cList : this.list) {
-			for (ICharacter c : cList.charList) {
-				buffer.append("\tNo." + count + " " + c.showStatus() + "\n");
-				count++;
-			}
-		}
+		buffer.append("\tNo." + count + " " + this.showStatus() + "\n");
 		return EnDecoder.encodeChangeLine(buffer.toString());
 	}
 
 	@Override
 	public void updateTime() {
 		// must not implement time waste instructions in this method!
-		for (CharList cList : list) {
-			for (ICharacter c : cList.charList) {
-				c.updateTime();
-			}
-		}
 		String out = "status:" + this.showGroupStatus();
-		CommandServer.informGroup(this, out);
+		CommandServer.informCharacter(this, out);
 	}
 	
 	public void setInFromClient(BufferedReader in){
@@ -84,5 +77,13 @@ public class PlayerGroup extends Group {
 	
 	public BufferedReader getInFromClient(){
 		return this.inFromClient;
+	}
+	
+	public void setInEvent(boolean value) {
+		this.inEvent = value;
+	}
+	
+	public boolean getInEvent() {
+		return this.inEvent;
 	}
 }
